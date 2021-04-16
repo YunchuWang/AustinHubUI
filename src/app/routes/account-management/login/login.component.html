@@ -1,0 +1,32 @@
+<form nz-form [formGroup]="loginForm" (ngSubmit)="submit()" role="form">
+  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please enter username">
+      <nz-input-group nzSize="large" nzPrefixIcon="user">
+        <input nz-input formControlName="username" placeholder="{{ 'app.login.username' | translate }}" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please enter password">
+      <nz-input-group nzSize="large" nzPrefixIcon="lock">
+        <input nz-input type="password" formControlName="password" placeholder="password" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-col [nzSpan]="12" [nzOffset]="12" class="text-right">
+      <a class="forgot" routerLink="/auth/forgot-password">{{ 'app.login.forgot-password' | translate }}</a>
+    </nz-col>
+  </nz-form-item>
+  <nz-form-item>
+    <button nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="isLoading()" nzBlock>
+      {{ 'app.login.login' | translate }}
+    </button>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-col [nzSpan]="12" [nzOffset]="12" class="text-right">
+      <a routerLink="/auth/register">{{ 'app.login.signup' | translate }}</a>
+    </nz-col>
+  </nz-form-item>
+</form>

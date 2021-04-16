@@ -4,22 +4,15 @@ import { SimpleGuard } from '@delon/auth';
 import { environment } from '@env/environment';
 // layout
 import { LayoutBasicComponent } from '../layout/basic/basic.component';
-import { LayoutPassportComponent } from '../layout/passport/passport.component';
+import { LayoutPassportComponent } from './../layout/passport/passport.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
-// single pages
-import { CallbackComponent } from './passport/callback.component';
-import { UserLockComponent } from './passport/lock/lock.component';
-// passport pages
-import { UserLoginComponent } from './passport/login/login.component';
-import { UserRegisterResultComponent } from './passport/register-result/register-result.component';
-import { UserRegisterComponent } from './passport/register/register.component';
 
 const routes: Routes = [
   {
     path: '',
     component: LayoutBasicComponent,
-    canActivate: [SimpleGuard],
+    // canActivate: [SimpleGuard],
     children: [
       { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
@@ -27,6 +20,11 @@ const routes: Routes = [
       // 业务子模块
       // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
     ],
+  },
+  {
+    path: 'auth',
+    component: LayoutPassportComponent,
+    loadChildren: () => import('./account-management/account-management.module').then((m) => m.AccountManagementModule),
   },
   // 空白布局
   // {
@@ -36,19 +34,8 @@ const routes: Routes = [
   //     ]
   // },
   // passport
-  {
-    path: 'passport',
-    component: LayoutPassportComponent,
-    children: [
-      { path: 'login', component: UserLoginComponent, data: { title: '登录' } },
-      { path: 'register', component: UserRegisterComponent, data: { title: '注册' } },
-      { path: 'register-result', component: UserRegisterResultComponent, data: { title: '注册结果' } },
-      { path: 'lock', component: UserLockComponent, data: { title: '锁屏' } },
-    ],
-  },
   // 单页不包裹Layout
-  { path: 'passport/callback/:type', component: CallbackComponent },
-  { path: '**', redirectTo: 'exception/404' },
+  // { path: '**', redirectTo: 'exception/404' },
 ];
 
 @NgModule({

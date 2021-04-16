@@ -11,7 +11,7 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 import { default as ngLang } from '@angular/common/locales/en';
 import { DELON_LOCALE, en_US as delonLang } from '@delon/theme';
 import { zhCN as dateLang } from 'date-fns/locale';
-import { NZ_DATE_LOCALE, NZ_I18N, en_US as zorroLang } from 'ng-zorro-antd/i18n';
+import { NZ_DATE_LOCALE, NZ_I18N, en_US as zorroLang, zh_CN } from 'ng-zorro-antd/i18n';
 const LANG = {
   abbr: 'en',
   ng: ngLang,
@@ -60,9 +60,9 @@ const FORM_MODULES = [JsonSchemaModule];
 // #region Http Interceptors
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { DefaultInterceptor } from '@core';
-import { SimpleInterceptor } from '@delon/auth';
+import { JWTInterceptor, SimpleInterceptor } from '@delon/auth';
 const INTERCEPTOR_PROVIDES = [
-  { provide: HTTP_INTERCEPTORS, useClass: SimpleInterceptor, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: CustomJwtInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
 ];
 // #endregion
@@ -94,6 +94,9 @@ import { LayoutModule } from './layout/layout.module';
 import { RoutesModule } from './routes/routes.module';
 import { SharedModule } from './shared/shared.module';
 import { STWidgetModule } from './shared/st-widget/st-widget.module';
+import zh from '@angular/common/locales/zh';
+import { FormsModule } from '@angular/forms';
+import { CustomJwtInterceptor } from './core/net/custom.jwt.interceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -112,8 +115,15 @@ import { STWidgetModule } from './shared/st-widget/st-widget.module';
     ...I18NSERVICE_MODULES,
     ...FORM_MODULES,
     ...GLOBAL_THIRD_MODULES,
+    FormsModule,
   ],
-  providers: [...LANG_PROVIDES, ...INTERCEPTOR_PROVIDES, ...I18NSERVICE_PROVIDES, ...APPINIT_PROVIDES],
+  providers: [
+    ...LANG_PROVIDES,
+    ...INTERCEPTOR_PROVIDES,
+    ...I18NSERVICE_PROVIDES,
+    ...APPINIT_PROVIDES,
+    { provide: NZ_I18N, useValue: zh_CN },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
