@@ -97,6 +97,7 @@ import { STWidgetModule } from './shared/st-widget/st-widget.module';
 import zh from '@angular/common/locales/zh';
 import { FormsModule } from '@angular/forms';
 import { CustomJwtInterceptor } from './core/net/custom.jwt.interceptor';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 
 @NgModule({
   declarations: [AppComponent],
@@ -105,6 +106,7 @@ import { CustomJwtInterceptor } from './core/net/custom.jwt.interceptor';
     BrowserAnimationsModule,
     HttpClientModule,
     GlobalConfigModule.forRoot(),
+    MDBBootstrapModule.forRoot(),
     CoreModule,
     SharedModule,
     LayoutModule,

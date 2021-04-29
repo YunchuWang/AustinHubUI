@@ -9,6 +9,7 @@ import { I18NService } from '../i18n/i18n.service';
 import { NzIconService } from 'ng-zorro-antd/icon';
 import { ICONS } from '../../../style-icons';
 import { ICONS_AUTO } from '../../../style-icons-auto';
+import { AuthService } from '../auth/auth.service';
 
 /**
  * Used for application startup
@@ -24,6 +25,7 @@ export class StartupService {
     private settingService: SettingsService,
     private aclService: ACLService,
     private titleService: TitleService,
+    private authService: AuthService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     private httpClient: HttpClient,
     private injector: Injector,
@@ -52,16 +54,8 @@ export class StartupService {
       name: `ng-alain`,
       description: `Ng-zorro admin panel front-end framework`,
     };
-    const user: any = {
-      name: 'Admin',
-      avatar: './assets/tmp/img/avatar.jpg',
-      email: 'cipchk@qq.com',
-      token: '123456789',
-    };
     // Application information: including site name, description, year
     this.settingService.setApp(app);
-    // User information: including name, avatar, email address
-    this.settingService.setUser(user);
     // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
     this.aclService.setFull(true);
     // Menu data, https://ng-alain.com/theme/menu
@@ -81,6 +75,22 @@ export class StartupService {
     // Can be set page suffix title, https://ng-alain.com/theme/title
     this.titleService.suffix = app.name;
 
+    // Subscribe to token expiration event
+    this.tokenService.refresh.subscribe((event) => {
+      const refreshToken = this.tokenService.get().refreshToken;
+      this.authService.refreshToken(refreshToken).subscribe(
+        (accessToken) => {
+          this.tokenService.get().token = accessToken;
+        },
+        (error) => {
+          this.tokenService.clear();
+          localStorage.clear();
+        },
+      );
+    });
+    // Set account info
+    const accessToken = this.tokenService.get().accessToken;
+    if (accessToken) this.authService.setAccountFromToken(accessToken);
     resolve({});
   }
 

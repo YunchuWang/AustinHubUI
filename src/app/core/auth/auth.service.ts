@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
-import { HttpParams } from '@angular/common/http';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root',
@@ -25,5 +25,21 @@ export class AuthService {
 
   changePassword(token: string, password: string): Observable<any> {
     return this.httpClient.post(this.resource_base_url + '/changepassword', { token: token, password: password });
+  }
+
+  setAccountFromToken(token: string): void {
+    const account = jwt_decode(token);
+    console.log(account);
+
+    localStorage.setItem('account', account['sub']);
+  }
+
+  isLoggedIn(): boolean {
+    if (!localStorage.getItem('account')) return false;
+    return true;
+  }
+
+  refreshToken(refreshToken: any): Observable<any> {
+    return this.httpClient.post(this.resource_base_url + '/refreshToken', { refreshToken: refreshToken });
   }
 }

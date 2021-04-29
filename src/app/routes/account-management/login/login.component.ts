@@ -31,6 +31,7 @@ export class AccountManagementLoginComponent implements OnInit {
   submit() {
     this.authService.login(this.loginForm.value).subscribe((res) => {
       this.tokenService.set({ token: res.accessToken, refreshToken: res.refreshToken });
+      this.authService.setAccountFromToken(res.accessToken);
       this.router.navigate(['']);
     });
   }

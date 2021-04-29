@@ -1,9 +1,9 @@
 @import '~@delon/theme/index';
 :host ::ng-deep {
-  .container {
+  .container-full {
     display: flex;
     flex-direction: column;
-    min-height: 100%;
+    height: 100%;
     background: #f0f2f5;
   }
   .langs {
@@ -21,7 +21,7 @@
   }
   .wrap {
     flex: 1;
-    padding: 32px 0;
+    //padding: 32px 0;
   }
   .ant-form-item {
     display: flex;
@@ -37,7 +37,7 @@
       background-size: 100%;
     }
     .wrap {
-      padding: 32px 0 24px;
+      //padding: 32px 0 24px;
     }
   }
   .top {
@@ -85,14 +85,6 @@
       .container {
         background-image: none;
       }
-    }
-  }
-}
-
-[data-theme='compact'] {
-  :host ::ng-deep {
-    .ant-form-item {
-      margin-bottom: 16px;
     }
   }
 }

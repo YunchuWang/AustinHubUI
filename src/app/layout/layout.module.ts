@@ -38,6 +38,14 @@ const HEADERCOMPONENTS = [
 
 // passport
 import { LayoutPassportComponent } from './passport/passport.component';
+import { LayoutMainComponent } from './layout-main/layout-main.component';
+import { IconsModule, MDBBootstrapModule, NavbarModule } from 'angular-bootstrap-md';
+import { SharedModule } from '@shared';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
 const PASSPORT = [LayoutPassportComponent];
 
 @NgModule({
@@ -46,6 +54,7 @@ const PASSPORT = [LayoutPassportComponent];
     FormsModule,
     RouterModule,
     ThemeBtnModule,
+    SharedModule,
     SettingDrawerModule,
     LayoutDefaultModule,
     TranslateModule,
@@ -60,8 +69,13 @@ const PASSPORT = [LayoutPassportComponent];
     NzBadgeModule,
     NzAvatarModule,
     NzIconModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSidenavModule,
+    MatIconModule,
+    MatListModule,
   ],
-  declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT],
-  exports: [...COMPONENTS, ...PASSPORT],
+  declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT, LayoutMainComponent],
+  exports: [...COMPONENTS, ...PASSPORT, LayoutMainComponent],
 })
 export class LayoutModule {}

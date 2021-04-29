@@ -3,23 +3,52 @@ import { RouterModule, Routes } from '@angular/router';
 import { SimpleGuard } from '@delon/auth';
 import { environment } from '@env/environment';
 // layout
-import { LayoutBasicComponent } from '../layout/basic/basic.component';
 import { LayoutPassportComponent } from './../layout/passport/passport.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { LayoutMainComponent } from '../layout/layout-main/layout-main.component';
+import { BoothCardComponent } from '../shared/booth-card/booth-card.component';
+import { JobCardComponent } from '../shared/job-card/job-card.component';
+import { CategoryType } from '../core/models/CategoryType';
 
 const routes: Routes = [
   {
+    // pages with sidebar
     path: '',
-    component: LayoutBasicComponent,
+    component: LayoutMainComponent,
+    data: { hideSideMenu: false, categoryType: CategoryType.RESOURCE },
     // canActivate: [SimpleGuard],
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-      { path: 'dashboard', component: DashboardComponent, data: { title: '仪表盘' } },
-      { path: 'exception', loadChildren: () => import('./exception/exception.module').then((m) => m.ExceptionModule) },
-      // 业务子模块
-      // { path: 'widgets', loadChildren: () => import('./widgets/widgets.module').then(m => m.WidgetsModule) },
+      { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+      { path: 'booths/:category', component: BoothCardComponent },
+      { path: 'jobs/:category', component: JobCardComponent },
     ],
+  },
+  {
+    path: '',
+    component: LayoutMainComponent,
+    data: { hideSideMenu: true },
+    loadChildren: () => import('./shopping/shopping.module').then((m) => m.ShoppingModule),
+  },
+  {
+    // pages without sidebar
+    path: 'dashboard',
+    component: LayoutMainComponent,
+    data: { hideSideMenu: true },
+    children: [{ path: '', component: DashboardComponent }],
+  },
+  {
+    path: 'account',
+    data: { hideSideMenu: false, categoryType: CategoryType.ACCOUNT },
+    component: LayoutMainComponent,
+    loadChildren: () => import('./account/account-routing.module').then((m) => m.AccountRoutingModule),
+  },
+  {
+    // pages without sidebar
+    path: 'exception',
+    component: LayoutMainComponent,
+    data: { hideSideMenu: true },
+    loadChildren: () => import('./exception/exception.module').then((m) => m.ExceptionModule),
   },
   {
     path: 'auth',

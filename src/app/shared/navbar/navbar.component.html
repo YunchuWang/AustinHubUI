@@ -1,0 +1,45 @@
+<!--Navbar-->
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark blue lighten-1 pl-0 pr-0 m-0 pt-3 pb-3" [containerInside]="false">
+  <!-- Navbar brand -->
+  <mdb-navbar-brand class="col-1 p-0 m-0 d-flex justify-content-center"
+    ><a class="navbar-brand p-0 m-0" routerLink="/dashboard">Logo</a></mdb-navbar-brand
+  >
+  <mdb-icon
+    style="color: white"
+    class="ml-1 mr-2"
+    fas
+    icon="{{ sideBar.opened ? 'angle-double-left' : 'angle-double-right' }}"
+    [ngClass]="{ 'd-none': hideSideMenu }"
+    (click)="sideBar.toggle()"
+  ></mdb-icon>
+  <!-- Collapsible content -->
+  <links fxLayout="row" fxFlexAlign="space-between">
+    <ul class="navbar-nav mr-auto">
+      <li
+        class="nav-item"
+        *ngFor="let navTab of navTabs; index as i; trackBy: identifyNav"
+        [ngClass]="{ active: navTab.name === selectedNavTab }"
+      >
+        <a class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">{{ navTab.name }}</a>
+      </li>
+    </ul>
+    <mat-icon style="color: white" fxFlexAlign="center end" (click)="viewShoppingCart()">shopping_cart</mat-icon>
+    <div class="navbar-nav">
+      <div *ngIf="isLoggedIn(); then loggedIn; else notLoggedIn"></div>
+      <ng-template #notLoggedIn>
+        <a mdbWavesEffect type="button" class="nav-link waves-light active" routerLink="/auth/login">Please log in</a>
+      </ng-template>
+      <ng-template #loggedIn>
+        <li class="nav-item avatar dropdown pl-3 pr-3" dropdown>
+          <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"> {{ getUserName() }}</a>
+          <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
+            <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/account">My account</a>
+            <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Log out</a>
+          </div>
+        </li>
+      </ng-template>
+    </div>
+  </links>
+  <!-- Collapsible content -->
+</mdb-navbar>
+<!--/.Navbar-->
