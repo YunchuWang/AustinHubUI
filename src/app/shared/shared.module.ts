@@ -1,37 +1,39 @@
-import { NgModule, Type } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { NgModule, Type } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { AlainThemeModule } from '@delon/theme';
 import { DelonACLModule } from '@delon/acl';
 import { DelonFormModule } from '@delon/form';
+import { AlainThemeModule } from '@delon/theme';
 import { TranslateModule } from '@ngx-translate/core';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 
+import { FlexModule } from '@angular/flex-layout';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatListModule } from '@angular/material/list';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTableModule } from '@angular/material/table';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { IconsModule, MDBBootstrapModule, NavbarModule } from 'angular-bootstrap-md';
+import { AdsFormComponent } from './ads-form/ads-form.component';
+import { BoothCardComponent } from './booth-card/booth-card.component';
+import { BoothFormComponent } from './booth-form/booth-form.component';
+import { JobCardComponent } from './job-card/job-card.component';
+import { JobFormComponent } from './job-form/job-form.component';
+import { MainContentComponent } from './main-content/main-content.component';
+import { MyResourceComponent } from './my-resource/my-resource.component';
+import { NavbarComponent } from './navbar/navbar.component';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
-import { NavbarComponent } from './navbar/navbar.component';
-import { MainContentComponent } from './main-content/main-content.component';
-import { IconsModule, MDBBootstrapModule, NavbarModule } from 'angular-bootstrap-md';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatListModule } from '@angular/material/list';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { BoothCardComponent } from './booth-card/booth-card.component';
-import { JobCardComponent } from './job-card/job-card.component';
-import { FlexModule } from '@angular/flex-layout';
-import { BoothFormComponent } from './booth-form/booth-form.component';
-import { AdsFormComponent } from './ads-form/ads-form.component';
-import { JobFormComponent } from './job-form/job-form.component';
-import { MyResourceComponent } from './my-resource/my-resource.component';
-import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDialogModule } from '@angular/material/dialog';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 // #region third libs
 
@@ -75,6 +77,8 @@ const DIRECTIVES: Type<any>[] = [];
     MatIconModule,
     FlexModule,
     MatTooltipModule,
+    MatBadgeModule,
+    NzUploadModule,
   ],
   declarations: [
     // your components

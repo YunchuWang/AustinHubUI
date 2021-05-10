@@ -1,1 +1,51 @@
-<page-header></page-header>
+<div class="container-fluid m-0 p-2 pb-3" style="min-height: 100%" fxLayout="column" fxFlexAlign="center space-around" fxLayoutGap="32px">
+  <mdb-card fxFlex="3 1 500px" fxLayout="column">
+    <mdb-card-header style="font-size: 2rem; height: 4rem" class="d-flex flex-row align-items-center justify-content-center">
+      Membership
+    </mdb-card-header>
+    <div class="m-4 d-flex justify-content-around flex-1">
+      <mdb-card *ngFor="let membership of memberResourceTypes" class="text-white" bgColor="bg-info" style="max-width: 25rem">
+        <mdb-card-header class="text-center">{{ membership.typeName }}</mdb-card-header>
+        <mdb-card-body class="white d-flex flex-column justify-content-between">
+          <mdb-card-text class="text-black">
+            {{ membership.description }}
+          </mdb-card-text>
+          <div fxLayout="column" fxLayoutGap="16px">
+            <ul class="list-group text-black-50">
+              <li class="list-group-item">Monthly cost: {{ membership.monthly | currency }}</li>
+              <li class="list-group-item">Yearly cost: {{ membership.yearly | currency }}</li>
+            </ul>
+            <button type="button" class="btn btn-warning btn-rounded" (click)="addToCart(membership)">Add to Cart</button>
+          </div>
+        </mdb-card-body>
+      </mdb-card>
+    </div>
+  </mdb-card>
+
+  <mdb-card fxFlex="1 1 auto">
+    <mdb-card-header style="font-size: 2rem; height: 4rem" class="d-flex flex-row align-items-center justify-content-center">
+      Resource
+    </mdb-card-header>
+    <mdb-card-body>
+      <ul class="list-group text-black-50" fxLayout="column" fxLayoutGap="32px">
+        <li
+          *ngFor="let resource of nonMemberResourceTypes"
+          class="list-group-item p-4"
+          fxLayout="row"
+          fxLayoutAlign="start center"
+          fxLayoutGap="16px"
+        >
+          <div style="font-size: 1rem" class="text-center font-weight-bold" fxFlex="10%">{{ resource.tableName }}</div>
+          <div style="font-size: 1rem" class="font-weight-bold" fxFlex="60%">{{ resource.description }}</div>
+          <div fxFlex="30%">
+            <div style="font-size: 1rem" class="text-center font-weight-bold">Monthly cost: {{ resource.monthly | currency }}</div>
+            <div style="font-size: 1rem" class="text-center font-weight-bold">Yearly cost: {{ resource.yearly | currency }}</div>
+          </div>
+          <button type="button" class="btn btn-primary btn-floating" (click)="addToCart(resource)">
+            <i class="fas fa-cart-plus"></i>
+          </button>
+        </li>
+      </ul>
+    </mdb-card-body>
+  </mdb-card>
+</div>

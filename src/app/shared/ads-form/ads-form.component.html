@@ -1,0 +1,51 @@
+<form nz-form [formGroup]="adsForm" (ngSubmit)="updateAds()" role="form">
+  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+  <nz-form-item>
+    <nz-form-control nzHasFeedback>
+      <nz-input-group nzSize="large">
+        <input nz-input formControlName="name" placeholder="name" [(ngModel)]="row.name" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please enter phone" nzHasFeedback>
+      <nz-input-group nzSize="large">
+        <input nz-input type="tel" formControlName="phone" placeholder="phone" [(ngModel)]="row.phone" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please enter email" nzHasFeedback>
+      <nz-input-group nzSize="large">
+        <input nz-input type="email" formControlName="email" placeholder="email" [(ngModel)]="row.email" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please enter description">
+      <nz-input-group nzSize="large">
+        <textarea nz-input formControlName="description" rows="8" placeholder="description" [(ngModel)]="row.description"> </textarea>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzErrorTip="Please select category">
+      <nz-select formControlName="category" [(ngModel)]="this.category">
+        <nz-option *ngFor="let category of allCategories" nzValue="{{ category }}" nzLabel="{{ category }}"></nz-option>
+      </nz-select>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-upload
+      style="margin-left: auto"
+      nzAction="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+      [nzHeaders]="{ authorization: 'authorization-text' }"
+      (nzChange)="handleChange($event)"
+    >
+      <button nz-button><i nz-icon nzType="upload"></i>Click to Upload Ads Image</button>
+    </nz-upload>
+  </nz-form-item>
+  <nz-form-item [nzJustify]="'center'">
+    <button style="width: 150px" nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="isLoading()" nzBlock>Publish</button>
+  </nz-form-item>
+</form>

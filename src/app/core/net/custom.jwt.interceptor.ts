@@ -1,7 +1,7 @@
-import { Inject, Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpHeaders, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Inject, Injectable } from '@angular/core';
 import { DA_SERVICE_TOKEN, ITokenService, JWTTokenModel } from '@delon/auth';
+import { Observable } from 'rxjs';
 
 @Injectable()
 export class CustomJwtInterceptor implements HttpInterceptor {

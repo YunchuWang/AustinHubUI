@@ -36,13 +36,15 @@ export class LayoutMainComponent implements OnInit {
         isResource: true,
       },
       { name: 'Contact Us', link: '/contact', isResource: false },
+      { name: 'Shopping', link: '/shopping/market', isResource: false },
     ];
     this.activatedRoute.data.subscribe((data) => {
       this.hideSideMenu = data.hideSideMenu;
-      this.categoryType = data.categoryType;
+      if (!this.hideSideMenu) {
+        this.categoryType = data.categoryType;
+        this.setCategories(this.categoryType);
+      }
     });
-
-    this.setCategories(this.categoryType);
 
     this.resourceService.categoryChangeSubject.subscribe((category) => {
       this.selectedCategory = category;
@@ -58,7 +60,7 @@ export class LayoutMainComponent implements OnInit {
     }
   }
 
-  setCategories(categoryType: CategoryType) {
+  setCategories(categoryType: CategoryType): void {
     this.categoryType = categoryType;
     if (categoryType === CategoryType.ACCOUNT) {
       this.categories = [

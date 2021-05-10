@@ -1,0 +1,49 @@
+<mdb-card>
+  <mdb-card-body>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+      <div style="font-weight: bold; font-size: 1.5rem">Shopping Cart</div>
+      <button mdbBtn type="button" color="warning" mdbWavesEffect>Order</button>
+    </div>
+  </mdb-card-body>
+  <ul class="list-group">
+    <li
+      style="border-left: 0px solid; border-right: 0px solid"
+      class="list-group-item pt-4 pb-4"
+      *ngFor="let shoppingItem of shoppingService.shoppingItems; let i = index"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+    >
+      <div style="width: 15em; margin-right: 5em">
+        <span style="font-size: 1rem">{{ shoppingItem.type }}</span>
+      </div>
+      <div style="padding-right: 5em">
+        <mat-form-field>
+          <mat-label>Select plan</mat-label>
+          <mat-select [(value)]="shoppingItem.durationByMonths" [formControl]="planControls[i]" required>
+            <mat-option value="1">Monthly</mat-option>
+            <mat-option value="3">Quarterly</mat-option>
+            <mat-option value="12">Yearly</mat-option>
+          </mat-select>
+          <mat-error *ngIf="planControls[i].hasError('required')">Please choose a plan</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="btn-group" role="group">
+        <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect (click)="editResource(i)">Edit</button>
+        <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect (click)="removeShoppingItem(i)">Remove</button>
+      </div>
+      <div style="margin-left: auto">
+        {{ shoppingItem.price | currency }}
+      </div>
+    </li>
+    <li
+      style="border-left: 0px solid; border-right: 0px solid"
+      class="list-group-item pt-4 pb-4"
+      id="tax-calculation"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <div style="font-size: 1.2rem">Order total</div>
+      <div>{{ calculateOrderTotal() | currency }}</div>
+    </li>
+  </ul>
+</mdb-card>

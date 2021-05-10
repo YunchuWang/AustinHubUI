@@ -25,9 +25,9 @@ const routes: Routes = [
     ],
   },
   {
-    path: '',
+    path: 'shopping',
     component: LayoutMainComponent,
-    data: { hideSideMenu: true },
+    data: { hideSideMenu: true, categoryType: CategoryType.RESOURCE },
     loadChildren: () => import('./shopping/shopping.module').then((m) => m.ShoppingModule),
   },
   {

@@ -1,8 +1,8 @@
-import { Injectable, Injector, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, Injector } from '@angular/core';
+import { ACLService } from '@delon/acl';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { ALAIN_I18N_TOKEN, MenuService, SettingsService, TitleService } from '@delon/theme';
-import { ACLService } from '@delon/acl';
 import { TranslateService } from '@ngx-translate/core';
 import { I18NService } from '../i18n/i18n.service';
 
@@ -10,6 +10,7 @@ import { NzIconService } from 'ng-zorro-antd/icon';
 import { ICONS } from '../../../style-icons';
 import { ICONS_AUTO } from '../../../style-icons-auto';
 import { AuthService } from '../auth/auth.service';
+import { ShoppingService } from '../shopping/shopping.service';
 
 /**
  * Used for application startup
@@ -23,6 +24,7 @@ export class StartupService {
     private translate: TranslateService,
     @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
     private settingService: SettingsService,
+    private shoppingService: ShoppingService,
     private aclService: ACLService,
     private titleService: TitleService,
     private authService: AuthService,
@@ -31,6 +33,17 @@ export class StartupService {
     private injector: Injector,
   ) {
     iconSrv.addIcon(...ICONS_AUTO, ...ICONS);
+  }
+
+  load(): Promise<any> {
+    // only works with promises
+    // https://github.com/angular/angular/issues/15088
+    return new Promise((resolve, reject) => {
+      // http
+      // this.viaHttp(resolve, reject);
+      // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
+      this.viaMockI18n(resolve, reject);
+    });
   }
 
   private viaMockI18n(resolve: any, reject: any): void {
@@ -79,8 +92,8 @@ export class StartupService {
     this.tokenService.refresh.subscribe((event) => {
       const refreshToken = this.tokenService.get().refreshToken;
       this.authService.refreshToken(refreshToken).subscribe(
-        (accessToken) => {
-          this.tokenService.get().token = accessToken;
+        (token) => {
+          this.tokenService.get().token = token;
         },
         (error) => {
           this.tokenService.clear();
@@ -90,18 +103,13 @@ export class StartupService {
     });
     // Set account info
     const accessToken = this.tokenService.get().accessToken;
-    if (accessToken) this.authService.setAccountFromToken(accessToken);
-    resolve({});
-  }
+    if (accessToken) {
+      this.authService.setAccountFromToken(accessToken);
+    }
 
-  load(): Promise<any> {
-    // only works with promises
-    // https://github.com/angular/angular/issues/15088
-    return new Promise((resolve, reject) => {
-      // http
-      // this.viaHttp(resolve, reject);
-      // mock：请勿在生产环境中这么使用，viaMock 单纯只是为了模拟一些数据使脚手架一开始能正常运行
-      this.viaMockI18n(resolve, reject);
-    });
+    // TODO: Set shopping cart items from local storage to shopping service
+    const shoppingItems = localStorage.getItem('shopping_cart');
+    this.shoppingService.shoppingItems = !shoppingItems ? [] : JSON.parse(shoppingItems);
+    resolve({});
   }
 }

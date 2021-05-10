@@ -1,11 +1,13 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { _HttpClient } from '@delon/theme';
-import { AuthService } from '../../core/auth/auth.service';
-import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { Component, Inject } from '@angular/core';
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { _HttpClient } from '@delon/theme';
+import { NzSafeAny } from 'ng-zorro-antd/core/types';
+import { AuthService } from '../../core/auth/auth.service';
 import { ResourceService } from '../../core/resource/resource.service';
+import { TipValidators } from '../custom-validators/TipValidators';
 
 @Component({
   selector: 'app-booth-form',
@@ -30,19 +32,19 @@ export class BoothFormComponent {
     public dialogRef: MatDialogRef<BoothFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    console.log(data.category);
     this.row = data;
     this.category = this.row.category;
     this.resourceService.loadCategories().subscribe((categories) => {
       this.allCategories = categories;
     });
 
+    const { required, maxLength, minLength, email, mobile } = TipValidators;
     this.boothForm = fb.group({
-      name: [null, [Validators.required, Validators.minLength(1), Validators.maxLength(45)]],
-      phone: [null, [Validators.required, Validators.minLength(6)]],
-      email: [null, [Validators.required, Validators.minLength(6)]],
-      description: [null, [Validators.required, Validators.minLength(6)]],
-      category: [null, [Validators.required]],
+      name: [null, [required, minLength(3), maxLength(45)]],
+      phone: [null, [required, mobile]],
+      email: [null, [required, email]],
+      description: [null, [required]],
+      category: [null, [required]],
     });
   }
 
@@ -50,7 +52,7 @@ export class BoothFormComponent {
     return this.http.loading;
   }
 
-  updateBooth() {
+  updateBooth(): void {
     // call update booth and call dialog.close to reload the my resource page
     // this.dialogRef.close({event:this.action,data:this.local_data});
   }

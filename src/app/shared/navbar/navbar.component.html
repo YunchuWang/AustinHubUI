@@ -1,5 +1,5 @@
 <!--Navbar-->
-<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark blue lighten-1 pl-0 pr-0 m-0 pt-3 pb-3" [containerInside]="false">
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark lighten-1 red pl-0 pr-3 m-0 pt-3 pb-3" [containerInside]="false">
   <!-- Navbar brand -->
   <mdb-navbar-brand class="col-1 p-0 m-0 d-flex justify-content-center"
     ><a class="navbar-brand p-0 m-0" routerLink="/dashboard">Logo</a></mdb-navbar-brand
@@ -23,7 +23,15 @@
         <a class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">{{ navTab.name }}</a>
       </li>
     </ul>
-    <mat-icon style="color: white" fxFlexAlign="center end" (click)="viewShoppingCart()">shopping_cart</mat-icon>
+    <a class="nav-link waves-light m-1" mdbWavesEffect fxFlexAlign="center end" (click)="viewShoppingCart()">
+      <mat-icon
+        style="color: white"
+        matBadge="{{ shoppingService.shoppingItems.length }}"
+        matBadgeSize="small"
+        [matBadgeHidden]="!shoppingService.hasResource()"
+        >shopping_cart
+      </mat-icon>
+    </a>
     <div class="navbar-nav">
       <div *ngIf="isLoggedIn(); then loggedIn; else notLoggedIn"></div>
       <ng-template #notLoggedIn>

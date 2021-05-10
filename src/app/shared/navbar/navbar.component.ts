@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { NavTab } from '../../core/models/NavTab';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { AuthService } from '../../core/auth/auth.service';
+import { NavTab } from '../../core/models/NavTab';
+import { ShoppingService } from '../../core/shopping/shopping.service';
 
 @Component({
   selector: 'app-navbar',
@@ -15,9 +16,14 @@ export class NavbarComponent implements OnInit {
   @Input() sideBar: MatSidenav;
   @Input() hideSideMenu: boolean;
   @Output() tabClicked: EventEmitter<NavTab> = new EventEmitter<NavTab>();
-  private selectedNavTab: string = '';
+  private selectedNavTab = '';
 
-  constructor(public router: Router, private authService: AuthService, @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService) {
+  constructor(
+    public router: Router,
+    private authService: AuthService,
+    public shoppingService: ShoppingService,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+  ) {
     this.router.events.subscribe((val) => {
       this.navTabs.forEach((navTab) => {
         if (this.router.url.startsWith(navTab.link)) {
@@ -31,6 +37,8 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     if (!this.hideSideMenu) {
       this.sideBar.toggle(true);
+    } else {
+      this.sideBar.toggle(false);
     }
   }
 
@@ -38,7 +46,7 @@ export class NavbarComponent implements OnInit {
     return nav.name;
   }
 
-  selectNavTab(navTab: NavTab) {
+  selectNavTab(navTab: NavTab): void {
     this.selectedNavTab = navTab.name;
     this.tabClicked.emit(navTab);
   }
@@ -59,7 +67,7 @@ export class NavbarComponent implements OnInit {
     return localStorage.getItem('account');
   }
 
-  viewShoppingCart() {
-    // this.
+  viewShoppingCart(): void {
+    this.router.navigateByUrl('/shopping/cart');
   }
 }
