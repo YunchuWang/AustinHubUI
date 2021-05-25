@@ -31,7 +31,6 @@ export class NavbarComponent implements OnInit {
         }
       });
     });
-    console.log(this.tokenService.get());
   }
 
   ngOnInit(): void {

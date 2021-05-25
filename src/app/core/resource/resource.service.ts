@@ -1,15 +1,25 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
-import { Category } from '../models/Category';
+import { _HttpClient } from '@delon/theme';
+import { Observable, Subject } from 'rxjs';
+import { Ads } from '../models/Ads';
+import { CategoryType } from '../models/CategoryType';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ResourceService {
-  categoryChangeSubject: Subject<string> = new Subject<string>();
-  constructor() {}
+  categoryBaseUrl = '/api/categories';
+  adsBaseUrl = '/api/ads';
 
-  loadCategories(): Observable<any> {
-    return of(['restaurant', 'accounting', 'gardening']);
+  categoryChangeSubject: Subject<string> = new Subject<string>();
+
+  constructor(private httpClient: _HttpClient) {}
+
+  loadCategories(categoryType: CategoryType): Observable<any> {
+    return this.httpClient.get(this.categoryBaseUrl, { categoryType: CategoryType[categoryType] });
+  }
+
+  loadAllAds(): Observable<Ads[]> {
+    return this.httpClient.get(this.adsBaseUrl);
   }
 }

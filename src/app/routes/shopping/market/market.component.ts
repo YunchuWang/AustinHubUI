@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ResourceType, ShoppingItem } from '@core';
+import { ShoppingService } from '@core';
 import { _HttpClient } from '@delon/theme';
-import { ShoppingService } from '../../../core/shopping/shopping.service';
 
 @Component({
   selector: 'app-shopping-market',
@@ -92,6 +92,7 @@ export class ShoppingMarketComponent implements OnInit {
           description: '',
           category: '',
           imageUrl: '',
+          type: 'ads',
         });
         break;
       case 'job':
@@ -99,6 +100,7 @@ export class ShoppingMarketComponent implements OnInit {
           title: '',
           salary: '',
           description: '',
+          type: 'job',
         });
         break;
       case 'booth':
@@ -109,6 +111,7 @@ export class ShoppingMarketComponent implements OnInit {
           link: '',
           description: '',
           category: '',
+          type: 'booth',
         });
         break;
       case 'membership':
@@ -123,6 +126,7 @@ export class ShoppingMarketComponent implements OnInit {
             link: '',
             description: '',
             category: '',
+            type: 'booth',
           },
           {
             email: '',
@@ -132,14 +136,26 @@ export class ShoppingMarketComponent implements OnInit {
             description: '',
             category: '',
             imageUrl: '',
+            type: 'ads',
           },
         );
-        if (resourceType.typeName === 'Advanced') {
+        if (resourceType.typeName === 'Basic') {
           shoppingItem.resource.unshift({
-            title: '',
-            salary: '',
-            description: '',
+            type: 'basic membership',
+            autoSubscribe: true,
           });
+        } else if (resourceType.typeName === 'Advanced') {
+          shoppingItem.resource.unshift(
+            {
+              type: 'advanced membership',
+              autoSubscribe: true,
+            },
+            {
+              title: '',
+              salary: '',
+              description: '',
+            },
+          );
         }
         break;
       default:

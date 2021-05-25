@@ -72,14 +72,10 @@ export class DefaultInterceptor implements HttpInterceptor {
     this.goTo('/auth/login');
   }
 
-  private getAdditionalHeaders(headers?: HttpHeaders): { [name: string]: string } {
-    const res: { [name: string]: string } = {};
+  private getAdditionalHeaders(headers?: HttpHeaders): HttpHeaders {
     const lang = this.injector.get(ALAIN_I18N_TOKEN).currentLang;
-    if (!headers?.has('Accept-Language') && lang) {
-      res['Accept-Language'] = lang;
-    }
-
-    return res;
+    headers = headers.append('Accept-Language', lang);
+    return headers;
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -87,10 +83,10 @@ export class DefaultInterceptor implements HttpInterceptor {
     let url = req.url;
     if (!url.startsWith('https://') && !url.startsWith('http://')) {
       // for translation resource, use ui server
-      url = (url.startsWith('assets') ? environment.api.baseUiServerUrl : environment.api.baseServiceUrl) + url;
+      url = (url.startsWith('assets') ? environment.api.baseUiServerUrl : '') + url;
     }
 
-    const newReq = req.clone({ url, setHeaders: this.getAdditionalHeaders(req.headers) });
+    const newReq = req.clone({ url, headers: this.getAdditionalHeaders(req.headers) });
     // return next.handle(newReq);
     return next.handle(newReq).pipe(
       mergeMap((ev) => {

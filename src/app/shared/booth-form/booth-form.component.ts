@@ -1,13 +1,13 @@
-import { Component, Inject } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, Inject, Input } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
 import { AuthService } from '../../core/auth/auth.service';
 import { ResourceService } from '../../core/resource/resource.service';
 import { TipValidators } from '../custom-validators/TipValidators';
+import { CategoryType } from '@core';
 
 @Component({
   selector: 'app-booth-form',
@@ -18,8 +18,8 @@ export class BoothFormComponent {
   boothForm: FormGroup;
   error = '';
   visible = true;
-  row: any;
-  category: string;
+  @Input() row: any;
+  @Input() category: string;
   allCategories: any[];
 
   constructor(
@@ -34,7 +34,7 @@ export class BoothFormComponent {
   ) {
     this.row = data;
     this.category = this.row.category;
-    this.resourceService.loadCategories().subscribe((categories) => {
+    this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
       this.allCategories = categories;
     });
 

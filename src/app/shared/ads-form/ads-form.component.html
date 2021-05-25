@@ -1,4 +1,4 @@
-<form nz-form [formGroup]="adsForm" (ngSubmit)="updateAds()" role="form">
+<form nz-form [formGroup]="adsForm" (ngSubmit)="updateAds()" role="form" style="height: 400px; overflow-y: auto">
   <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
   <nz-form-item>
     <nz-form-control nzHasFeedback>

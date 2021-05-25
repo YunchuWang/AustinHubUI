@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
-import { MyResource } from '../../core/models/MyResource';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { MyResource } from '../../core/models/MyResource';
 import { AccountMyBoothsComponent } from '../../routes/account/my-booths/my-booths.component';
-import { BoothFormComponent } from '../booth-form/booth-form.component';
 import { AdsFormComponent } from '../ads-form/ads-form.component';
+import { BoothFormComponent } from '../booth-form/booth-form.component';
 import { JobFormComponent } from '../job-form/job-form.component';
 
 @Component({
@@ -15,16 +15,13 @@ import { JobFormComponent } from '../job-form/job-form.component';
   styles: [],
 })
 export class MyResourceComponent implements OnInit {
+  constructor(public dialog: MatDialog) {}
   @Input() resourceType: string;
 
   @Input() activeResources: any[];
   @Input() inactiveResources: any[];
 
-  isActive: boolean = true;
-
-  ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.activeResources);
-  }
+  isActive = true;
 
   displayedColumns: string[] = ['name', 'category', 'expirationDate', 'action'];
   dataSource: MatTableDataSource<any>;
@@ -32,14 +29,16 @@ export class MyResourceComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(public dialog: MatDialog) {}
+  ngOnInit(): void {
+    this.dataSource = new MatTableDataSource(this.activeResources);
+  }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
 
-  applyFilter(event: Event) {
+  applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -48,12 +47,12 @@ export class MyResourceComponent implements OnInit {
     }
   }
 
-  selectResource(event: any) {
+  selectResource(event: any): void {
     this.dataSource = new MatTableDataSource(event.index === 0 ? this.activeResources : this.inactiveResources);
     this.isActive = event.index === 0;
   }
 
-  edit(row: any) {
+  edit(row: any): void {
     let formComponent;
     switch (this.resourceType) {
       case 'booths':
@@ -64,6 +63,7 @@ export class MyResourceComponent implements OnInit {
         break;
       case 'jobs':
         formComponent = JobFormComponent;
+        break;
       default:
         return;
     }
@@ -77,7 +77,7 @@ export class MyResourceComponent implements OnInit {
     });
   }
 
-  archive(row) {}
+  archive(row): void {}
 
-  activate(row) {}
+  activate(row): void {}
 }

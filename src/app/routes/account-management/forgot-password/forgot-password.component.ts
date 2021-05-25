@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/auth/auth.service';
+import { AuthService } from '@core';
 
 @Component({
   selector: 'app-account-management-forgot-password',
@@ -12,7 +12,7 @@ import { AuthService } from '../../../core/auth/auth.service';
 export class AccountManagementForgotPasswordComponent implements OnInit {
   form: FormGroup;
   error = '';
-  emailSent: boolean = true;
+  emailSent = true;
   constructor(private http: _HttpClient, fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.form = fb.group({
       email: [null, [Validators.required, Validators.email]],
@@ -21,7 +21,7 @@ export class AccountManagementForgotPasswordComponent implements OnInit {
   ngOnInit(): void {}
   forgotPassword(): void {
     // request forgotpassword
-    const email = this.form.controls['email'].value;
+    const email = this.form.controls.email.value;
     this.authService.resetPassword(email).subscribe((res) => {
       this.router.navigate(['/auth/forgot-password-result', email]);
     });

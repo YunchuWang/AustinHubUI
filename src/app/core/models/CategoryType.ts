@@ -1,4 +1,4 @@
 export enum CategoryType {
-  RESOURCE,
-  ACCOUNT,
+  RESC,
+  ACCT,
 }

@@ -20,7 +20,6 @@ export class BoothCardComponent implements OnInit {
   ) {
     activatedRoute.params.subscribe((data) => {
       const category = this.activatedRoute.snapshot.paramMap.get('category');
-      this.resourceService.categoryChangeSubject.next(category);
       this.loadBooths().subscribe((res) => {
         this.booths = res.booths[category];
       });

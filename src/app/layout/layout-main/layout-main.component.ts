@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NavTab } from '../../core/models/NavTab';
-import { _HttpClient } from '@delon/theme';
 import { MatSidenav } from '@angular/material/sidenav';
-import { ResourceService } from '../../core/resource/resource.service';
-import { CategoryType } from '../../core/models/CategoryType';
+import { ActivatedRoute, Router } from '@angular/router';
+import { _HttpClient } from '@delon/theme';
+import { Observable } from 'rxjs';
 import { Category } from '../../core/models/Category';
+import { CategoryType } from '../../core/models/CategoryType';
+import { NavTab } from '../../core/models/NavTab';
+import { ResourceService } from '../../core/resource/resource.service';
 
 @Component({
   selector: 'app-layout-main',
@@ -15,9 +16,9 @@ import { Category } from '../../core/models/Category';
 export class LayoutMainComponent implements OnInit {
   @ViewChild(MatSidenav) sideBar: MatSidenav;
   @Input() hideSideMenu: boolean;
-  @Input() categoryType: CategoryType = CategoryType.RESOURCE;
+  @Input() categoryType: CategoryType = CategoryType.RESC;
   categories: Category[];
-  selectedCategory: string;
+  selectedCategory: Category;
   navTabs: NavTab[] = [];
 
   constructor(
@@ -42,45 +43,33 @@ export class LayoutMainComponent implements OnInit {
       this.hideSideMenu = data.hideSideMenu;
       if (!this.hideSideMenu) {
         this.categoryType = data.categoryType;
-        this.setCategories(this.categoryType);
+        this.setCategories(this.categoryType).subscribe((categories) => {
+          this.categories = categories;
+          this.selectedCategory = this.categories[0];
+        });
       }
-    });
-
-    this.resourceService.categoryChangeSubject.subscribe((category) => {
-      this.selectedCategory = category;
     });
   }
 
   selectNavTab(tab: NavTab): void {
-    this.setCategories(CategoryType.RESOURCE);
-    if (tab.isResource) {
-      this.router.navigate([tab.link, this.selectedCategory]);
-    } else {
-      this.router.navigate([tab.link]);
-    }
+    this.setCategories(CategoryType.RESC).subscribe((categories) => {
+      this.categories = categories;
+      this.selectedCategory = this.categories[0];
+      if (tab.isResource) {
+        this.router.navigate([tab.link, this.selectedCategory.name]);
+      } else {
+        this.router.navigate([tab.link]);
+      }
+    });
   }
 
-  setCategories(categoryType: CategoryType): void {
+  setCategories(categoryType: CategoryType): Observable<any> {
     this.categoryType = categoryType;
-    if (categoryType === CategoryType.ACCOUNT) {
-      this.categories = [
-        { name: 'Account Info', link: 'info' },
-        { name: 'My Booths', link: 'mybooths' },
-        { name: 'My Jobs', link: 'myjobs' },
-        { name: 'My Ads', link: 'myads' },
-      ];
-    } else if (categoryType === CategoryType.RESOURCE) {
-      this.categories = [
-        { name: 'restaurant', link: '/restaurant' },
-        { name: 'gardening', link: '/gardening' },
-        { name: 'accounting', link: '/accounting' },
-      ];
-    }
-    this.selectedCategory = this.categories[0].name;
+    return this.resourceService.loadCategories(categoryType);
   }
 
   selectCategory(category: Category): void {
-    this.selectedCategory = category.name;
+    this.selectedCategory = category;
     const path = this.router.url.split('/').slice(0, -1).join('/') + '/' + category.link;
     this.router.navigate([path]);
   }

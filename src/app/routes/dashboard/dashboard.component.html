@@ -1,1 +1,8 @@
-dashboard works
+<div class="row" *ngFor="let rIndx of genNumArr(numOfRows)">
+  <div class="col-4" *ngFor="let cIndx of genNumArr(numOfCols)">
+    <mdb-card [hidden]="calcGridArrIndex(cIndx, rIndx) >= ads.length">
+      <!--Card image-->
+      <mdb-card-img src="https://mdbootstrap.com/img/Photos/Lightbox/Thumbnail/img%20(97).jpg" alt="Card image cap"></mdb-card-img>
+    </mdb-card>
+  </div>
+</div>

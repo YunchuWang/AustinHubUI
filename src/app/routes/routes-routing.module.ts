@@ -1,22 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CategoryType } from '@core';
 import { SimpleGuard } from '@delon/auth';
 import { environment } from '@env/environment';
+import { BoothCardComponent } from '@shared';
+import { JobCardComponent } from '@shared';
+import { LayoutMainComponent } from '../layout/layout-main/layout-main.component';
+
 // layout
 import { LayoutPassportComponent } from './../layout/passport/passport.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { LayoutMainComponent } from '../layout/layout-main/layout-main.component';
-import { BoothCardComponent } from '../shared/booth-card/booth-card.component';
-import { JobCardComponent } from '../shared/job-card/job-card.component';
-import { CategoryType } from '../core/models/CategoryType';
 
 const routes: Routes = [
   {
     // pages with sidebar
     path: '',
     component: LayoutMainComponent,
-    data: { hideSideMenu: false, categoryType: CategoryType.RESOURCE },
+    data: { hideSideMenu: false, categoryType: CategoryType.RESC },
     // canActivate: [SimpleGuard],
     children: [
       { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
@@ -27,7 +28,7 @@ const routes: Routes = [
   {
     path: 'shopping',
     component: LayoutMainComponent,
-    data: { hideSideMenu: true, categoryType: CategoryType.RESOURCE },
+    data: { hideSideMenu: true, categoryType: CategoryType.RESC },
     loadChildren: () => import('./shopping/shopping.module').then((m) => m.ShoppingModule),
   },
   {
@@ -39,7 +40,7 @@ const routes: Routes = [
   },
   {
     path: 'account',
-    data: { hideSideMenu: false, categoryType: CategoryType.ACCOUNT },
+    data: { hideSideMenu: false, categoryType: CategoryType.ACCT },
     component: LayoutMainComponent,
     loadChildren: () => import('./account/account-routing.module').then((m) => m.AccountRoutingModule),
   },

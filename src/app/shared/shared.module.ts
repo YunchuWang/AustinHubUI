@@ -23,6 +23,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { IconsModule, MDBBootstrapModule, NavbarModule } from 'angular-bootstrap-md';
+import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { AdsFormComponent } from './ads-form/ads-form.component';
 import { BoothCardComponent } from './booth-card/booth-card.component';
 import { BoothFormComponent } from './booth-form/booth-form.component';
@@ -31,9 +32,9 @@ import { JobFormComponent } from './job-form/job-form.component';
 import { MainContentComponent } from './main-content/main-content.component';
 import { MyResourceComponent } from './my-resource/my-resource.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { ResourceEditFormComponent } from './resource-edit-form/resource-edit-form.component';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
-import { NzUploadModule } from 'ng-zorro-antd/upload';
 
 // #region third libs
 
@@ -92,6 +93,7 @@ const DIRECTIVES: Type<any>[] = [];
     AdsFormComponent,
     JobFormComponent,
     MyResourceComponent,
+    ResourceEditFormComponent,
   ],
   exports: [
     CommonModule,
@@ -112,6 +114,7 @@ const DIRECTIVES: Type<any>[] = [];
     NavbarComponent,
     MainContentComponent,
     MyResourceComponent,
+    ResourceEditFormComponent,
   ],
 })
 export class SharedModule {}
