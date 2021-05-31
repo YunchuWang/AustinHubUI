@@ -1,16 +1,17 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CategoryType } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SFSchema, SFUploadWidgetSchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { AuthService } from '../../core/auth/auth.service';
+import { Category } from '../../core/models/Category';
 import { ResourceService } from '../../core/resource/resource.service';
 import { TipValidators } from '../custom-validators/TipValidators';
-import { CategoryType } from '@core';
 
 @Component({
   selector: 'app-ads-form',
@@ -23,7 +24,7 @@ export class AdsFormComponent implements OnInit {
   visible = true;
   @Input() row: any;
   @Input() category: string;
-  allCategories: any[];
+  allCategories: Category[];
   schema: SFSchema = {
     properties: {
       file: {
@@ -54,6 +55,7 @@ export class AdsFormComponent implements OnInit {
     this.category = this.row.category;
     this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
       this.allCategories = categories;
+      console.log(this.allCategories);
     });
 
     const { required, maxLength, minLength, email, mobile } = TipValidators;

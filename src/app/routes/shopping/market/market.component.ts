@@ -1,167 +1,114 @@
-import { Component, OnInit } from '@angular/core';
-import { ResourceType, ShoppingItem } from '@core';
-import { ShoppingService } from '@core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  Ads,
+  AuthService,
+  Booth,
+  Job,
+  MembershipType,
+  ResourcePlan,
+  ResourceService,
+  ResourceType,
+  ShoppingItem,
+  ShoppingService,
+} from '@core';
 import { _HttpClient } from '@delon/theme';
+import * as _ from 'lodash-es';
 
 @Component({
   selector: 'app-shopping-market',
   templateUrl: './market.component.html',
 })
 export class ShoppingMarketComponent implements OnInit {
-  memberResourceTypes: ResourceType[] = [
-    {
-      id: 4,
-      tableName: 'membership',
-      typeName: 'Basic',
-      description: '1 Booth + 1 Ads',
-      monthly: 42.99,
-      quarterly: 119.99,
-      yearly: 439.99,
-    },
-    {
-      id: 5,
-      tableName: 'membership',
-      typeName: 'Advanced',
-      description: '1 Booth + 1 Ads + 1 Job',
-      monthly: 49.99,
-      quarterly: 139.99,
-      yearly: 509.99,
-    },
-  ];
-  nonMemberResourceTypes: ResourceType[] = [
-    {
-      id: 1,
-      tableName: 'booth',
-      typeName: '',
-      description: 'A resource to display your business information in clean text view',
-      monthly: 12.99,
-      quarterly: 34.99,
-      yearly: 125.0,
-    },
-    {
-      id: 2,
-      tableName: 'ads',
-      typeName: '',
-      description: 'Ads lets you promote your business at home page with flexible customizations',
-      monthly: 35.0,
-      quarterly: 95.99,
-      yearly: 390.99,
-    },
-    {
-      id: 3,
-      tableName: 'job',
-      typeName: '',
-      description: 'A hiring post to attract talents for your business',
-      monthly: 9.99,
-      quarterly: 24.99,
-      yearly: 100.0,
-    },
-  ];
+  membershipTypes: MembershipType[];
+  resourceTypes: ResourceType[];
+  hideMembershipSale = false;
+  typeToResources = new Map();
 
-  constructor(private http: _HttpClient, private shoppingService: ShoppingService) {}
+  constructor(
+    private http: _HttpClient,
+    private shoppingService: ShoppingService,
+    private authService: AuthService,
+    private resourceService: ResourceService,
+  ) {}
 
-  ngOnInit(): void {}
-
-  addToCart(resourceType: ResourceType): void {
-    const newShoppingItem = this.buildShoppingItem(resourceType);
-    if (newShoppingItem) {
-      this.shoppingService.shoppingItems.push(newShoppingItem);
+  ngOnInit(): void {
+    // check if acct owns membership,
+    // if owned, hide membership
+    this.authService.getAcctInfo().subscribe((acctInfo) => {
+      if (acctInfo.membership) {
+        this.hideMembershipSale = true;
+      }
+    });
+    // check if shopping cart has membership,
+    // if has, hide membership
+    if (this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
+      this.hideMembershipSale = true;
+      return;
     }
+
+    this.resourceService.loadMembershipTypes().subscribe((memberTypes) => {
+      this.membershipTypes = memberTypes;
+      this.membershipTypes.forEach((membershipType) => {
+        membershipType.type = 'membership';
+        let assignedResources = [];
+        membershipType.resourceLimits.forEach((resourceLimit) => {
+          assignedResources = assignedResources.concat(
+            Array(resourceLimit.quantity).fill(this.resourceInstanceFrom(resourceLimit.resourceName)),
+          );
+        });
+        this.typeToResources.set(this.resolveType(membershipType), assignedResources);
+      });
+    });
+
+    this.resourceService.loadResourceTypes().subscribe((resourceTypes) => {
+      this.resourceTypes = resourceTypes;
+      this.resourceTypes.forEach((resourceType) => {
+        resourceType.name = resourceType.tableName;
+        resourceType.type = 'resource';
+        this.typeToResources.set(this.resolveType(resourceType), this.resourceInstanceFrom(resourceType.name));
+      });
+    });
   }
 
-  private resolveShoppingItemType(resourceType: ResourceType): string {
-    return resourceType.tableName.toLowerCase() + (resourceType.typeName ? '_' + resourceType.typeName.toLowerCase() : '');
+  addToCart(merchandiseType: any): void {
+    this.shoppingService.shoppingItems.push(this.buildShoppingItem(merchandiseType));
   }
 
-  private buildShoppingItem(resourceType: ResourceType): any {
+  private hasMembershipInShoppingCart(shoppingItems: ShoppingItem[]): boolean {
+    const merchandises = this.shoppingService.shoppingItems.map((shoppingItem) => shoppingItem.merchandise);
+    return merchandises.some((merchandise) => merchandise.type === 'membership');
+  }
+  private buildShoppingItem(merchandiseType: any): ShoppingItem {
     const shoppingItem: ShoppingItem = {
-      type: this.resolveShoppingItemType(resourceType),
-      price: resourceType.monthly,
-      durationByMonths: 1,
+      merchandise: merchandiseType,
+      price: merchandiseType.monthlyPrice,
+      plan: ResourcePlan[ResourcePlan.MONTHLY],
       resource: [],
-      resourceType,
     };
 
-    switch (resourceType.tableName) {
-      case 'ads':
-        shoppingItem.resource.push({
-          email: '',
-          address: '',
-          phone: '',
-          link: '',
-          description: '',
-          category: '',
-          imageUrl: '',
-          type: 'ads',
-        });
-        break;
-      case 'job':
-        shoppingItem.resource.push({
-          title: '',
-          salary: '',
-          description: '',
-          type: 'job',
-        });
-        break;
-      case 'booth':
-        shoppingItem.resource.push({
-          email: '',
-          address: '',
-          phone: '',
-          link: '',
-          description: '',
-          category: '',
-          type: 'booth',
-        });
-        break;
-      case 'membership':
-        if (!['Basic', 'Advanced'].includes(resourceType.typeName)) {
-          return;
-        }
-        shoppingItem.resource.unshift(
-          {
-            email: '',
-            address: '',
-            phone: '',
-            link: '',
-            description: '',
-            category: '',
-            type: 'booth',
-          },
-          {
-            email: '',
-            address: '',
-            phone: '',
-            link: '',
-            description: '',
-            category: '',
-            imageUrl: '',
-            type: 'ads',
-          },
-        );
-        if (resourceType.typeName === 'Basic') {
-          shoppingItem.resource.unshift({
-            type: 'basic membership',
-            autoSubscribe: true,
-          });
-        } else if (resourceType.typeName === 'Advanced') {
-          shoppingItem.resource.unshift(
-            {
-              type: 'advanced membership',
-              autoSubscribe: true,
-            },
-            {
-              title: '',
-              salary: '',
-              description: '',
-            },
-          );
-        }
-        break;
-      default:
-        return;
-    }
-
+    this.populateResource(shoppingItem);
     return shoppingItem;
+  }
+
+  private populateResource(shoppingItem: ShoppingItem): void {
+    const resources = _.cloneDeep(this.typeToResources.get(this.resolveType(shoppingItem.merchandise)));
+    shoppingItem.resource = shoppingItem.resource.concat(resources);
+  }
+
+  private resolveType(merchandise: any): string {
+    return merchandise.type + merchandise.name;
+  }
+
+  private resourceInstanceFrom(resourceName: string): any {
+    switch (resourceName) {
+      case 'ads':
+        return new Ads();
+      case 'booth':
+        return new Booth();
+      case 'job':
+        return new Job();
+      default:
+        break;
+    }
   }
 }

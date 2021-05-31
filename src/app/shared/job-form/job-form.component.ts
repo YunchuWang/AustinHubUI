@@ -8,6 +8,7 @@ import { AuthService } from '../../core/auth/auth.service';
 import { ResourceService } from '../../core/resource/resource.service';
 import { TipValidators } from '../custom-validators/TipValidators';
 import { CategoryType } from '@core';
+import { Category } from '../../core/models/Category';
 
 @Component({
   selector: 'app-job-form',
@@ -20,7 +21,7 @@ export class JobFormComponent implements OnInit {
   visible = true;
   @Input() row: any;
   @Input() category: string;
-  allCategories: any[];
+  allCategories: Category[];
 
   constructor(
     private http: _HttpClient,

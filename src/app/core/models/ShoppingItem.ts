@@ -1,9 +1,8 @@
-import { ResourceType } from '@core';
+import { ResourcePlan } from '../constants/ResourcePlan';
 
 export class ShoppingItem {
-  type: string;
+  merchandise: any;
   price: number;
-  durationByMonths: number;
+  plan: string;
   resource: any[];
-  resourceType: ResourceType;
 }

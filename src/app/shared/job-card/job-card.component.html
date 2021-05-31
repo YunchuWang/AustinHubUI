@@ -1,1 +1,13 @@
-<p>job-card works!</p>
+<mdb-card *ngFor="let job of jobs" class="mb-4">
+  <mdb-card-header>{{ job.name }}</mdb-card-header>
+  <mdb-card-body fxLayout="row" fxFlexAlign="start center" fxLayoutGap="8px">
+    <div fxLayout="column" fxFlexAlign="space-between center" fxFlex="1 1 350px">
+      <p>Email: {{ job.salary }}</p>
+      <p>Address: {{ job.address }}</p>
+      <p>Phone: {{ job.phone }}</p>
+      <p>Contact: {{ job.contact }}</p>
+      <p>Company Link: {{ job.companyLink }}</p>
+    </div>
+    <p fxFlex="1 1 auto">{{ job.description }}</p>
+  </mdb-card-body>
+</mdb-card>

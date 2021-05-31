@@ -15,15 +15,22 @@
       fxLayoutAlign="start center"
     >
       <div style="width: 15em; margin-right: 5em">
-        <span style="font-size: 1rem">{{ shoppingItem.type }}</span>
+        <span style="font-size: 1rem">{{
+          shoppingItem.merchandise.type !== 'membership'
+            ? (shoppingItem.merchandise.name | titlecase)
+            : shoppingItem.merchandise.name + ' Membership'
+        }}</span>
       </div>
       <div style="padding-right: 5em">
         <mat-form-field>
-          <mat-label>Select plan</mat-label>
-          <mat-select [(value)]="shoppingItem.durationByMonths" [formControl]="planControls[i]" required>
-            <mat-option value="1">Monthly</mat-option>
-            <mat-option value="3">Quarterly</mat-option>
-            <mat-option value="12">Yearly</mat-option>
+          <mat-label>Select the plan</mat-label>
+          <mat-select
+            [(ngModel)]="shoppingItem.plan"
+            [formControl]="planControls[i]"
+            (selectionChange)="onPlanChange($event, shoppingItem)"
+            required
+          >
+            <mat-option *ngFor="let resourcePlan of resourcePlans" value="{{ resourcePlan }}">{{ resourcePlan }}</mat-option>
           </mat-select>
           <mat-error *ngIf="planControls[i].hasError('required')">Please choose a plan</mat-error>
         </mat-form-field>
@@ -44,7 +51,7 @@
       fxLayoutAlign="space-between center"
     >
       <div style="font-size: 1.2rem">Order total</div>
-      <div>{{ calculateOrderTotal() | currency }}</div>
+      <div>{{ totalPrice | currency }}</div>
     </li>
   </ul>
 </mdb-card>

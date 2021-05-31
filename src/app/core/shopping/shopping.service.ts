@@ -27,6 +27,7 @@ export class ShoppingService {
   }
 
   saveShoppingItems(): void {
+    localStorage.removeItem('shopping_cart');
     localStorage.setItem('shopping_cart', JSON.stringify(this.shoppingItems));
   }
 }

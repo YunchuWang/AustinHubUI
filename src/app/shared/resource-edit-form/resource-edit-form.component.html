@@ -1,5 +1,5 @@
 <nz-tabset>
-  <nz-tab *ngFor="let item of nonMemberItems" nzTitle="{{ item.type }}" [ngSwitch]="item.type">
+  <nz-tab *ngFor="let item of resourceItems" nzTitle="{{ item.type | titlecase }}" [ngSwitch]="item.type">
     <app-ads-form *ngSwitchCase="'ads'" [category]="item.category" [row]="item"></app-ads-form>
     <app-booth-form *ngSwitchCase="'booth'" [category]="item.category" [row]="item"></app-booth-form>
     <app-job-form *ngSwitchCase="'job'" [category]="item.category" [row]="item"></app-job-form>
