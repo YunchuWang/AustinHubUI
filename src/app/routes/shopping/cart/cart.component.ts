@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ShoppingService } from '@core';
+import { ShoppingItem, ShoppingService } from '@core';
+import { ResourcePlan } from '@core';
 import { _HttpClient } from '@delon/theme';
 import { ResourceEditFormComponent } from '@shared';
 import * as braintree from 'braintree-web';
@@ -13,21 +14,29 @@ import * as dropin from 'braintree-web-drop-in';
 })
 export class ShoppingCartComponent implements OnInit {
   planControls: FormControl[];
+  Plans = ResourcePlan;
+  totalPrice = 0.0;
+  resourcePlans = Object.values(ResourcePlan).filter((value) => typeof value === 'string');
   @ViewChild('venmoBtn') venmoBtn;
-  // should have name, type, price, time len, description and shopping items
   constructor(private http: _HttpClient, public dialog: MatDialog, public shoppingService: ShoppingService) {}
 
   ngOnInit(): void {
     this.createBraintreeUI();
     this.planControls = this.shoppingService.shoppingItems.map((item) => new FormControl('', Validators.required));
+    this.totalPrice = this.calculateOrderTotal();
   }
 
   calculateOrderTotal(): number {
+    if (!this.shoppingService.shoppingItems || this.shoppingService.shoppingItems.length === 0) {
+      return 0.0;
+    }
+
     return this.shoppingService.shoppingItems.map((item) => item.price).reduce((sum, currentPrice) => sum + currentPrice);
   }
 
   removeShoppingItem(index: number): void {
     this.shoppingService.shoppingItems.splice(index, 1);
+    this.totalPrice = this.calculateOrderTotal();
   }
 
   editResource(index: number): void {
@@ -98,5 +107,20 @@ export class ShoppingCartComponent implements OnInit {
         // ...
       });
     });
+  }
+
+  onPlanChange(event: any, shoppingItem: ShoppingItem): void {
+    switch (ResourcePlan[shoppingItem.plan]) {
+      case ResourcePlan.MONTHLY:
+        shoppingItem.price = shoppingItem.merchandise.monthlyPrice;
+        break;
+      case ResourcePlan.QUARTERLY:
+        shoppingItem.price = shoppingItem.merchandise.quarterlyPrice;
+        break;
+      case ResourcePlan.YEARLY:
+        shoppingItem.price = shoppingItem.merchandise.yearlyPrice;
+        break;
+    }
+    this.totalPrice = this.calculateOrderTotal();
   }
 }

@@ -31,7 +31,7 @@
   <nz-form-item>
     <nz-form-control nzErrorTip="Please select category">
       <nz-select formControlName="category" [(ngModel)]="this.category">
-        <nz-option *ngFor="let category of allCategories" nzValue="{{ category }}" nzLabel="{{ category }}"></nz-option>
+        <nz-option *ngFor="let category of allCategories" nzValue="{{ category.name }}" nzLabel="{{ category.displayName }}"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
@@ -46,6 +46,6 @@
     </nz-upload>
   </nz-form-item>
   <nz-form-item [nzJustify]="'center'">
-    <button style="width: 150px" nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="isLoading()" nzBlock>Publish</button>
+    <button style="width: 150px" nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="isLoading()" nzBlock>Save</button>
   </nz-form-item>
 </form>

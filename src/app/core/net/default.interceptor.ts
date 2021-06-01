@@ -10,12 +10,11 @@ import {
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { ALAIN_I18N_TOKEN } from '@delon/theme';
-import { _HttpClient } from '@delon/theme';
+import { _HttpClient, ALAIN_I18N_TOKEN } from '@delon/theme';
 import { environment } from '@env/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { catchError, filter, mergeMap, switchMap, take } from 'rxjs/operators';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, mergeMap } from 'rxjs/operators';
 
 const CODEMESSAGE: { [key: number]: string } = {
   200: '服务器成功返回请求的数据。',
@@ -54,6 +53,29 @@ export class DefaultInterceptor implements HttpInterceptor {
     return this.injector.get(_HttpClient);
   }
 
+  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // 统一加上服务端前缀
+    let url = req.url;
+    if (!url.startsWith('https://') && !url.startsWith('http://')) {
+      // for translation resource, use ui server
+      url = (url.startsWith('assets') ? environment.api.baseUiServerUrl : '') + url;
+    }
+
+    const newReq = req.clone({ url, headers: this.getAdditionalHeaders(req.headers) });
+    // return next.handle(newReq);
+    return next.handle(newReq).pipe(
+      mergeMap((ev) => {
+        // 允许统一对请求错误处理
+        if (ev instanceof HttpResponseBase) {
+          return this.handleData(ev, newReq, next);
+        }
+        // 若一切都正常，则后续操作
+        return of(ev);
+      }),
+      catchError((err: HttpErrorResponse) => this.handleData(err, newReq, next)),
+    );
+  }
+
   private goTo(url: string): void {
     setTimeout(() => this.injector.get(Router).navigateByUrl(url));
   }
@@ -76,29 +98,6 @@ export class DefaultInterceptor implements HttpInterceptor {
     const lang = this.injector.get(ALAIN_I18N_TOKEN).currentLang;
     headers = headers.append('Accept-Language', lang);
     return headers;
-  }
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    // 统一加上服务端前缀
-    let url = req.url;
-    if (!url.startsWith('https://') && !url.startsWith('http://')) {
-      // for translation resource, use ui server
-      url = (url.startsWith('assets') ? environment.api.baseUiServerUrl : '') + url;
-    }
-
-    const newReq = req.clone({ url, headers: this.getAdditionalHeaders(req.headers) });
-    // return next.handle(newReq);
-    return next.handle(newReq).pipe(
-      mergeMap((ev) => {
-        // 允许统一对请求错误处理
-        if (ev instanceof HttpResponseBase) {
-          return this.handleData(ev, newReq, next);
-        }
-        // 若一切都正常，则后续操作
-        return of(ev);
-      }),
-      catchError((err: HttpErrorResponse) => this.handleData(err, newReq, next)),
-    );
   }
 
   private handleData(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {

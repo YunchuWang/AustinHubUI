@@ -7,9 +7,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styles: [],
 })
 export class ResourceEditFormComponent implements OnInit {
-  nonMemberItems: any[];
+  resourceItems: any[];
   constructor(public dialogRef: MatDialogRef<ResourceEditFormComponent>, @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.nonMemberItems = data.resource.filter((item) => !item.type.includes('membership'));
+    this.resourceItems = data.resource;
+    console.log(this.resourceItems);
   }
 
   ngOnInit(): void {}
