@@ -13,3 +13,4 @@ export * from './models/Booth';
 export * from './models/Job';
 export * from './shopping/shopping.service';
 export * from './resource/resource.service';
+export * from './auth/auth.service';

@@ -1,9 +1,9 @@
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
-import { _HttpClient } from '@delon/theme';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/auth/auth.service';
+import { AuthService } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
+import { _HttpClient } from '@delon/theme';
 
 @Component({
   selector: 'app-account-management-login',
@@ -28,7 +28,7 @@ export class AccountManagementLoginComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  submit() {
+  submit(): void {
     this.authService.login(this.loginForm.value).subscribe((res) => {
       this.tokenService.set({ token: res.accessToken, refreshToken: res.refreshToken });
       this.authService.setAccountFromToken(res.accessToken);

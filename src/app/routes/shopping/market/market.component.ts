@@ -21,7 +21,7 @@ import * as _ from 'lodash-es';
 export class ShoppingMarketComponent implements OnInit {
   membershipTypes: MembershipType[];
   resourceTypes: ResourceType[];
-  hideMembershipSale = false;
+  hideMembershipSale = true;
   typeToResources = new Map();
 
   constructor(
@@ -32,20 +32,27 @@ export class ShoppingMarketComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.resourceService.loadResourceTypes().subscribe((resourceTypes) => {
+      this.resourceTypes = resourceTypes;
+      this.resourceTypes.forEach((resourceType) => {
+        resourceType.name = resourceType.tableName;
+        resourceType.type = 'resource';
+        this.typeToResources.set(this.resolveType(resourceType), this.resourceInstanceFrom(resourceType.name));
+      });
+    });
     // check if acct owns membership,
     // if owned, hide membership
     this.authService.getAcctInfo().subscribe((acctInfo) => {
-      if (acctInfo.membership) {
-        this.hideMembershipSale = true;
+      if (acctInfo.membership || this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
+        return;
       }
-    });
-    // check if shopping cart has membership,
-    // if has, hide membership
-    if (this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
-      this.hideMembershipSale = true;
-      return;
-    }
 
+      this.hideMembershipSale = false;
+      this.loadMembershipTypes();
+    });
+  }
+
+  loadMembershipTypes(): void {
     this.resourceService.loadMembershipTypes().subscribe((memberTypes) => {
       this.membershipTypes = memberTypes;
       this.membershipTypes.forEach((membershipType) => {
@@ -59,18 +66,12 @@ export class ShoppingMarketComponent implements OnInit {
         this.typeToResources.set(this.resolveType(membershipType), assignedResources);
       });
     });
-
-    this.resourceService.loadResourceTypes().subscribe((resourceTypes) => {
-      this.resourceTypes = resourceTypes;
-      this.resourceTypes.forEach((resourceType) => {
-        resourceType.name = resourceType.tableName;
-        resourceType.type = 'resource';
-        this.typeToResources.set(this.resolveType(resourceType), this.resourceInstanceFrom(resourceType.name));
-      });
-    });
   }
 
   addToCart(merchandiseType: any): void {
+    if (merchandiseType.type === 'membership') {
+      this.hideMembershipSale = true;
+    }
     this.shoppingService.shoppingItems.push(this.buildShoppingItem(merchandiseType));
   }
 
