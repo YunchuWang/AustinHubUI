@@ -107,9 +107,15 @@ export class StartupService {
       this.authService.setAccountFromToken(accessToken);
     }
 
-    // TODO: Set shopping cart items from local storage to shopping service
     const shoppingItems = localStorage.getItem('shopping_cart');
-    this.shoppingService.shoppingItems = !shoppingItems ? [] : JSON.parse(shoppingItems);
+    if (shoppingItems) {
+      const shoppingInfo = JSON.parse(shoppingItems);
+      if (localStorage.getItem('account') === shoppingInfo.owner) {
+        this.shoppingService.shoppingItems = shoppingInfo.shoppingItems;
+      }
+    } else {
+      this.shoppingService.shoppingItems = [];
+    }
     resolve({});
   }
 }

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AccountManagementLoginComponent } from './login/login.component';
-import { AccountManagementRegisterComponent } from './register/register.component';
-import { AccountManagementForgotPasswordComponent } from './forgot-password/forgot-password.component';
-import { AccountManagementRegisterResultComponent } from './register-result/register-result.component';
-import { AccountManagementPasswordResetComponent } from './password-reset/password-reset.component';
 import { AccountManagementForgotPasswordResultComponent } from './forgot-password-result/forgot-password-result.component';
+import { AccountManagementForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { AccountManagementLoginComponent } from './login/login.component';
 import { AccountManagementPasswordResetResultComponent } from './password-reset-result/password-reset-result.component';
+import { AccountManagementPasswordResetComponent } from './password-reset/password-reset.component';
+import { AccountManagementRegisterResultComponent } from './register-result/register-result.component';
+import { AccountManagementRegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: 'login', component: AccountManagementLoginComponent },

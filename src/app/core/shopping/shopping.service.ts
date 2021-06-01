@@ -28,6 +28,12 @@ export class ShoppingService {
 
   saveShoppingItems(): void {
     localStorage.removeItem('shopping_cart');
-    localStorage.setItem('shopping_cart', JSON.stringify(this.shoppingItems));
+    localStorage.setItem(
+      'shopping_cart',
+      JSON.stringify({
+        owner: localStorage.getItem('account'),
+        shoppingItems: this.shoppingItems,
+      }),
+    );
   }
 }
