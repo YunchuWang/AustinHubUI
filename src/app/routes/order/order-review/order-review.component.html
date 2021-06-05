@@ -1,0 +1,38 @@
+<mdb-card class="mt-3">
+  <mdb-card-body>
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="mb-3" style="padding-left: 0 !important; padding-right: 0 !important">
+      <div style="font-weight: bold; font-size: 1.5rem">Order Review</div>
+      <button
+        mdbBtn
+        type="button"
+        color="warning"
+        mdbWavesEffect
+        style="margin-left: 0 !important; margin-right: 0 !important"
+        (click)="order($event)"
+      >
+        Place Order
+      </button>
+    </div>
+    <mat-accordion>
+      <mat-expansion-panel hideToggle *ngFor="let shoppingItem of shoppingService.shoppingItems; index as i">
+        <mat-expansion-panel-header>
+          <mat-panel-title fxLayout="row" fxLayoutAlign="start center">
+            <div style="width: 15em; margin-right: 5em">
+              <span style="font-size: 1rem">{{ getShoppingItemName(shoppingItem) | titlecase }}</span>
+            </div>
+            <div style="margin-left: auto">
+              {{ shoppingItem.price | currency }}
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-divider></mat-divider>
+        <br />
+        <div *ngFor="let resourceItem of shoppingItem.resource" [ngSwitch]="resourceItem.type">
+          <app-booth-card *ngSwitchCase="'booth'" [booths]="[resourceItem]"></app-booth-card>
+          <app-job-card *ngSwitchCase="'job'" [jobs]="[resourceItem]"></app-job-card>
+          <app-ads-card *ngSwitchCase="'ads'" [adsList]="[resourceItem]"></app-ads-card>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </mdb-card-body>
+</mdb-card>
