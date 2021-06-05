@@ -26,7 +26,7 @@
     <a class="nav-link waves-light m-1" mdbWavesEffect fxFlexAlign="center end" (click)="viewShoppingCart()">
       <mat-icon
         style="color: white"
-        matBadge="{{ shoppingService.shoppingItems.length }}"
+        matBadge="{{ shoppingService.hasResource() ? shoppingService.shoppingItems.length : 0 }}"
         matBadgeSize="small"
         [matBadgeHidden]="!shoppingService.hasResource()"
         >shopping_cart
