@@ -37,15 +37,15 @@ const HEADERCOMPONENTS = [
 ];
 
 // passport
-import { LayoutPassportComponent } from './passport/passport.component';
-import { LayoutMainComponent } from './layout-main/layout-main.component';
-import { IconsModule, MDBBootstrapModule, NavbarModule } from 'angular-bootstrap-md';
-import { SharedModule } from '@shared';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { SharedModule } from '@shared';
+import { IconsModule, MDBBootstrapModule, NavbarModule } from 'angular-bootstrap-md';
+import { LayoutMainComponent } from './layout-main/layout-main.component';
+import { LayoutPassportComponent } from './passport/passport.component';
 const PASSPORT = [LayoutPassportComponent];
 
 @NgModule({

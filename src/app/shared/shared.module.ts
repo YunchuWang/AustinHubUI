@@ -23,6 +23,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { IconsModule, MDBBootstrapModule, NavbarModule } from 'angular-bootstrap-md';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { AdsCardComponent } from './ads-card/ads-card.component';
 import { AdsFormComponent } from './ads-form/ads-form.component';
 import { BoothCardComponent } from './booth-card/booth-card.component';
 import { BoothFormComponent } from './booth-form/booth-form.component';
@@ -34,7 +35,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ResourceEditFormComponent } from './resource-edit-form/resource-edit-form.component';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
-import { AdsCardComponent } from './ads-card/ads-card.component';
 
 // #region third libs
 
