@@ -6,7 +6,6 @@ import { DelonACLModule } from '@delon/acl';
 import { DelonFormModule } from '@delon/form';
 import { AlainThemeModule } from '@delon/theme';
 import { TranslateModule } from '@ngx-translate/core';
-import { NzModalModule } from 'ng-zorro-antd/modal';
 
 import { FlexModule } from '@angular/flex-layout';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -35,6 +34,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ResourceEditFormComponent } from './resource-edit-form/resource-edit-form.component';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
+import { AdsCardComponent } from './ads-card/ads-card.component';
 
 // #region third libs
 
@@ -94,6 +94,7 @@ const DIRECTIVES: Type<any>[] = [];
     JobFormComponent,
     MyResourceComponent,
     ResourceEditFormComponent,
+    AdsCardComponent,
   ],
   exports: [
     CommonModule,
@@ -115,6 +116,9 @@ const DIRECTIVES: Type<any>[] = [];
     MainContentComponent,
     MyResourceComponent,
     ResourceEditFormComponent,
+    BoothCardComponent,
+    JobCardComponent,
+    AdsCardComponent,
   ],
 })
 export class SharedModule {}

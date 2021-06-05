@@ -18,6 +18,10 @@ export class ShoppingService {
     this._shoppingItems = value;
   }
 
+  checkShoppingItemValid(shoppingItem: ShoppingItem): boolean {
+    return shoppingItem.resource.every((item) => item.valid);
+  }
+
   hasResource(): boolean {
     return this._shoppingItems.length > 0;
   }

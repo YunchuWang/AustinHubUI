@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CategoryType } from '@core';
-import { SimpleGuard } from '@delon/auth';
 import { environment } from '@env/environment';
-import { BoothCardComponent } from '@shared';
-import { JobCardComponent } from '@shared';
+import { BoothCardComponent, JobCardComponent } from '@shared';
 import { LayoutMainComponent } from '../layout/layout-main/layout-main.component';
 
 // layout
@@ -24,6 +22,12 @@ const routes: Routes = [
       { path: 'booths/:category', component: BoothCardComponent },
       { path: 'jobs/:category', component: JobCardComponent },
     ],
+  },
+  {
+    path: 'order',
+    component: LayoutMainComponent,
+    data: { hideSideMenu: true, categoryType: CategoryType.RESC },
+    loadChildren: () => import('./order/order.module').then((m) => m.OrderModule),
   },
   {
     path: 'shopping',

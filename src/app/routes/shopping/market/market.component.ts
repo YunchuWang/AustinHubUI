@@ -85,6 +85,7 @@ export class ShoppingMarketComponent implements OnInit {
       price: merchandiseType.monthlyPrice,
       plan: ResourcePlan[ResourcePlan.MONTHLY],
       resource: [],
+      valid: false,
     };
 
     this.populateResource(shoppingItem);

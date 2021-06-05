@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CategoryType, ResourceService } from '@core';
+import { Job } from '@core';
 import { _HttpClient } from '@delon/theme';
-import { Job } from '../../core/models/Job';
 
 @Component({
   selector: 'app-job-card',
@@ -10,7 +10,8 @@ import { Job } from '../../core/models/Job';
   styles: [],
 })
 export class JobCardComponent implements OnInit {
-  jobs: Job[];
+  @Input() jobs: Job[];
+
   constructor(
     public activatedRoute: ActivatedRoute,
     public router: Router,
@@ -19,6 +20,9 @@ export class JobCardComponent implements OnInit {
   ) {
     activatedRoute.params.subscribe((data) => {
       const categoryName = this.activatedRoute.snapshot.paramMap.get('category');
+      if (!categoryName) {
+        return;
+      }
       this.resourceService.loadJobsByCategory(categoryName, CategoryType[CategoryType.RESC]).subscribe((jobs) => {
         this.jobs = jobs;
       });

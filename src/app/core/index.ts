@@ -11,6 +11,7 @@ export * from './models/ShoppingItem';
 export * from './models/Ads';
 export * from './models/Booth';
 export * from './models/Job';
+export * from './utils/password.util';
 export * from './shopping/shopping.service';
 export * from './resource/resource.service';
 export * from './auth/auth.service';

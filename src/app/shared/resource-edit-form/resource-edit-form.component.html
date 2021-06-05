@@ -1,7 +1,20 @@
+<div fxLayout="row">
+  <a class="close-button" (click)="close($event)" style="margin-left: auto">
+    <mat-icon [inline]="true">close</mat-icon>
+  </a>
+</div>
 <nz-tabset>
-  <nz-tab *ngFor="let item of resourceItems" nzTitle="{{ item.type | titlecase }}" [ngSwitch]="item.type">
-    <app-ads-form *ngSwitchCase="'ads'" [category]="item.category" [row]="item"></app-ads-form>
-    <app-booth-form *ngSwitchCase="'booth'" [category]="item.category" [row]="item"></app-booth-form>
+  <nz-tab *ngFor="let item of resourceItems; index as i" [nzTitle]="titleTemplate" [ngSwitch]="item.type">
+    <ng-template #titleTemplate>
+      <div fxLayout="row" fxFlexAlign="space-between center" fxLayoutGap="4px">
+        <span>{{ item.type | titlecase }}</span>
+        <mat-icon style="font-size: 12px !important; width: 12px !important; height: 12px !important; color: #52c41a" *ngIf="saveChecks[i]"
+          >check_circle
+        </mat-icon>
+      </div>
+    </ng-template>
+    <app-ads-form *ngSwitchCase="'ads'" [category]="item.category" [row]="item" (saved)="onSave(i)"></app-ads-form>
+    <app-booth-form *ngSwitchCase="'booth'" [category]="item.category" [row]="item" (saved)="onSave(i)"></app-booth-form>
     <app-job-form *ngSwitchCase="'job'" [category]="item.category" [row]="item"></app-job-form>
   </nz-tab>
 </nz-tabset>

@@ -1,14 +1,15 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CategoryType } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
+import * as _ from 'lodash-es';
 import { AuthService } from '../../core/auth/auth.service';
+import { Category } from '../../core/models/Category';
 import { ResourceService } from '../../core/resource/resource.service';
 import { TipValidators } from '../custom-validators/TipValidators';
-import { CategoryType } from '@core';
-import { Category } from '../../core/models/Category';
 
 @Component({
   selector: 'app-job-form',
@@ -21,7 +22,9 @@ export class JobFormComponent implements OnInit {
   visible = true;
   @Input() row: any;
   @Input() category: string;
+  formData: any;
   allCategories: Category[];
+  private originalValidness: boolean;
 
   constructor(
     private http: _HttpClient,
@@ -61,5 +64,24 @@ export class JobFormComponent implements OnInit {
     // this.dialogRef.close({event:this.action,data:this.local_data});
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.formData = _.cloneDeep(this.row);
+  }
+
+  onCategoryChange(event: any): void {
+    this.formData.category = event;
+  }
+
+  save(): void {
+    Object.keys(this.formData).forEach((key) => {
+      this.row[key] = this.formData[key];
+    });
+
+    this.row.valid = true;
+    this.dialogRef.close();
+  }
+
+  cancel(): void {
+    this.dialogRef.close();
+  }
 }

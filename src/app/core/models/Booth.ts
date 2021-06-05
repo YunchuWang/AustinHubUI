@@ -1,4 +1,6 @@
-export class Booth {
+import { ResourceBase } from './ResourceBase';
+
+export class Booth extends ResourceBase {
   name: string;
   phone: string;
   email: string;
@@ -9,6 +11,7 @@ export class Booth {
   type = 'booth';
 
   constructor() {
+    super();
     this.name = null;
     this.phone = null;
     this.email = null;

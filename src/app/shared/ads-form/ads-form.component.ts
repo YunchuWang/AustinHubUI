@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -6,6 +6,8 @@ import { CategoryType } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SFSchema, SFUploadWidgetSchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
+import { ResourceEditFormComponent } from '@shared';
+import * as _ from 'lodash-es';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { AuthService } from '../../core/auth/auth.service';
@@ -22,8 +24,11 @@ export class AdsFormComponent implements OnInit {
   adsForm: FormGroup;
   error = '';
   visible = true;
+  formData: any;
   @Input() row: any;
   @Input() category: string;
+  @Output() saved = new EventEmitter<any>();
+
   allCategories: Category[];
   schema: SFSchema = {
     properties: {
@@ -51,11 +56,10 @@ export class AdsFormComponent implements OnInit {
     public dialogRef: MatDialogRef<AdsFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.row = data;
+    this.row = data.resource;
     this.category = this.row.category;
     this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
       this.allCategories = categories;
-      console.log(this.allCategories);
     });
 
     const { required, maxLength, minLength, email, mobile } = TipValidators;
@@ -77,7 +81,9 @@ export class AdsFormComponent implements OnInit {
     // this.dialogRef.close({event:this.action,data:this.local_data});
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.formData = _.cloneDeep(this.row);
+  }
 
   submit(value: unknown): void {
     this.msg.success(JSON.stringify(value));
@@ -92,5 +98,18 @@ export class AdsFormComponent implements OnInit {
     } else if (info.file.status === 'error') {
       this.msg.error(`${info.file.name} file upload failed.`);
     }
+  }
+
+  save(): void {
+    Object.keys(this.formData).forEach((key) => {
+      this.row[key] = this.formData[key];
+    });
+
+    this.row.valid = true;
+    this.saved.emit();
+  }
+
+  onCategoryChange(event: any): void {
+    this.formData.category = event;
   }
 }

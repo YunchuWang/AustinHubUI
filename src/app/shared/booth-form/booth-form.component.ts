@@ -1,26 +1,30 @@
-import { Component, Inject, Input } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CategoryType } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
+import * as _ from 'lodash-es';
 import { AuthService } from '../../core/auth/auth.service';
 import { ResourceService } from '../../core/resource/resource.service';
 import { TipValidators } from '../custom-validators/TipValidators';
-import { CategoryType } from '@core';
+import { ResourceEditFormComponent } from '@shared';
 
 @Component({
   selector: 'app-booth-form',
   templateUrl: './booth-form.component.html',
   styles: [],
 })
-export class BoothFormComponent {
+export class BoothFormComponent implements OnInit {
   boothForm: FormGroup;
   error = '';
   visible = true;
   @Input() row: any;
   @Input() category: string;
+  @Output() saved = new EventEmitter<any>();
   allCategories: any[];
+  formData: any;
 
   constructor(
     private http: _HttpClient,
@@ -32,7 +36,7 @@ export class BoothFormComponent {
     public dialogRef: MatDialogRef<BoothFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.row = data;
+    this.row = data.resource;
     this.category = this.row.category;
     this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
       this.allCategories = categories;
@@ -48,12 +52,24 @@ export class BoothFormComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.formData = _.cloneDeep(this.row);
+  }
+
   isLoading(): boolean {
     return this.http.loading;
   }
 
-  updateBooth(): void {
-    // call update booth and call dialog.close to reload the my resource page
-    // this.dialogRef.close({event:this.action,data:this.local_data});
+  onCategoryChange(event: any): void {
+    this.formData.category = event;
+  }
+
+  save(): void {
+    Object.keys(this.formData).forEach((key) => {
+      this.row[key] = this.formData[key];
+    });
+
+    this.row.valid = true;
+    this.saved.emit();
   }
 }

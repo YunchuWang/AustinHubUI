@@ -1,4 +1,6 @@
-export class Ads {
+import { ResourceBase } from './ResourceBase';
+
+export class Ads extends ResourceBase {
   name: string;
   phone: string;
   email: string;
@@ -9,6 +11,7 @@ export class Ads {
   type = 'ads';
 
   constructor() {
+    super();
     this.name = null;
     this.phone = null;
     this.email = null;

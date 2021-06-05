@@ -2,15 +2,23 @@
   <mdb-card-body>
     <div fxLayout="row" fxLayoutAlign="space-between center">
       <div style="font-weight: bold; font-size: 1.5rem">Shopping Cart</div>
-      <button mdbBtn style="display: none" type="button" color="warning" mdbWavesEffect #venmoBtn>Pay</button>
-      <button mdbBtn type="button" color="warning" mdbWavesEffect>Order</button>
+      <button
+        mdbBtn
+        type="button"
+        color="warning"
+        mdbWavesEffect
+        (click)="checkout($event)"
+        [disabled]="!areAllItemsValid() || this.shoppingService.shoppingItems.length === 0"
+      >
+        Check out
+      </button>
     </div>
   </mdb-card-body>
   <ul class="list-group">
     <li
       style="border-left: 0px solid; border-right: 0px solid"
       class="list-group-item pt-4 pb-4"
-      *ngFor="let shoppingItem of shoppingService.shoppingItems; let i = index"
+      *ngFor="let shoppingItem of shoppingService.shoppingItems; index as i"
       fxLayout="row"
       fxLayoutAlign="start center"
     >
@@ -39,6 +47,7 @@
         <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect (click)="editResource(i)">Edit</button>
         <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect (click)="removeShoppingItem(i)">Remove</button>
       </div>
+      <div *ngIf="hasFormErrors(i)" class="form-error">*</div>
       <div style="margin-left: auto">
         {{ shoppingItem.price | currency }}
       </div>

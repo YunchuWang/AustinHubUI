@@ -3,47 +3,54 @@
   <nz-form-item>
     <nz-form-control nzHasFeedback>
       <nz-input-group nzSize="large">
-        <input nz-input formControlName="company" placeholder="Company Name" [(ngModel)]="row.company" />
+        <nz-form-label [nzSpan]="5" nzRequired>Company</nz-form-label>
+        <input nz-input formControlName="company" placeholder="Company Name" [(ngModel)]="formData.company" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control nzErrorTip="Please enter job title" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <input nz-input type="text" formControlName="title" placeholder="job title" [(ngModel)]="row.title" />
+        <nz-form-label [nzSpan]="5" nzRequired>Job Title</nz-form-label>
+        <input nz-input type="text" formControlName="title" placeholder="job title" [(ngModel)]="formData.title" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control nzErrorTip="Please enter phone" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <input nz-input type="tel" formControlName="phone" placeholder="phone" [(ngModel)]="row.phone" />
+        <nz-form-label [nzSpan]="5" nzRequired>Phone</nz-form-label>
+        <input nz-input type="tel" formControlName="phone" placeholder="phone" [(ngModel)]="formData.phone" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control nzErrorTip="Please enter salary">
       <nz-input-group nzSize="large">
-        <textarea nz-input formControlName="salary" placeholder="salary" [(ngModel)]="row.salary"> </textarea>
+        <nz-form-label [nzSpan]="5" nzRequired>Salary</nz-form-label>
+        <textarea nz-input formControlName="salary" placeholder="salary" [(ngModel)]="formData.salary"> </textarea>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control nzErrorTip="Please enter location">
       <nz-input-group nzSize="large">
-        <textarea nz-input formControlName="location" placeholder="location" [(ngModel)]="row.location"> </textarea>
+        <nz-form-label [nzSpan]="5" nzRequired>Location</nz-form-label>
+        <textarea nz-input formControlName="location" placeholder="location" [(ngModel)]="formData.location"> </textarea>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control nzErrorTip="Please enter description">
       <nz-input-group nzSize="large">
-        <textarea nz-input formControlName="description" rows="8" placeholder="description" [(ngModel)]="row.description"> </textarea>
+        <nz-form-label [nzSpan]="5" nzRequired>Description</nz-form-label>
+        <textarea nz-input formControlName="description" rows="8" placeholder="description" [(ngModel)]="formData.description"> </textarea>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
     <nz-form-control nzErrorTip="Please select category" nzHasFeedback>
+      <nz-form-label [nzSpan]="5" nzRequired>Category</nz-form-label>
       <nz-select formControlName="category" [(ngModel)]="this.category">
         <nz-option *ngFor="let category of allCategories" nzValue="{{ category.name }}" nzLabel="{{ category.displayName }}"></nz-option>
       </nz-select>
@@ -51,5 +58,6 @@
   </nz-form-item>
   <nz-form-item [nzJustify]="'center'">
     <button style="width: 150px" nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="isLoading()" nzBlock>Save</button>
+    <button style="width: 150px" nz-button nzType="warning" nzSize="large" nzBlock (click)="cancel()">Cancel</button>
   </nz-form-item>
 </form>

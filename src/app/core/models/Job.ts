@@ -1,4 +1,6 @@
-export class Job {
+import { ResourceBase } from './ResourceBase';
+
+export class Job extends ResourceBase {
   name: string;
   phone: string;
   contact: string;
@@ -11,6 +13,7 @@ export class Job {
   type = 'job';
 
   constructor() {
+    super();
     this.name = null;
     this.phone = null;
     this.contact = null;

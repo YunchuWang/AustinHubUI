@@ -1,10 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Booth, CategoryType, ResourceService } from '@core';
 import { _HttpClient } from '@delon/theme';
-import { Observable, of } from 'rxjs';
-import { ResourceService } from '../../core/resource/resource.service';
-import { CategoryType } from '@core';
-import { Booth } from '../../core/models/Booth';
 
 @Component({
   selector: 'app-booth-card',
@@ -12,8 +9,7 @@ import { Booth } from '../../core/models/Booth';
   styles: [],
 })
 export class BoothCardComponent implements OnInit {
-  booths: Booth[] = [];
-
+  @Input() booths: Booth[] = [];
   constructor(
     public activatedRoute: ActivatedRoute,
     public router: Router,
@@ -22,6 +18,9 @@ export class BoothCardComponent implements OnInit {
   ) {
     activatedRoute.params.subscribe((data) => {
       const categoryName = this.activatedRoute.snapshot.paramMap.get('category');
+      if (!categoryName) {
+        return;
+      }
       this.resourceService.loadBoothsByCategory(categoryName, CategoryType[CategoryType.RESC]).subscribe((booths) => {
         this.booths = booths;
       });

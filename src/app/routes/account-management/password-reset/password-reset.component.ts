@@ -1,10 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { AuthService } from '../../../core/auth/auth.service';
+import { AuthService } from '@core';
+import { PasswordUtil } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { PasswordUtil } from '../../../core/utils/password.util';
+import { NzMessageService } from 'ng-zorro-antd/message';
 
 @Component({
   selector: 'app-account-management-password-reset',
@@ -14,7 +14,7 @@ import { PasswordUtil } from '../../../core/utils/password.util';
 export class AccountManagementPasswordResetComponent implements OnInit {
   token: string;
   resetForm: FormGroup;
-  error: string = '';
+  error = '';
   visible: boolean;
   status = 'pool';
   progress = 0;
@@ -41,8 +41,8 @@ export class AccountManagementPasswordResetComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  submit() {
-    this.authService.changePassword(this.token, this.resetForm.controls['password'].value).subscribe((res) => {
+  submit(): void {
+    this.authService.changePassword(this.token, this.resetForm.controls.password.value).subscribe((res) => {
       this.router.navigate(['/auth/password-reset-result']);
     });
   }

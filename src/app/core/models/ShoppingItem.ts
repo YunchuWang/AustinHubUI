@@ -5,4 +5,5 @@ export class ShoppingItem {
   price: number;
   plan: string;
   resource: any[];
+  valid: boolean;
 }
