@@ -111,7 +111,9 @@ export class StartupService {
     if (shoppingItems) {
       const shoppingInfo = JSON.parse(shoppingItems);
       if (localStorage.getItem('account') === shoppingInfo.owner) {
-        this.shoppingService.shoppingItems = shoppingInfo.shoppingItems;
+        this.shoppingService.shoppingItems = shoppingInfo.shoppingItems || [];
+      } else {
+        this.shoppingService.shoppingItems = [];
       }
     } else {
       this.shoppingService.shoppingItems = [];

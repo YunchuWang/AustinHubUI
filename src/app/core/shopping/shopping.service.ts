@@ -23,7 +23,7 @@ export class ShoppingService {
   }
 
   hasResource(): boolean {
-    return this._shoppingItems.length > 0;
+    return this._shoppingItems && this._shoppingItems.length > 0;
   }
 
   getResourceCount(): number {
