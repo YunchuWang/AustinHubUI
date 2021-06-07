@@ -7,7 +7,7 @@
         type="button"
         color="warning"
         mdbWavesEffect
-        (click)="checkout($event)"
+        (click)="checkout()"
         [disabled]="!areAllItemsValid() || this.shoppingService.shoppingItems.length === 0"
       >
         Check out

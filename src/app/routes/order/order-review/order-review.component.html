@@ -8,16 +8,16 @@
         color="warning"
         mdbWavesEffect
         style="margin-left: 0 !important; margin-right: 0 !important"
-        (click)="order($event)"
+        (click)="onClickPay($event)"
       >
-        Place Order
+        Confirm
       </button>
     </div>
     <mat-accordion>
       <mat-expansion-panel hideToggle *ngFor="let shoppingItem of shoppingService.shoppingItems; index as i">
         <mat-expansion-panel-header>
-          <mat-panel-title fxLayout="row" fxLayoutAlign="start center">
-            <div style="width: 15em; margin-right: 5em">
+          <mat-panel-title fxLayout="row" fxLayoutAlign="start center" style="margin: 0 !important; padding: 0 !important">
+            <div style="width: 15em">
               <span style="font-size: 1rem">{{ getShoppingItemName(shoppingItem) | titlecase }}</span>
             </div>
             <div style="margin-left: auto">
@@ -34,5 +34,22 @@
         </div>
       </mat-expansion-panel>
     </mat-accordion>
+    <div
+      style="
+        border-left: 0;
+        border-right: 0;
+        padding-left: 24px !important;
+        padding-right: 24px !important;
+        font-weight: bold;
+        font-size: 1.3rem;
+      "
+      class="list-group-item pt-4 pb-4"
+      id="tax-calculation"
+      fxLayout="row"
+      fxLayoutAlign="space-between center"
+    >
+      <div style="font-size: 1.2rem">Total</div>
+      <div>{{ totalPrice | currency }}</div>
+    </div>
   </mdb-card-body>
 </mdb-card>

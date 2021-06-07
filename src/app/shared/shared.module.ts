@@ -21,7 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { IconsModule, MDBBootstrapModule, NavbarModule } from 'angular-bootstrap-md';
+import { ButtonsModule, IconsModule, MDBBootstrapModule, NavbarModule, TooltipModule, WavesModule } from 'angular-bootstrap-md';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { AdsCardComponent } from './ads-card/ads-card.component';
 import { AdsFormComponent } from './ads-form/ads-form.component';
@@ -30,6 +30,7 @@ import { BoothFormComponent } from './booth-form/booth-form.component';
 import { JobCardComponent } from './job-card/job-card.component';
 import { JobFormComponent } from './job-form/job-form.component';
 import { MainContentComponent } from './main-content/main-content.component';
+import { MakePaymentFormComponent } from './make-payment-form/make-payment-form.component';
 import { MyResourceComponent } from './my-resource/my-resource.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { ResourceEditFormComponent } from './resource-edit-form/resource-edit-form.component';
@@ -51,6 +52,7 @@ const DIRECTIVES: Type<any>[] = [];
 
 @NgModule({
   imports: [
+    MatTooltipModule,
     CommonModule,
     FormsModule,
     RouterModule,
@@ -77,9 +79,11 @@ const DIRECTIVES: Type<any>[] = [];
     MatButtonModule,
     MatIconModule,
     FlexModule,
-    MatTooltipModule,
     MatBadgeModule,
     NzUploadModule,
+    ButtonsModule,
+    TooltipModule,
+    WavesModule,
   ],
   declarations: [
     // your components
@@ -95,6 +99,7 @@ const DIRECTIVES: Type<any>[] = [];
     MyResourceComponent,
     ResourceEditFormComponent,
     AdsCardComponent,
+    MakePaymentFormComponent,
   ],
   exports: [
     CommonModule,
@@ -119,6 +124,7 @@ const DIRECTIVES: Type<any>[] = [];
     BoothCardComponent,
     JobCardComponent,
     AdsCardComponent,
+    MakePaymentFormComponent,
   ],
 })
 export class SharedModule {}

@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { ShoppingItem, ShoppingService } from '@core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { PaymentService, ShoppingItem, ShoppingService } from '@core';
+import { MakePaymentFormComponent } from '@shared';
 
 @Component({
   selector: 'app-order-review',
@@ -7,13 +9,15 @@ import { ShoppingItem, ShoppingService } from '@core';
   styles: [],
 })
 export class OrderReviewComponent implements OnInit {
+  @ViewChild('venmoBtn') venmoBtn;
+  @ViewChild('creditCardBtn') creditCardBtn;
   totalPrice = 0.0;
 
-  constructor(public shoppingService: ShoppingService) {}
+  constructor(public shoppingService: ShoppingService, public paymentService: PaymentService, public dialog: MatDialog) {}
 
-  ngOnInit(): void {}
-
-  order(event: any): void {}
+  ngOnInit(): void {
+    this.totalPrice = this.calculateOrderTotal();
+  }
 
   getShoppingItemName(shoppingItem: ShoppingItem): string {
     if (shoppingItem.merchandise.type === 'membership') {
@@ -24,5 +28,21 @@ export class OrderReviewComponent implements OnInit {
 
   getArr(resourceItem: any): any[] {
     return Array.from(resourceItem);
+  }
+
+  onClickPay(event: any): void {
+    this.dialog.open(MakePaymentFormComponent, {
+      width: '50%',
+      minWidth: 200,
+      data: this.totalPrice,
+    });
+  }
+
+  calculateOrderTotal(): number {
+    if (!this.shoppingService.shoppingItems || this.shoppingService.shoppingItems.length === 0) {
+      return 0.0;
+    }
+
+    return this.shoppingService.shoppingItems.map((item) => item.price).reduce((sum, currentPrice) => sum + currentPrice);
   }
 }

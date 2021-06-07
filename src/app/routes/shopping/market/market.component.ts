@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   Ads,
   AuthService,
@@ -76,9 +76,10 @@ export class ShoppingMarketComponent implements OnInit {
   }
 
   private hasMembershipInShoppingCart(shoppingItems: ShoppingItem[]): boolean {
-    const merchandises = this.shoppingService.shoppingItems.map((shoppingItem) => shoppingItem.merchandise);
+    const merchandises = shoppingItems.map((shoppingItem) => shoppingItem.merchandise);
     return merchandises.some((merchandise) => merchandise.type === 'membership');
   }
+
   private buildShoppingItem(merchandiseType: any): ShoppingItem {
     const shoppingItem: ShoppingItem = {
       merchandise: merchandiseType,

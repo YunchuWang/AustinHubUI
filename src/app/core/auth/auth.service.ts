@@ -7,24 +7,24 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly auth_base_url: string = '/api/accounts';
+  private readonly AUTH_BASE_URL: string = '/api/accounts';
 
   constructor(public httpClient: _HttpClient) {}
 
   signup(data: any): Observable<any> {
-    return this.httpClient.post(this.auth_base_url + '/signup', data);
+    return this.httpClient.post(this.AUTH_BASE_URL + '/signup', data);
   }
 
   login(data: any): Observable<any> {
-    return this.httpClient.post(this.auth_base_url + '/signin', data);
+    return this.httpClient.post(this.AUTH_BASE_URL + '/signin', data);
   }
 
   resetPassword(email: string): Observable<any> {
-    return this.httpClient.post(this.auth_base_url + '/resetpassword', {}, { email });
+    return this.httpClient.post(this.AUTH_BASE_URL + '/resetpassword', {}, { email });
   }
 
   changePassword(token: string, password: string): Observable<any> {
-    return this.httpClient.post(this.auth_base_url + '/changepassword', { token, password });
+    return this.httpClient.post(this.AUTH_BASE_URL + '/changepassword', { token, password });
   }
 
   setAccountFromToken(token: string): void {
@@ -34,17 +34,14 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    if (!localStorage.getItem('account')) {
-      return false;
-    }
-    return true;
+    return localStorage.getItem('account') !== undefined;
   }
 
   getAcctInfo(): Observable<any> {
-    return this.httpClient.get(this.auth_base_url + '/' + localStorage.getItem('account'));
+    return this.httpClient.get(this.AUTH_BASE_URL + '/' + localStorage.getItem('account'));
   }
 
   refreshToken(refreshToken: any): Observable<any> {
-    return this.httpClient.post(this.auth_base_url + '/refreshToken', { refreshToken });
+    return this.httpClient.post(this.AUTH_BASE_URL + '/refreshToken', { refreshToken });
   }
 }

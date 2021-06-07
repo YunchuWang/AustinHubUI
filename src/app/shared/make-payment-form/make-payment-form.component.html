@@ -1,0 +1,16 @@
+<div id="dropin-container" class="mb-3"></div>
+<div style="width: 100%" fxLayout="row" fxFlexAlign="center">
+  <span class="d-inline-block" style="margin: auto" tabindex="0" [mdbTooltip]="getPlaceOrderToolTip()">
+    <button
+      #placeOrderBtn
+      mdbBtn
+      type="button"
+      color="warning"
+      mdbWavesEffect
+      style="margin-left: auto !important; margin-right: auto !important"
+      [disabled]="placeOrderDisabled"
+    >
+      Place Order
+    </button>
+  </span>
+</div>
