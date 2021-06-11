@@ -27,6 +27,7 @@ import { AdsCardComponent } from './ads-card/ads-card.component';
 import { AdsFormComponent } from './ads-form/ads-form.component';
 import { BoothCardComponent } from './booth-card/booth-card.component';
 import { BoothFormComponent } from './booth-form/booth-form.component';
+import { FooterComponent } from './footer/footer.component';
 import { JobCardComponent } from './job-card/job-card.component';
 import { JobFormComponent } from './job-form/job-form.component';
 import { MainContentComponent } from './main-content/main-content.component';
@@ -100,6 +101,7 @@ const DIRECTIVES: Type<any>[] = [];
     ResourceEditFormComponent,
     AdsCardComponent,
     MakePaymentFormComponent,
+    FooterComponent,
   ],
   exports: [
     CommonModule,
@@ -125,6 +127,7 @@ const DIRECTIVES: Type<any>[] = [];
     JobCardComponent,
     AdsCardComponent,
     MakePaymentFormComponent,
+    FooterComponent,
   ],
 })
 export class SharedModule {}

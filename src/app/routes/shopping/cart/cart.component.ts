@@ -47,7 +47,6 @@ export class ShoppingCartComponent implements OnInit {
         resource: shoppingItem.resource,
         index,
       },
-      disableClose: true,
     });
   }
 
@@ -68,7 +67,9 @@ export class ShoppingCartComponent implements OnInit {
 
   checkout(): void {
     // if everything is good, navigate to order review page and place order
-    this.router.navigate(['/order/review']);
+    if (this.areAllItemsValid()) {
+      this.router.navigate(['/order/review']);
+    }
   }
 
   hasFormErrors(index: number): boolean {
