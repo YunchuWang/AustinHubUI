@@ -19,7 +19,6 @@ export class ShoppingCartComponent implements OnInit {
   constructor(public router: Router, public dialog: MatDialog, public shoppingService: ShoppingService) {}
 
   ngOnInit(): void {
-    // this.createBraintreeUI();
     this.planControls = this.shoppingService.shoppingItems.map((item) => new FormControl('', Validators.required));
     this.totalPrice = this.calculateOrderTotal();
   }
@@ -35,6 +34,9 @@ export class ShoppingCartComponent implements OnInit {
   removeShoppingItem(index: number): void {
     this.shoppingService.shoppingItems.splice(index, 1);
     this.totalPrice = this.calculateOrderTotal();
+    if (!this.shoppingService.hasResource()) {
+      this.router.navigateByUrl('/shopping/cart/empty');
+    }
   }
 
   editResource(index: number): void {

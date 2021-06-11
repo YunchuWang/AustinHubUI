@@ -29,6 +29,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.titleSrv.default = 'Austin Hub';
     this.router.events.pipe(filter((evt) => evt instanceof NavigationEnd)).subscribe(() => {
       this.titleSrv.setTitle();
       this.modalSrv.closeAll();

@@ -6,7 +6,7 @@ import { BoothCardComponent, JobCardComponent } from '@shared';
 import { LayoutMainComponent } from '../layout/layout-main/layout-main.component';
 
 // layout
-import { LayoutPassportComponent } from './../layout/passport/passport.component';
+import { LayoutPassportComponent } from '../layout/passport/passport.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
 

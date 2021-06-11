@@ -68,6 +68,6 @@ export class NavbarComponent implements OnInit {
   }
 
   viewShoppingCart(): void {
-    this.router.navigateByUrl('/shopping/cart');
+    this.router.navigateByUrl(this.shoppingService.hasResource() ? '/shopping/cart' : '/shopping/cart/empty');
   }
 }
