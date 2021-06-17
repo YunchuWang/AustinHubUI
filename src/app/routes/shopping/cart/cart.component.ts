@@ -72,6 +72,10 @@ export class ShoppingCartComponent implements OnInit {
     }
   }
 
+  backToMarket(): void {
+    this.router.navigateByUrl('/shopping/market');
+  }
+
   hasFormErrors(index: number): boolean {
     return !this.shoppingService.shoppingItems[index].valid;
   }

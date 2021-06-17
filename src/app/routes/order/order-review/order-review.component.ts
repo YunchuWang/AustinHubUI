@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { PaymentService, ShoppingItem, ShoppingService } from '@core';
+import { Router } from '@angular/router';
+import { ShoppingItem, ShoppingService } from '@core';
 import { MakePaymentFormComponent } from '@shared';
 
 @Component({
@@ -13,7 +14,7 @@ export class OrderReviewComponent implements OnInit {
   @ViewChild('creditCardBtn') creditCardBtn;
   totalPrice = 0.0;
 
-  constructor(public shoppingService: ShoppingService, public paymentService: PaymentService, public dialog: MatDialog) {}
+  constructor(public router: Router, public shoppingService: ShoppingService, public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.totalPrice = this.calculateOrderTotal();
@@ -36,6 +37,10 @@ export class OrderReviewComponent implements OnInit {
       minWidth: 200,
       data: this.totalPrice,
     });
+  }
+
+  backToShoppingCart(): void {
+    this.router.navigateByUrl(this.shoppingService.hasResource() ? '/shopping/cart' : '/shopping/cart/empty');
   }
 
   calculateOrderTotal(): number {
