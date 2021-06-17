@@ -1,11 +1,11 @@
 <div class="container-fluid m-0 p-2 pb-3" style="min-height: 100%" fxLayout="column" fxFlexAlign="center space-around" fxLayoutGap="32px">
-  <mdb-card fxFlex="3 1" fxLayout="column" [hidden]="hideMembershipSale">
-    <mdb-card-header style="font-size: 2rem; height: 4rem" class="d-flex flex-row align-items-center justify-content-center">
+  <mdb-card fxFlex="3 1" fxLayout="column">
+    <mdb-card-header style="height: 4rem; font-size: 2rem" class="d-flex flex-row align-items-center justify-content-center">
       Membership
     </mdb-card-header>
     <div class="m-4 d-flex justify-content-around flex-1">
       <mdb-card *ngFor="let membershipType of membershipTypes" class="text-white" bgColor="bg-info" style="width: 20rem">
-        <mdb-card-header class="text-center">{{ membershipType.name }}</mdb-card-header>
+        <mdb-card-header class="membership-card-header text-center">{{ membershipType.name }}</mdb-card-header>
         <mdb-card-body class="white d-flex flex-column justify-content-between">
           <div fxLayout="column" fxLayoutGap="16px" class="mb-5">
             <ul class="list-group text-black-50">
@@ -27,15 +27,34 @@
                 <span>Yearly cost:</span><span style="margin-left: auto">{{ membershipType.yearlyPrice | currency }}</span>
               </li>
             </ul>
-            <button type="button" class="btn btn-warning btn-rounded" (click)="addToCart(membershipType)">Add to Cart</button>
+            <button
+              type="button"
+              class="btn add-to-cart-btn btn-rounded"
+              [disabled]="disableMembershipSale"
+              (click)="addToCart(membershipType)"
+            >
+              Add to Cart
+            </button>
           </div>
         </mdb-card-body>
       </mdb-card>
     </div>
+    <div style="padding: 0 20px 20px">
+      <button
+        mdbBtn
+        type="button"
+        mdbWavesEffect
+        class="shopping-cart-btn"
+        (click)="viewShoppingCart()"
+        [disabled]="this.shoppingService.shoppingItems.length === 0"
+      >
+        Shopping Cart
+      </button>
+    </div>
   </mdb-card>
 
   <mdb-card>
-    <mdb-card-header style="font-size: 2rem; height: 4rem" class="d-flex flex-row align-items-center justify-content-center">
+    <mdb-card-header style="height: 4rem; font-size: 2rem" class="d-flex flex-row align-items-center justify-content-center">
       Resource
     </mdb-card-header>
     <mdb-card-body>
@@ -61,6 +80,16 @@
           </button>
         </li>
       </ul>
+      <button
+        mdbBtn
+        type="button"
+        mdbWavesEffect
+        class="shopping-cart-btn"
+        (click)="viewShoppingCart()"
+        [disabled]="this.shoppingService.shoppingItems.length === 0"
+      >
+        Shopping Cart
+      </button>
     </mdb-card-body>
   </mdb-card>
 </div>
