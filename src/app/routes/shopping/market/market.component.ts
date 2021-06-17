@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   Ads,
   AuthService,
@@ -17,16 +18,18 @@ import * as _ from 'lodash-es';
 @Component({
   selector: 'app-shopping-market',
   templateUrl: './market.component.html',
+  styleUrls: ['./market.component.less'],
 })
 export class ShoppingMarketComponent implements OnInit {
   membershipTypes: MembershipType[];
   resourceTypes: ResourceType[];
-  hideMembershipSale = true;
+  disableMembershipSale = true;
   typeToResources = new Map();
 
   constructor(
+    public router: Router,
     private http: _HttpClient,
-    private shoppingService: ShoppingService,
+    public shoppingService: ShoppingService,
     private authService: AuthService,
     private resourceService: ResourceService,
   ) {}
@@ -40,14 +43,13 @@ export class ShoppingMarketComponent implements OnInit {
         this.typeToResources.set(this.resolveType(resourceType), this.resourceInstanceFrom(resourceType.name));
       });
     });
-    // check if acct owns membership,
-    // if owned, hide membership
-    this.authService.getAcctInfo().subscribe((acctInfo) => {
-      if (acctInfo.membership || this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
-        return;
-      }
 
-      this.hideMembershipSale = false;
+    this.authService.getAcctInfo().subscribe((acctInfo) => {
+      console.log('>>>>>>>>>>>>>>>>>>>>>');
+      console.log(acctInfo);
+      if (!acctInfo.membership && !this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
+        this.disableMembershipSale = false;
+      }
       this.loadMembershipTypes();
     });
   }
@@ -70,9 +72,13 @@ export class ShoppingMarketComponent implements OnInit {
 
   addToCart(merchandiseType: any): void {
     if (merchandiseType.type === 'membership') {
-      this.hideMembershipSale = true;
+      this.disableMembershipSale = true;
     }
     this.shoppingService.shoppingItems.push(this.buildShoppingItem(merchandiseType));
+  }
+
+  viewShoppingCart(): void {
+    this.router.navigateByUrl(this.shoppingService.hasResource() ? '/shopping/cart' : '/shopping/cart/empty');
   }
 
   private hasMembershipInShoppingCart(shoppingItems: ShoppingItem[]): boolean {
