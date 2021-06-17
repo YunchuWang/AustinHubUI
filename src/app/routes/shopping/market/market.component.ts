@@ -45,8 +45,6 @@ export class ShoppingMarketComponent implements OnInit {
     });
 
     this.authService.getAcctInfo().subscribe((acctInfo) => {
-      console.log('>>>>>>>>>>>>>>>>>>>>>');
-      console.log(acctInfo);
       if (!acctInfo.membership && !this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
         this.disableMembershipSale = false;
       }
