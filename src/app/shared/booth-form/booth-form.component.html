@@ -34,6 +34,14 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
+    <nz-form-label [nzSpan]="3" nzRequired>Address</nz-form-label>
+    <nz-form-control nzHasFeedback>
+      <nz-input-group nzSize="large">
+        <input nz-input formControlName="address" placeholder="address" [(ngModel)]="formData.address" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
     <nz-form-label [nzSpan]="3" nzRequired>Category</nz-form-label>
     <nz-form-control nzErrorTip="Please select category" nzHasFeedback>
       <nz-select formControlName="category" [(ngModel)]="this.category" (ngModelChange)="onCategoryChange($event)">

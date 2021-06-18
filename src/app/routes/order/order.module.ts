@@ -4,10 +4,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { SharedModule } from '@shared';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { OrderConfirmationComponent } from './order-confirmation/order-confirmation.component';
 import { OrderReviewComponent } from './order-review/order-review.component';
 import { OrderRoutingModule } from './order-routing.module';
 
-const COMPONENTS: Type<void>[] = [OrderReviewComponent];
+const COMPONENTS: Type<void>[] = [OrderReviewComponent, OrderConfirmationComponent];
 
 @NgModule({
   imports: [MDBBootstrapModule.forRoot(), FlexModule, MatExpansionModule, SharedModule, OrderRoutingModule, MatDividerModule],

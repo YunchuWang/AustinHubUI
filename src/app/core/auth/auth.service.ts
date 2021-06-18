@@ -29,8 +29,15 @@ export class AuthService {
 
   setAccountFromToken(token: string): void {
     const account = jwt_decode(token);
+    console.log(JSON.stringify(account));
     // @ts-ignore
     localStorage.setItem('account', account.sub);
+    // @ts-ignore
+    localStorage.setItem('customerId', account.customerId);
+  }
+
+  getCustomerId(): string {
+    return localStorage.getItem('customerId');
   }
 
   isLoggedIn(): boolean {
@@ -43,5 +50,13 @@ export class AuthService {
 
   refreshToken(refreshToken: any): Observable<any> {
     return this.httpClient.post(this.AUTH_BASE_URL + '/refreshToken', { refreshToken });
+  }
+
+  updateAccountCustomerId(customerId: string): Observable<any> {
+    const accountName = localStorage.getItem('account');
+    if (!accountName) {
+      throw new Error('Account name cant be found!');
+    }
+    return this.httpClient.post(this.AUTH_BASE_URL + '/' + accountName, customerId);
   }
 }

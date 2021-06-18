@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ShoppingItem } from '@core';
+import { ResourcePlan, ShoppingItem } from '@core';
 import { _HttpClient } from '@delon/theme';
 
 @Injectable({
@@ -39,5 +39,53 @@ export class ShoppingService {
         shoppingItems: this.shoppingItems,
       }),
     );
+  }
+
+  makeOrder(transactionAmount: number): any {
+    const order = {
+      accountName: localStorage.getItem('account'),
+      price: transactionAmount,
+      orderItems: [],
+    };
+    console.log(this.shoppingItems);
+    this.shoppingItems.forEach((shoppingItem) => {
+      let orderItem;
+      if (shoppingItem.merchandise.type === 'membership') {
+        orderItem = {
+          itemType: shoppingItem.merchandise.type.toUpperCase(),
+          pricingPlan: shoppingItem.plan,
+          autoSubscribed: true,
+          membershipType: shoppingItem.merchandise.name,
+          resourceItems: this.generateOrderItems(shoppingItem.resource, shoppingItem.plan),
+        };
+      } else {
+        orderItem = {
+          itemType: shoppingItem.merchandise.tableName.toUpperCase(),
+          pricingPlan: shoppingItem.plan,
+          categoryName: shoppingItem.resource[0].category,
+          ...shoppingItem.resource[0],
+        };
+      }
+      order.orderItems.push(orderItem);
+    });
+
+    console.log(order);
+    return order;
+  }
+
+  private generateOrderItems(resource: any[], pricingPlan: string): any[] {
+    return resource.map((item) => {
+      return {
+        itemType: item.type.toUpperCase(),
+        pricingPlan,
+        categoryName: item.category,
+        ...item,
+      };
+    });
+  }
+
+  clearCart(): void {
+    localStorage.removeItem('shopping_cart');
+    this.shoppingItems = [];
   }
 }

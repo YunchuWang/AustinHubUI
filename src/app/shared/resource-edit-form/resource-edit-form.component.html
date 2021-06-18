@@ -15,6 +15,6 @@
     </ng-template>
     <app-ads-form *ngSwitchCase="'ads'" [category]="item.category" [row]="item" (saved)="onSave(i)"></app-ads-form>
     <app-booth-form *ngSwitchCase="'booth'" [category]="item.category" [row]="item" (saved)="onSave(i)"></app-booth-form>
-    <app-job-form *ngSwitchCase="'job'" [category]="item.category" [row]="item"></app-job-form>
+    <app-job-form *ngSwitchCase="'job'" [category]="item.category" [row]="item" (saved)="onSave(i)"></app-job-form>
   </nz-tab>
 </nz-tabset>

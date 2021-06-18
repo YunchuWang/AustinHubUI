@@ -3,6 +3,14 @@
   <nz-form-item>
     <nz-form-control nzHasFeedback>
       <nz-input-group nzSize="large">
+        <nz-form-label [nzSpan]="5" nzRequired>Name</nz-form-label>
+        <input nz-input formControlName="name" placeholder="Name" [(ngModel)]="formData.name" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control nzHasFeedback>
+      <nz-input-group nzSize="large">
         <nz-form-label [nzSpan]="5" nzRequired>Company</nz-form-label>
         <input nz-input formControlName="company" placeholder="Company Name" [(ngModel)]="formData.company" />
       </nz-input-group>
@@ -49,15 +57,25 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
+    <nz-form-control nzHasFeedback>
+      <nz-input-group nzSize="large">
+        <nz-form-label [nzSpan]="5" nzRequired>Contact</nz-form-label>
+        <input nz-input formControlName="contact" placeholder="Contact" [(ngModel)]="formData.contact" />
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
     <nz-form-control nzErrorTip="Please select category" nzHasFeedback>
-      <nz-form-label [nzSpan]="5" nzRequired>Category</nz-form-label>
-      <nz-select formControlName="category" [(ngModel)]="this.category">
+      <nz-form-label nzRequired>Category</nz-form-label>
+      <nz-select formControlName="category" [(ngModel)]="this.category" (ngModelChange)="onCategoryChange($event)">
         <nz-option *ngFor="let category of allCategories" nzValue="{{ category.name }}" nzLabel="{{ category.displayName }}"></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item [nzJustify]="'center'">
-    <button style="width: 150px" nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="isLoading()" nzBlock>Save</button>
+    <button style="width: 150px" nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="isLoading()" (click)="save()" nzBlock>
+      Save
+    </button>
     <button style="width: 150px" nz-button nzType="warning" nzSize="large" nzBlock (click)="cancel()">Cancel</button>
   </nz-form-item>
 </form>

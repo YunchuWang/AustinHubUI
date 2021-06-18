@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { CategoryType } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
+import { ResourceEditFormComponent } from '@shared';
 import * as _ from 'lodash-es';
 import { AuthService } from '../../core/auth/auth.service';
 import { ResourceService } from '../../core/resource/resource.service';
 import { TipValidators } from '../custom-validators/TipValidators';
-import { ResourceEditFormComponent } from '@shared';
 
 @Component({
   selector: 'app-booth-form',
@@ -45,6 +45,7 @@ export class BoothFormComponent implements OnInit {
     const { required, maxLength, minLength, email, mobile } = TipValidators;
     this.boothForm = fb.group({
       name: [null, [required, minLength(3), maxLength(45)]],
+      address: [null, [required, minLength(3), maxLength(45)]],
       phone: [null, [required, mobile]],
       email: [null, [required, email]],
       description: [null, [required]],

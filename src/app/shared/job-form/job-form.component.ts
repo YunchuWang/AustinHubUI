@@ -1,4 +1,4 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -22,9 +22,9 @@ export class JobFormComponent implements OnInit {
   visible = true;
   @Input() row: any;
   @Input() category: string;
+  @Output() saved = new EventEmitter<any>();
   formData: any;
   allCategories: Category[];
-  private originalValidness: boolean;
 
   constructor(
     private http: _HttpClient,
@@ -51,6 +51,7 @@ export class JobFormComponent implements OnInit {
       location: [null, [required]],
       salary: [null, [required]],
       description: [null, [required]],
+      contact: [null, [required]],
       category: [null, [required]],
     });
   }
@@ -78,7 +79,7 @@ export class JobFormComponent implements OnInit {
     });
 
     this.row.valid = true;
-    this.dialogRef.close();
+    this.saved.emit();
   }
 
   cancel(): void {

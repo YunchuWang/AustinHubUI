@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { PaymentService, ShoppingService } from '@core';
+import { AuthService, PaymentService, ShoppingService } from '@core';
 import * as dropin from 'braintree-web-drop-in';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
@@ -20,6 +20,7 @@ export class MakePaymentFormComponent implements OnInit {
     public dialogRef: MatDialogRef<MakePaymentFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public router: Router,
+    public authService: AuthService,
     public paymentService: PaymentService,
     public shoppingService: ShoppingService,
     public notificationService: NzNotificationService,
@@ -36,7 +37,8 @@ export class MakePaymentFormComponent implements OnInit {
   }
 
   createPaymentBraintreeUI(): void {
-    this.paymentService.getClientToken().subscribe((token) => {
+    const customerId = this.authService.getCustomerId();
+    this.paymentService.getClientToken(customerId).subscribe((token) => {
       dropin.create(
         {
           // Insert your tokenization key here
@@ -62,6 +64,9 @@ export class MakePaymentFormComponent implements OnInit {
 
           this.placeOrderHidden = false;
           const btn = this.placeOrderBtn.el.nativeElement;
+          if (customerId) {
+            this.placeOrderDisabled = false;
+          }
 
           btn.addEventListener('click', () => {
             instance.requestPaymentMethod((requestPaymentMethodErr, payload) => {
@@ -76,20 +81,33 @@ export class MakePaymentFormComponent implements OnInit {
 
               // if passed, continue
               // Make payment
-              this.paymentService.makePayment(payload.nonce, this.transactionAmount.toString()).subscribe((res) => {
-                // if successful, fulfill order -> mark order completed and activate resource
-                // if failed, delete order and inform customer to retry
-                this.fulfillOrder();
-                // if order fulfilled, redirect to whatever page and send confirmation email
-                // if not, send toast msg to inform customer to contact customer service for manual fulfill or refund
-              });
+              // construct order info
+              const order = this.shoppingService.makeOrder(this.transactionAmount);
+              this.paymentService.makePayment(payload.nonce, this.transactionAmount.toString(), order).subscribe(
+                (res) => {
+                  // if found customer id and account does not have customer id yet, update account with customer id
+                  const newCustomerId = res.target?.customer?.id;
+                  if (newCustomerId && !this.authService.getCustomerId()) {
+                    this.authService.updateAccountCustomerId(newCustomerId).subscribe((data) => {
+                      console.log(data);
+                    });
+                  }
+                  console.log(res);
+                  this.dialogRef.close();
+                  this.notificationService.success('', res.message);
+                  this.shoppingService.clearCart();
+                  this.router.navigate(['/order/confirmation', res.orderNo]);
+                },
+                (error) => {
+                  console.log(error);
+                  this.notificationService.error('', error.message);
+                  this.dialogRef.close();
+                },
+              );
             });
           });
 
           instance.on('paymentMethodRequestable', (event) => {
-            console.log(event.type); // The type of Payment Method, e.g 'CreditCard', 'PayPalAccount'.
-            console.log(event.paymentMethodIsSelected); // True if a customer has selected a payment method when paymentMethodRequestable fires.
-
             this.placeOrderDisabled = false;
           });
 
@@ -102,7 +120,6 @@ export class MakePaymentFormComponent implements OnInit {
   }
 
   fulfillOrder(): void {
-    this.transactionAmount;
     //
   }
 
