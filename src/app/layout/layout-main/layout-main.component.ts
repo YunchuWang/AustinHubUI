@@ -1,11 +1,11 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
-import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
 import { Category } from '../../core/models/Category';
 import { CategoryType } from '../../core/models/CategoryType';
 import { NavTab } from '../../core/models/NavTab';
+import { NavigationService } from '../../core/navigation/navigation.service';
 import { ResourceService } from '../../core/resource/resource.service';
 
 @Component({
@@ -24,18 +24,14 @@ export class LayoutMainComponent implements OnInit {
   constructor(
     public activatedRoute: ActivatedRoute,
     private router: Router,
-    private _httpClient: _HttpClient,
     public resourceService: ResourceService,
+    public navigationService: NavigationService,
   ) {}
 
   ngOnInit(): void {
     this.navTabs = [
       { name: 'Booth', link: '/booths', isResource: true },
-      {
-        name: 'Jobs',
-        link: '/jobs',
-        isResource: true,
-      },
+      { name: 'Jobs', link: '/jobs', isResource: true },
       { name: 'Contact Us', link: '/contact', isResource: false },
       { name: 'Shopping', link: '/shopping/market', isResource: false },
     ];
@@ -45,7 +41,12 @@ export class LayoutMainComponent implements OnInit {
         this.categoryType = data.categoryType;
         this.setCategories(this.categoryType).subscribe((categories) => {
           this.categories = categories;
-          this.selectedCategory = this.categories[0];
+          const tabName = this.getTabName();
+          this.navigationService.initializeCategoryMap(tabName, categories);
+          const url: string = this.router.url;
+          const category = categories.filter((c) => url.includes(c.link))[0];
+          this.selectedCategory = category;
+          this.navigationService.updateSelectedCategory(tabName, category);
         });
       }
     });
@@ -54,9 +55,13 @@ export class LayoutMainComponent implements OnInit {
   selectNavTab(tab: NavTab): void {
     this.setCategories(CategoryType.RESC).subscribe((categories) => {
       this.categories = categories;
-      this.selectedCategory = this.categories[0];
+      this.navigationService.initializeCategoryMap(tab.name, categories);
       if (tab.isResource) {
-        this.router.navigate([tab.link, this.selectedCategory.name]);
+        const selectedCategory = this.navigationService.getSelectedCategory(tab.name);
+        // TODO: read query and pageNum once backend is ready
+        // const { query, pageNum } = this.navigationService.getCategoryMap(tab.name)[selectedCategory.name];
+        this.selectedCategory = selectedCategory;
+        this.router.navigate([tab.link, selectedCategory.name]);
       } else {
         this.router.navigate([tab.link]);
       }
@@ -69,8 +74,20 @@ export class LayoutMainComponent implements OnInit {
   }
 
   selectCategory(category: Category): void {
+    const tabName = this.getTabName();
+    this.navigationService.updateSelectedCategory(tabName, category);
     this.selectedCategory = category;
     const path = this.router.url.split('/').slice(0, -1).join('/') + '/' + category.link;
     this.router.navigate([path]);
+  }
+
+  getTabName(): string {
+    if (this.router.url.startsWith('/booths')) {
+      return 'Booth';
+    } else if (this.router.url.startsWith('/jobs')) {
+      return 'Jobs';
+    } else {
+      return 'Account';
+    }
   }
 }

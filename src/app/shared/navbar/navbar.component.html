@@ -1,7 +1,7 @@
 <!--Navbar-->
 <mdb-navbar SideClass="navbar navbar-expand-sm navbar-dark pl-0 pr-3 m-0" [containerInside]="false">
   <!-- Navbar brand -->
-  <mdb-navbar-brand style="width: 100px; height: 25px" class="m-0 d-flex justify-content-center">
+  <mdb-navbar-brand style="width: 140px; height: 25px" class="m-0 d-flex justify-content-center">
     <mdb-icon
       style="position: absolute; left: 15px; height: 20px; color: white; vertical-align: sub"
       class="ml-1 mr-2"
@@ -10,7 +10,7 @@
       [ngClass]="{ 'd-none': hideSideMenu }"
       (click)="sideBar.toggle()"
     ></mdb-icon>
-    <a style="position: absolute; left: 45px" class="navbar-brand p-0 m-0" routerLink="/dashboard">Logo</a>
+    <a style="position: absolute; left: 45px; font-weight: bold" class="navbar-brand p-0 m-0" routerLink="/dashboard"> AustinHub </a>
   </mdb-navbar-brand>
   <!-- Collapsible content -->
   <links fxLayout="row" fxFlexAlign="space-between">
