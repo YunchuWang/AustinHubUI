@@ -1,5 +1,7 @@
+import { NavTabName } from './Common';
+
 export class NavTab {
-  name: string;
+  name: NavTabName;
   link: string;
   isResource: boolean = true;
 }
