@@ -7,16 +7,16 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item" fxLayout="row">
       <div style="width: 150px">Username:</div>
-      <div>{{ 'Tomcat' }}</div>
+      <div>{{ userName }}</div>
     </li>
     <li class="list-group-item" fxLayout="row">
       <div style="width: 150px">Email:</div>
-      <div>{{ 'yunchuwang5@gmail.com' }}</div>
+      <div>{{ email }}</div>
     </li>
   </ul>
 </mdb-card>
 <div class="mt-4"></div>
-<mdb-card>
+<mdb-card *ngIf="membership">
   <mdb-card-body>
     <mdb-card-title>
       <h3 class="font-weight-bold">Membership</h3>
@@ -25,7 +25,7 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item" fxLayout="row">
       <div style="width: 150px">Type:</div>
-      <div>{{ 'yunchuwang5@gmail.com' }}</div>
+      <div>{{ membership.membershipType.name | titlecase }}</div>
     </li>
     <li class="list-group-item" fxLayout="row">
       <div style="width: 150px">Active Until:</div>

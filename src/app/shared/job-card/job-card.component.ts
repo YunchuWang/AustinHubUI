@@ -20,6 +20,7 @@ export class JobCardComponent implements OnInit {
   ) {
     activatedRoute.params.subscribe((data) => {
       const categoryName = this.activatedRoute.snapshot.paramMap.get('category');
+      console.log(categoryName);
       if (!categoryName) {
         return;
       }

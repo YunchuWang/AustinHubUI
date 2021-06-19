@@ -33,6 +33,8 @@ export class AuthService {
     // @ts-ignore
     localStorage.setItem('account', account.sub);
     // @ts-ignore
+    localStorage.setItem('email', account.email);
+    // @ts-ignore
     localStorage.setItem('customerId', account.customerId);
   }
 

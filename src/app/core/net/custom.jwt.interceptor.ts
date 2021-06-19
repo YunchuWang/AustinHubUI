@@ -17,8 +17,8 @@ export class CustomJwtInterceptor implements HttpInterceptor {
   private setJwtHeaders(headers?: HttpHeaders): HttpHeaders {
     const accessToken = this.tokenService.get(JWTTokenModel).token;
     const refreshToken = this.tokenService.get(JWTTokenModel).refreshToken;
-    console.log(accessToken);
-    console.log(refreshToken);
+    // console.log(accessToken);
+    // console.log(refreshToken);
     headers = headers.set('Authorization', `Bearer ${accessToken}`);
     headers = headers.set('Refresh-Token', `Bearer ${refreshToken}`);
 
