@@ -35,7 +35,10 @@ export class AuthService {
     // @ts-ignore
     localStorage.setItem('email', account.email);
     // @ts-ignore
-    localStorage.setItem('customerId', account.customerId);
+    if (!!account.customerId) {
+      // @ts-ignore
+      localStorage.setItem('customerId', account.customerId);
+    }
   }
 
   getCustomerId(): string {

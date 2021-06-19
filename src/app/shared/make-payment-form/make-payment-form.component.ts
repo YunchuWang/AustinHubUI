@@ -86,9 +86,10 @@ export class MakePaymentFormComponent implements OnInit {
               this.paymentService.makePayment(payload.nonce, this.transactionAmount.toString(), order).subscribe(
                 (res) => {
                   // if found customer id and account does not have customer id yet, update account with customer id
-                  const newCustomerId = res.target?.customer?.id;
+                  const newCustomerId = res.customerId;
                   if (newCustomerId && !this.authService.getCustomerId()) {
                     this.authService.updateAccountCustomerId(newCustomerId).subscribe((data) => {
+                      localStorage.setItem('customerId', newCustomerId);
                       console.log(data);
                     });
                   }
