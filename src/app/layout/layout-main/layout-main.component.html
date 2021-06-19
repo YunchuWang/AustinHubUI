@@ -8,7 +8,7 @@
           (click)="selectCategory(category)"
           class="list-group-item waves-light border-right-0"
           style="text-align: center"
-          [ngClass]="{ active: category.displayName === selectedCategory.displayName }"
+          [ngClass]="{ active: selectedCategory && category.displayName === selectedCategory.displayName }"
           mdbWavesEffect
         >
           {{ category.displayName }}
