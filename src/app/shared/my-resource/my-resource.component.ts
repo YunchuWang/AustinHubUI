@@ -1,10 +1,9 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { MyResource } from '../../core/models/MyResource';
-import { AccountMyBoothsComponent } from '../../routes/account/my-booths/my-booths.component';
+import { ResourceService } from '@core';
 import { AdsFormComponent } from '../ads-form/ads-form.component';
 import { BoothFormComponent } from '../booth-form/booth-form.component';
 import { JobFormComponent } from '../job-form/job-form.component';
@@ -15,25 +14,24 @@ import { JobFormComponent } from '../job-form/job-form.component';
   styles: [],
 })
 export class MyResourceComponent implements OnInit {
-  constructor(public dialog: MatDialog) {}
   @Input() resourceType: string;
-
   @Input() activeResources: any[];
   @Input() inactiveResources: any[];
-
+  @Output() resourceStatusChanged: EventEmitter<any> = new EventEmitter();
   isActive = true;
-
   displayedColumns: string[] = ['name', 'category', 'expirationDate', 'action'];
   dataSource: MatTableDataSource<any>;
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
+
+  constructor(public dialog: MatDialog, public resourceService: ResourceService) {}
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.activeResources);
   }
 
-  ngAfterViewInit() {
+  // tslint:disable-next-line:use-lifecycle-interface
+  ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
@@ -41,10 +39,7 @@ export class MyResourceComponent implements OnInit {
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
+    this.dataSource.paginator?.firstPage();
   }
 
   selectResource(event: any): void {
@@ -67,9 +62,13 @@ export class MyResourceComponent implements OnInit {
       default:
         return;
     }
+    console.log(row);
     const dialogRef = this.dialog.open(formComponent, {
-      width: '30%',
-      data: row,
+      width: '70%',
+      data: {
+        resource: row,
+        persist: true,
+      },
     });
 
     dialogRef.afterClosed().subscribe((res) => {
@@ -77,7 +76,19 @@ export class MyResourceComponent implements OnInit {
     });
   }
 
-  archive(row): void {}
+  archive(row: any): void {
+    console.log(row);
+    this.resourceService.updateResourceStatus(row.resourceId, true).subscribe((res) => {
+      console.log('updated archive');
+      this.resourceStatusChanged.emit();
+    });
+  }
 
-  activate(row): void {}
+  unarchive(row: any): void {
+    console.log(row);
+    this.resourceService.updateResourceStatus(row.resourceId, false).subscribe((res) => {
+      console.log('updated archive');
+      this.resourceStatusChanged.emit();
+    });
+  }
 }

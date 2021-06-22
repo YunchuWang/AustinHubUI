@@ -1,14 +1,11 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CategoryType } from '@core';
+import { AuthService, CategoryType, MyResourceType, ResourceService } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
-import { ResourceEditFormComponent } from '@shared';
 import * as _ from 'lodash-es';
-import { AuthService } from '../../core/auth/auth.service';
-import { ResourceService } from '../../core/resource/resource.service';
 import { TipValidators } from '../custom-validators/TipValidators';
 
 @Component({
@@ -25,6 +22,7 @@ export class BoothFormComponent implements OnInit {
   @Output() saved = new EventEmitter<any>();
   allCategories: any[];
   formData: any;
+  persist = false;
 
   constructor(
     private http: _HttpClient,
@@ -37,6 +35,7 @@ export class BoothFormComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.row = data.resource;
+    this.persist = data.persist;
     this.category = this.row.category;
     this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
       this.allCategories = categories;
@@ -69,6 +68,14 @@ export class BoothFormComponent implements OnInit {
     Object.keys(this.formData).forEach((key) => {
       this.row[key] = this.formData[key];
     });
+
+    console.log(this.row);
+    if (this.persist) {
+      this.resourceService.updateResource(MyResourceType.BOOTHS, this.row).subscribe((res) => {
+        console.log('Updated');
+      });
+      return;
+    }
 
     this.row.valid = true;
     this.saved.emit();

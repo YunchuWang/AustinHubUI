@@ -2,17 +2,14 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CategoryType } from '@core';
+import { AuthService, CategoryType, MyResourceType, ResourceService } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { SFSchema, SFUploadWidgetSchema } from '@delon/form';
 import { _HttpClient } from '@delon/theme';
-import { ResourceEditFormComponent } from '@shared';
 import * as _ from 'lodash-es';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
-import { AuthService } from '../../core/auth/auth.service';
 import { Category } from '../../core/models/Category';
-import { ResourceService } from '../../core/resource/resource.service';
 import { TipValidators } from '../custom-validators/TipValidators';
 
 @Component({
@@ -30,6 +27,7 @@ export class AdsFormComponent implements OnInit {
   @Output() saved = new EventEmitter<any>();
 
   allCategories: Category[];
+  persist = false;
   schema: SFSchema = {
     properties: {
       file: {
@@ -56,7 +54,9 @@ export class AdsFormComponent implements OnInit {
     public dialogRef: MatDialogRef<AdsFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
+    console.log(data);
     this.row = data.resource;
+    this.persist = data.persist;
     this.category = this.row.category;
     this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
       this.allCategories = categories;
@@ -105,11 +105,22 @@ export class AdsFormComponent implements OnInit {
       this.row[key] = this.formData[key];
     });
 
+    if (this.persist) {
+      this.resourceService.updateResource(MyResourceType.ADS, this.row).subscribe((res) => {
+        console.log('Updated');
+      });
+      return;
+    }
+
     this.row.valid = true;
     this.saved.emit();
   }
 
   onCategoryChange(event: any): void {
     this.formData.category = event;
+  }
+
+  cancel(): void {
+    this.dialogRef.close();
   }
 }

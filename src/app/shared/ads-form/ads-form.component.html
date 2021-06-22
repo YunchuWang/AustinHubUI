@@ -59,10 +59,11 @@
       nzSize="large"
       [nzLoading]="isLoading()"
       nzBlock
-      [disabled]="!adsForm.valid"
+      [disabled]="persist ? adsForm.pristine || !adsForm.valid : !adsForm.valid"
       (click)="save()"
     >
       Save
     </button>
+    <button style="width: 150px" nz-button nzType="warning" nzSize="large" nzBlock (click)="cancel()">Cancel</button>
   </nz-form-item>
 </form>

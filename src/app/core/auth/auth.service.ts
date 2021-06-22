@@ -59,6 +59,6 @@ export class AuthService {
     if (!accountName) {
       throw new Error('Account name cant be found!');
     }
-    return this.httpClient.post(this.AUTH_BASE_URL + '/' + accountName, customerId);
+    return this.httpClient.post(this.AUTH_BASE_URL + '/' + accountName + '/customerId', customerId);
   }
 }

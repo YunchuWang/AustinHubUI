@@ -1,1 +1,8 @@
-<app-my-resource [resourceType]="'booths'" [activeResources]="activeBooths" [inactiveResources]="inactiveBooths"></app-my-resource>
+<div *ngIf="!loading">
+  <app-my-resource
+    [resourceType]="'booths'"
+    [activeResources]="activeBooths"
+    [inactiveResources]="inactiveBooths"
+    (resourceStatusChanged)="onResourceStatusChanged($event)"
+  ></app-my-resource>
+</div>
