@@ -14,15 +14,12 @@ export class AccountInfoComponent implements OnInit {
 
   constructor(public authService: AuthService, public resourceService: ResourceService, public notificationService: NzNotificationService) {
     this.autoSubscribeBtnDisabled = false;
-    this.authService.getAcctInfo().subscribe((account) => {
-      console.log(account);
-      this.membership = account.membership;
-    });
+    this.membership = this.authService.getMembership();
   }
 
   ngOnInit(): void {
-    this.userName = localStorage.getItem('account');
-    this.email = localStorage.getItem('email');
+    this.userName = this.authService.getUserName();
+    this.email = this.authService.getEmail();
   }
 
   /**

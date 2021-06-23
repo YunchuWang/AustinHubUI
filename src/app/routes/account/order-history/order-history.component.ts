@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { OrderService } from '@core';
+import { AuthService, OrderService } from '@core';
 
 @Component({
   selector: 'app-order-history',
@@ -16,13 +16,13 @@ export class OrderHistoryComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private orderService: OrderService) {}
+  constructor(private orderService: OrderService, private authService: AuthService) {}
   ngOnInit(): void {
     this.loadOrders();
   }
 
   loadOrders(): void {
-    this.orderService.loadOrders(localStorage.getItem('account')).subscribe((orders) => {
+    this.orderService.loadOrders(this.authService.getUserName()).subscribe((orders) => {
       console.log(this.orders);
       this.orders = orders;
       this.dataSource = new MatTableDataSource(this.orders);

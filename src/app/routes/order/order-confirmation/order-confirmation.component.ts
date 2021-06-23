@@ -15,7 +15,7 @@ export class OrderConfirmationComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private authService: AuthService) {}
 
   ngOnInit(): void {
-    this.accountName = localStorage.getItem('account');
+    this.accountName = this.authService.getUserName();
     this.orderNo = this.route.snapshot.paramMap.get('orderNo');
     if (!this.orderNo) {
       this.router.navigateByUrl('/#');

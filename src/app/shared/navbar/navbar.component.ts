@@ -16,11 +16,11 @@ export class NavbarComponent implements OnInit {
   @Input() sideBar: MatSidenav;
   @Input() hideSideMenu: boolean;
   @Output() tabClicked: EventEmitter<NavTab> = new EventEmitter<NavTab>();
-  private selectedNavTab = '';
+  selectedNavTab = '';
 
   constructor(
     public router: Router,
-    private authService: AuthService,
+    public authService: AuthService,
     public shoppingService: ShoppingService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
   ) {
@@ -57,14 +57,6 @@ export class NavbarComponent implements OnInit {
     this.router.navigateByUrl('/auth/login').then(() => {
       this.router.navigateByUrl(this.router.url);
     });
-  }
-
-  isLoggedIn(): boolean {
-    return this.authService.isLoggedIn();
-  }
-
-  getUserName(): string {
-    return localStorage.getItem('account');
   }
 
   viewShoppingCart(): void {

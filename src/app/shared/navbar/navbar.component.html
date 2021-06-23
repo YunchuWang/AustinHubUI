@@ -33,14 +33,16 @@
       </mat-icon>
     </a>
     <div class="navbar-nav">
-      <div *ngIf="isLoggedIn(); then loggedIn; else notLoggedIn"></div>
+      <div *ngIf="authService.isLoggedIn(); then loggedIn; else notLoggedIn"></div>
       <ng-template #notLoggedIn>
-        <a mdbWavesEffect type="button" class="nav-link waves-light active" routerLink="/auth/login">Please log in</a>
+        <a fxLayout="row" fxFlexAlign="center" mdbWavesEffect type="button" class="nav-link waves-light active" routerLink="/auth/login"
+          >Please log in</a
+        >
       </ng-template>
       <ng-template #loggedIn>
         <li class="nav-item avatar dropdown pl-3 pr-3" dropdown>
           <a dropdownToggle mdbWavesEffect type="button" style="padding-top: 15px" class="nav-link dropdown-toggle waves-light">
-            {{ getUserName() }}</a
+            {{ authService.getUserName() }}</a
           >
           <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
             <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/account">My account</a>

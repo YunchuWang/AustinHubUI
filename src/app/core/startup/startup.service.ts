@@ -56,61 +56,32 @@ export class StartupService {
   }
 
   private viaMock(resolve: any, reject: any): void {
-    // const tokenData = this.tokenService.get();
-    // if (!tokenData.token) {
-    //   this.injector.get(Router).navigateByUrl('/passport/login');
-    //   resolve({});
-    //   return;
-    // }
-    // mock
-    const app: any = {
-      name: `ng-alain`,
-      description: `Ng-zorro admin panel front-end framework`,
-    };
-    // Application information: including site name, description, year
-    this.settingService.setApp(app);
-    // ACL: Set the permissions to full, https://ng-alain.com/acl/getting-started
-    this.aclService.setFull(true);
-    // Menu data, https://ng-alain.com/theme/menu
-    this.menuService.add([
-      {
-        text: 'Main',
-        group: true,
-        children: [
-          {
-            text: 'Dashboard',
-            link: '/dashboard',
-            icon: { type: 'icon', value: 'appstore' },
-          },
-        ],
-      },
-    ]);
-    // Can be set page suffix title, https://ng-alain.com/theme/title
-    this.titleService.suffix = app.name;
-
     // Subscribe to token expiration event
     this.tokenService.refresh.subscribe((event) => {
+      this.authService.removeAccountInfo();
       const refreshToken = this.tokenService.get().refreshToken;
       this.authService.refreshToken(refreshToken).subscribe(
         (token) => {
           this.tokenService.get().token = token;
+          this.authService.setAccountFromToken(token);
         },
         (error) => {
           this.tokenService.clear();
-          localStorage.clear();
         },
       );
     });
+
     // Set account info
-    const accessToken = this.tokenService.get().accessToken;
+    const accessToken = this.tokenService.get().token;
     if (accessToken) {
       this.authService.setAccountFromToken(accessToken);
     }
 
+    // Load shopping items from localStorage
     const shoppingItems = localStorage.getItem('shopping_cart');
     if (shoppingItems) {
       const shoppingInfo = JSON.parse(shoppingItems);
-      if (localStorage.getItem('account') === shoppingInfo.owner) {
+      if (this.authService.getUserName() === shoppingInfo.owner) {
         this.shoppingService.shoppingItems = shoppingInfo.shoppingItems || [];
       } else {
         this.shoppingService.shoppingItems = [];
@@ -118,6 +89,7 @@ export class StartupService {
     } else {
       this.shoppingService.shoppingItems = [];
     }
+
     resolve({});
   }
 }

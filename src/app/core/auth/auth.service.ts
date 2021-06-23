@@ -1,6 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
+import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
 import jwt_decode from 'jwt-decode';
+import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -8,8 +10,13 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
   private readonly AUTH_BASE_URL: string = '/api/accounts';
+  private account: any;
 
-  constructor(public httpClient: _HttpClient) {}
+  constructor(
+    public httpClient: _HttpClient,
+    public notificationService: NzNotificationService,
+    @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
+  ) {}
 
   signup(data: any): Observable<any> {
     return this.httpClient.post(this.AUTH_BASE_URL + '/signup', data);
@@ -28,29 +35,59 @@ export class AuthService {
   }
 
   setAccountFromToken(token: string): void {
-    const account = jwt_decode(token);
-    console.log(JSON.stringify(account));
+    const decodedToken = jwt_decode(token);
+    console.log(JSON.stringify(decodedToken));
+
+    // If token expires, no account information to set
     // @ts-ignore
-    localStorage.setItem('account', account.sub);
-    // @ts-ignore
-    localStorage.setItem('email', account.email);
-    // @ts-ignore
-    if (!!account.customerId) {
-      // @ts-ignore
-      localStorage.setItem('customerId', account.customerId);
+    if (Date.now() >= decodedToken.exp * 1000) {
+      this.notificationService.error('Please log in again', '');
+      this.tokenService.clear();
+      return;
     }
+
+    // From token, accountId is extracted, then load account info of id
+    // @ts-ignore
+    this.getAcctInfo(decodedToken.sub).subscribe(
+      (acctInfo) => {
+        this.account = acctInfo;
+      },
+      (error) => {
+        this.notificationService.error('Account not found', '');
+      },
+    );
+  }
+
+  removeAccountInfo(): void {
+    this.account = null;
+  }
+
+  getAccountId(): string {
+    return this.account?.id;
   }
 
   getCustomerId(): string {
-    return localStorage.getItem('customerId');
+    return this.account?.customerId;
+  }
+
+  getEmail(): string {
+    return this.account?.email;
+  }
+
+  getUserName(): string {
+    return this.account?.username;
+  }
+
+  getMembership(): string {
+    return this.account?.membership;
   }
 
   isLoggedIn(): boolean {
-    return localStorage.getItem('account') !== undefined;
+    return !!this.account;
   }
 
-  getAcctInfo(): Observable<any> {
-    return this.httpClient.get(this.AUTH_BASE_URL + '/' + localStorage.getItem('account'));
+  getAcctInfo(accountId: string): Observable<any> {
+    return this.httpClient.get(this.AUTH_BASE_URL + '/' + accountId);
   }
 
   refreshToken(refreshToken: any): Observable<any> {
@@ -58,10 +95,6 @@ export class AuthService {
   }
 
   updateAccountCustomerId(customerId: string): Observable<any> {
-    const accountName = localStorage.getItem('account');
-    if (!accountName) {
-      throw new Error('Account name cant be found!');
-    }
-    return this.httpClient.post(this.AUTH_BASE_URL + '/' + accountName + '/customerId', customerId);
+    return this.httpClient.post(this.AUTH_BASE_URL + '/' + this.getAccountId() + '/customerId', customerId);
   }
 }

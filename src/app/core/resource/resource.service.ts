@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { Observable, Subject } from 'rxjs';
+import { AuthService } from '../auth/auth.service';
 import { API_PREFIX_PATH } from '../constants/ApiClientConstants';
 import { MyResourceType } from '../constants/MyResourceType';
 import { Ads } from '../models/Ads';
@@ -23,7 +24,7 @@ export class ResourceService {
 
   categoryChangeSubject: Subject<string> = new Subject<string>();
 
-  constructor(private httpClient: _HttpClient) {}
+  constructor(private httpClient: _HttpClient, private authService: AuthService) {}
 
   loadCategories(categoryType: CategoryType): Observable<any> {
     return this.httpClient.get(this.categoryBaseUrl, { type: CategoryType[categoryType] });
@@ -43,7 +44,7 @@ export class ResourceService {
 
   loadMyResource(resourceType: MyResourceType, isArchived: boolean): Observable<any[]> {
     return this.httpClient.get(API_PREFIX_PATH + '/' + resourceType.toLowerCase() + '/owned', {
-      accountName: localStorage.getItem('account'),
+      accountName: this.authService.getUserName(),
       isArchived,
     });
   }
@@ -57,7 +58,7 @@ export class ResourceService {
   }
 
   updateMembershipAutoSubscribed(membershipId: any, autoSubscribed: boolean): Observable<any> {
-    const accountName = localStorage.getItem('account');
+    const accountName = this.authService.getUserName();
     if (!accountName) {
       throw new Error('Account name cant be found!');
     }

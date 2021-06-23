@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { ResourcePlan, ShoppingItem } from '@core';
+import { AuthService, ShoppingItem } from '@core';
 import { _HttpClient } from '@delon/theme';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ShoppingService {
-  constructor(private httpClient: _HttpClient) {}
+  constructor(private httpClient: _HttpClient, private authService: AuthService) {}
 
   private _shoppingItems: ShoppingItem[];
 
@@ -35,7 +35,7 @@ export class ShoppingService {
     localStorage.setItem(
       'shopping_cart',
       JSON.stringify({
-        owner: localStorage.getItem('account'),
+        owner: this.authService.getUserName(),
         shoppingItems: this.shoppingItems,
       }),
     );
@@ -43,7 +43,7 @@ export class ShoppingService {
 
   makeOrder(transactionAmount: number): any {
     const order = {
-      accountName: localStorage.getItem('account'),
+      accountName: this.authService.getUserName(),
       price: transactionAmount,
       orderItems: [],
     };
@@ -73,6 +73,11 @@ export class ShoppingService {
     return order;
   }
 
+  clearCart(): void {
+    localStorage.removeItem('shopping_cart');
+    this.shoppingItems = [];
+  }
+
   private generateOrderItems(resource: any[], pricingPlan: string): any[] {
     return resource.map((item) => {
       return {
@@ -82,10 +87,5 @@ export class ShoppingService {
         ...item,
       };
     });
-  }
-
-  clearCart(): void {
-    localStorage.removeItem('shopping_cart');
-    this.shoppingItems = [];
   }
 }

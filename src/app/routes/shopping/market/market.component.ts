@@ -44,12 +44,10 @@ export class ShoppingMarketComponent implements OnInit {
       });
     });
 
-    this.authService.getAcctInfo().subscribe((acctInfo) => {
-      if (!acctInfo.membership && !this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
-        this.disableMembershipSale = false;
-      }
-      this.loadMembershipTypes();
-    });
+    this.loadMembershipTypes();
+    if (!this.authService.getMembership() && !this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
+      this.disableMembershipSale = false;
+    }
   }
 
   loadMembershipTypes(): void {
