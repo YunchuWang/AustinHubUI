@@ -36,7 +36,7 @@ export class NavigationService {
     if (!isInitialized) {
       const categoryMap: CategoryMap = {};
       categories.forEach((m) => {
-        categoryMap[m.name] = { pageNum: 0, query: '' };
+        categoryMap[m.name] = { page: 0, query: '' };
       });
       const { selectedCategory } = this.navTabMap[name];
       this.navTabMap[name] = {
@@ -56,6 +56,16 @@ export class NavigationService {
     };
   }
 
+  updateSelectedCategoryAndParams(name: string, selectedCategory: Category, page: number, query: string): void {
+    const { categoryMap, isInitialized } = this.navTabMap[name];
+    categoryMap[selectedCategory.name] = { page, query };
+    this.navTabMap[name] = {
+      selectedCategory,
+      categoryMap,
+      isInitialized,
+    };
+  }
+
   getSelectedCategory(name: string): Category {
     return this.navTabMap[name].selectedCategory;
   }
@@ -64,10 +74,10 @@ export class NavigationService {
     return this.navTabMap[name].categoryMap;
   }
 
-  changePage(name: string, categoryName: string, pageNum: number): void {
+  changePage(name: string, categoryName: string, page: number): void {
     const { selectedCategory, categoryMap, isInitialized } = this.navTabMap[name];
     const { query } = categoryMap[categoryName];
-    categoryMap[categoryName] = { pageNum, query };
+    categoryMap[categoryName] = { page, query };
     this.navTabMap[name] = {
       selectedCategory,
       categoryMap,
@@ -77,8 +87,8 @@ export class NavigationService {
 
   updateQuery(name: string, categoryName: string, query: string): void {
     const { selectedCategory, categoryMap, isInitialized } = this.navTabMap[name];
-    const { pageNum } = categoryMap[categoryName];
-    categoryMap[categoryName] = { pageNum, query };
+    const { page } = categoryMap[categoryName];
+    categoryMap[categoryName] = { page, query };
     this.navTabMap[name] = {
       selectedCategory,
       categoryMap,
