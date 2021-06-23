@@ -1,7 +1,7 @@
 import { Category } from './Category';
 
 export type NavigationEntry = {
-  pageNum: number;
+  page: number;
   query: string;
 };
 

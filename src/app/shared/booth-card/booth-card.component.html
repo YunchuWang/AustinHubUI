@@ -1,11 +1,17 @@
-<mdb-card *ngFor="let booth of booths" class="mb-4">
-  <mdb-card-header>{{ booth.name }}</mdb-card-header>
-  <mdb-card-body fxLayout="row" fxFlexAlign="start center" fxLayoutGap="8px">
-    <div fxLayout="column" fxFlexAlign="space-between center" fxFlex="1 1 350px">
-      <p>Email: {{ booth.email }}</p>
-      <p>Address: {{ booth.address }}</p>
-      <p>Phone: {{ booth.phone }}</p>
-    </div>
-    <p fxFlex="1 1 auto">{{ booth.description }}</p>
-  </mdb-card-body>
-</mdb-card>
+<div *ngIf="isLoading()" style="position: relative; z-index: 10; width: 100%; height: 100%; margin-top: 20%; text-align: center">
+  <div class="spinner-border text-danger" role="status"></div>
+</div>
+<div *ngIf="!isLoading()">
+  <mdb-card *ngFor="let booth of booths" class="mb-4">
+    <mdb-card-header>{{ booth.name }}</mdb-card-header>
+    <mdb-card-body fxLayout="row" fxFlexAlign="start center" fxLayoutGap="8px">
+      <div fxLayout="column" fxFlexAlign="space-between center" fxFlex="1 1 350px">
+        <p>Email: {{ booth.email }}</p>
+        <p>Address: {{ booth.address }}</p>
+        <p>Phone: {{ booth.phone }}</p>
+      </div>
+      <p fxFlex="1 1 auto">{{ booth.description }}</p>
+    </mdb-card-body>
+  </mdb-card>
+  <div *ngIf="!withContent()">No content</div>
+</div>
