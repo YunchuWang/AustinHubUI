@@ -17,5 +17,6 @@ export * from './utils/password.util';
 export * from './shopping/shopping.service';
 export * from './resource/resource.service';
 export * from './payment/payment.service';
+export * from './order/order.service';
 export * from './constants/PaymentConstants';
 export * from './auth/auth.service';
