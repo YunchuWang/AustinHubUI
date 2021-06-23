@@ -2,13 +2,13 @@ import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { CategoryType } from '@core';
+import { CategoryType, MyResourceType } from '@core';
+import { AuthService } from '@core';
+import { ResourceService } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
 import * as _ from 'lodash-es';
-import { AuthService } from '../../core/auth/auth.service';
 import { Category } from '../../core/models/Category';
-import { ResourceService } from '../../core/resource/resource.service';
 import { TipValidators } from '../custom-validators/TipValidators';
 
 @Component({
@@ -20,6 +20,7 @@ export class JobFormComponent implements OnInit {
   jobForm: FormGroup;
   error = '';
   visible = true;
+  persist = false;
   @Input() row: any;
   @Input() category: string;
   @Output() saved = new EventEmitter<any>();
@@ -36,7 +37,8 @@ export class JobFormComponent implements OnInit {
     public dialogRef: MatDialogRef<JobFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.row = data;
+    this.row = data.resource;
+    this.persist = data.persist;
     this.category = this.row.category;
     this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
       this.allCategories = categories;
@@ -46,9 +48,7 @@ export class JobFormComponent implements OnInit {
     this.jobForm = fb.group({
       name: [null, [required, minLength(3), maxLength(45)]],
       phone: [null, [required, mobile]],
-      title: [null, [required]],
-      company: [null, [required]],
-      location: [null, [required]],
+      address: [null, [required]],
       salary: [null, [required]],
       description: [null, [required]],
       contact: [null, [required]],
@@ -77,6 +77,13 @@ export class JobFormComponent implements OnInit {
     Object.keys(this.formData).forEach((key) => {
       this.row[key] = this.formData[key];
     });
+
+    if (this.persist) {
+      this.resourceService.updateResource(MyResourceType.JOBS, this.row).subscribe((res) => {
+        console.log('Updated');
+      });
+      return;
+    }
 
     this.row.valid = true;
     this.saved.emit();

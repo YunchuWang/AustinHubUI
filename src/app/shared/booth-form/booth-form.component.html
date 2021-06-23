@@ -58,7 +58,7 @@
       nzSize="large"
       [nzLoading]="isLoading()"
       nzBlock
-      [disabled]="!boothForm.valid"
+      [disabled]="persist ? boothForm.pristine || !boothForm.valid : !boothForm.valid"
       (click)="save()"
     >
       Save

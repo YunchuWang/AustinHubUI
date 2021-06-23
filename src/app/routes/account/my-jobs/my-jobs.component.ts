@@ -1,17 +1,53 @@
 import { Component, OnInit } from '@angular/core';
+import { MyResourceType, ResourceService } from '@core';
 import { _HttpClient } from '@delon/theme';
-import { STColumn, STData } from '@delon/abc/st';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-account-my-jobs',
   templateUrl: './my-jobs.component.html',
 })
 export class AccountMyJobsComponent implements OnInit {
-  activeJobs: any[] = [{ name: '聚丰园-后厨', expirationDate: '2025-02-01' }];
+  activeJobs: any[];
 
-  inactiveJobs: any[] = [{ name: '聚丰园-洗碗', expirationDate: '2020-02-01' }];
+  inactiveJobs: any[];
+  loading = true;
 
-  constructor(private http: _HttpClient) {}
+  constructor(private http: _HttpClient, private resourceService: ResourceService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadJobs();
+  }
+
+  loadJobs(): void {
+    this.loading = true;
+    combineLatest([
+      this.resourceService.loadMyResource(MyResourceType.JOBS, true),
+      this.resourceService.loadMyResource(MyResourceType.JOBS, false),
+    ]).subscribe(
+      ([inactive, active]) => {
+        this.inactiveJobs = inactive.map((row) => {
+          return {
+            ...row,
+            category: row.categoryName,
+            expirationDate: row.expirationTime,
+          };
+        });
+        this.activeJobs = active.map((row) => {
+          return {
+            ...row,
+            category: row.categoryName,
+            expirationDate: row.expirationTime,
+          };
+        });
+
+        this.loading = false;
+      },
+      (err) => console.error(err),
+    );
+  }
+
+  onResourceStatusChanged(event: any): void {
+    this.loadJobs();
+  }
 }

@@ -3,6 +3,7 @@ import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
 import { API_PREFIX_PATH } from '../constants/ApiClientConstants';
 import { PAGE_SIZE } from '../constants/NavigationConstants';
+import { MyResourceType } from '../constants/MyResourceType';
 import { Ads } from '../models/Ads';
 import { Booth } from '../models/Booth';
 import { CategoryType } from '../models/CategoryType';
@@ -40,11 +41,39 @@ export class ResourceService {
     return this.boothHttpClient.get(this.boothsBaseUrl, { name: categoryName, type: categoryType, query, page, pageSize: PAGE_SIZE });
   }
 
+  loadMyResource(resourceType: MyResourceType, isArchived: boolean): Observable<any[]> {
+    return this.httpClient.get(API_PREFIX_PATH + '/' + resourceType.toLowerCase() + '/owned', {
+      accountName: localStorage.getItem('account'),
+      isArchived,
+    });
+  }
+
   loadMembershipTypes(): Observable<MembershipType[]> {
     return this.httpClient.get(this.membershipBaseUrl + '/types');
   }
 
   loadResourceTypes(): Observable<ResourceType[]> {
     return this.httpClient.get(this.resourceBaseUrl + '/types');
+  }
+
+  updateMembershipAutoSubscribed(membershipId: any, autoSubscribed: boolean): Observable<any> {
+    const accountName = localStorage.getItem('account');
+    if (!accountName) {
+      throw new Error('Account name cant be found!');
+    }
+    return this.httpClient.post(this.membershipBaseUrl + '/' + membershipId + '/subscriptions', {
+      autoSubscribed,
+    });
+  }
+
+  updateResource(myResourceType: MyResourceType, updates: any): Observable<any> {
+    return this.httpClient.put(API_PREFIX_PATH + '/' + myResourceType.toLowerCase(), updates);
+  }
+
+  updateResourceStatus(resourceId: any, isArchived: boolean): Observable<any> {
+    return this.httpClient.put(this.resourceBaseUrl, {
+      resourceId,
+      isArchived,
+    });
   }
 }

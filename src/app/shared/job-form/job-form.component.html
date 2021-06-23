@@ -9,22 +9,6 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control nzHasFeedback>
-      <nz-input-group nzSize="large">
-        <nz-form-label [nzSpan]="5" nzRequired>Company</nz-form-label>
-        <input nz-input formControlName="company" placeholder="Company Name" [(ngModel)]="formData.company" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
-    <nz-form-control nzErrorTip="Please enter job title" nzHasFeedback>
-      <nz-input-group nzSize="large">
-        <nz-form-label [nzSpan]="5" nzRequired>Job Title</nz-form-label>
-        <input nz-input type="text" formControlName="title" placeholder="job title" [(ngModel)]="formData.title" />
-      </nz-input-group>
-    </nz-form-control>
-  </nz-form-item>
-  <nz-form-item>
     <nz-form-control nzErrorTip="Please enter phone" nzHasFeedback>
       <nz-input-group nzSize="large">
         <nz-form-label [nzSpan]="5" nzRequired>Phone</nz-form-label>
@@ -44,7 +28,7 @@
     <nz-form-control nzErrorTip="Please enter location">
       <nz-input-group nzSize="large">
         <nz-form-label [nzSpan]="5" nzRequired>Location</nz-form-label>
-        <textarea nz-input formControlName="location" placeholder="location" [(ngModel)]="formData.location"> </textarea>
+        <textarea nz-input formControlName="address" placeholder="location" [(ngModel)]="formData.address"> </textarea>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
@@ -73,7 +57,17 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item [nzJustify]="'center'">
-    <button style="width: 150px" nz-button type="submit" nzType="primary" nzSize="large" [nzLoading]="isLoading()" (click)="save()" nzBlock>
+    <button
+      style="width: 150px"
+      nz-button
+      type="submit"
+      nzType="primary"
+      nzSize="large"
+      [nzLoading]="isLoading()"
+      (click)="save()"
+      [disabled]="persist ? jobForm.pristine || !jobForm.valid : !jobForm.valid"
+      nzBlock
+    >
       Save
     </button>
     <button style="width: 150px" nz-button nzType="warning" nzSize="large" nzBlock (click)="cancel()">Cancel</button>

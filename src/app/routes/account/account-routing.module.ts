@@ -4,6 +4,7 @@ import { AccountInfoComponent } from './info/info.component';
 import { AccountMyAdsComponent } from './my-ads/my-ads.component';
 import { AccountMyBoothsComponent } from './my-booths/my-booths.component';
 import { AccountMyJobsComponent } from './my-jobs/my-jobs.component';
+import { OrderHistoryComponent } from './order-history/order-history.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'info', pathMatch: 'full' },
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'mybooths', component: AccountMyBoothsComponent },
   { path: 'myjobs', component: AccountMyJobsComponent },
   { path: 'myads', component: AccountMyAdsComponent },
+  { path: 'orderhistory', component: OrderHistoryComponent },
 ];
 
 @NgModule({

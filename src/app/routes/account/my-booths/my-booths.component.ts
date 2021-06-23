@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MyResourceType, ResourceService } from '@core';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { MyResource } from '../../../core/models/MyResource';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-account-my-booths',
@@ -8,11 +9,45 @@ import { MyResource } from '../../../core/models/MyResource';
   styleUrls: ['./my-booths.component.scss'],
 })
 export class AccountMyBoothsComponent implements OnInit {
-  constructor(private message: NzMessageService) {}
+  activeBooths: any[];
+  inactiveBooths: any[];
+  loading = true;
 
-  activeBooths: any[] = [{ name: '八仙堂', expirationDate: '2025-02-01', category: 'restaurant', phone: '412-423-1231' }];
+  constructor(private message: NzMessageService, private resourceService: ResourceService) {}
 
-  inactiveBooths: any[] = [{ name: '你好咖啡', expirationDate: '2020-02-01', category: 'restaurant', phone: '412-423-1232' }];
+  ngOnInit(): void {
+    this.loadBooths();
+  }
 
-  ngOnInit(): void {}
+  loadBooths(): void {
+    this.loading = true;
+    combineLatest([
+      this.resourceService.loadMyResource(MyResourceType.BOOTHS, true),
+      this.resourceService.loadMyResource(MyResourceType.BOOTHS, false),
+    ]).subscribe(
+      ([inactive, active]) => {
+        this.inactiveBooths = inactive.map((row) => {
+          return {
+            ...row,
+            category: row.categoryName,
+            expirationDate: row.expirationTime,
+          };
+        });
+        this.activeBooths = active.map((row) => {
+          return {
+            ...row,
+            category: row.categoryName,
+            expirationDate: row.expirationTime,
+          };
+        });
+
+        this.loading = false;
+      },
+      (err) => console.error(err),
+    );
+  }
+
+  onResourceStatusChanged(event: any): void {
+    this.loadBooths();
+  }
 }
