@@ -47,9 +47,10 @@ export class AuthService {
     }
 
     // From token, accountId is extracted, then load account info of id
-    // @ts-ignore
-    this.getAcctInfo(decodedToken.sub).subscribe(
+    // @ts-ignoreacc
+    this.getAcctInfo(Number(decodedToken.sub)).subscribe(
       (acctInfo) => {
+        console.log(acctInfo);
         this.account = acctInfo;
       },
       (error) => {
@@ -86,7 +87,7 @@ export class AuthService {
     return !!this.account;
   }
 
-  getAcctInfo(accountId: string): Observable<any> {
+  getAcctInfo(accountId: number): Observable<any> {
     return this.httpClient.get(this.AUTH_BASE_URL + '/' + accountId);
   }
 
