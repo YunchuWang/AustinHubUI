@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, OnChanges } from '@angular/core';
 import { PERMISSION_ORDER_MAP } from '../core/constants/PermissionConstants';
 import { Permission } from '../core/models/Role';
 
@@ -32,7 +32,6 @@ export class HasPermissionDirective implements AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: any): void {
-    console.log(changes);
     this.userRole = changes.userRole.currentValue;
     const permissionName = this.appHasPermission?.name;
     const permissionAllowed = this.appHasPermission?.allowed;
@@ -48,7 +47,5 @@ export class HasPermissionDirective implements AfterViewInit, OnChanges {
     } else {
       this.el.nativeElement.style.display = 'flex';
     }
-    console.log(this.userRole);
-    console.log(PERMISSION_ORDER_MAP[permissionOwned]);
   }
 }

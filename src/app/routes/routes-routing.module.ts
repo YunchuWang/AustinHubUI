@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CategoryType } from '@core';
+import { AuthGuard, CategoryType } from '@core';
 import { environment } from '@env/environment';
 import { BoothCardComponent, JobCardComponent } from '@shared';
 import { LayoutMainComponent } from '../layout/layout-main/layout-main.component';
@@ -33,6 +33,7 @@ const routes: Routes = [
     path: 'shopping',
     component: LayoutMainComponent,
     data: { hideSideMenu: true, categoryType: CategoryType.RESC },
+    canActivate: [AuthGuard],
     loadChildren: () => import('./shopping/shopping.module').then((m) => m.ShoppingModule),
   },
   {
@@ -46,6 +47,7 @@ const routes: Routes = [
     path: 'account',
     data: { hideSideMenu: false, categoryType: CategoryType.ACCT },
     component: LayoutMainComponent,
+    canActivate: [AuthGuard],
     loadChildren: () => import('./account/account-routing.module').then((m) => m.AccountRoutingModule),
   },
   {
