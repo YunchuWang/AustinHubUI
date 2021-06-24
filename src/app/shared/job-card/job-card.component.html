@@ -2,7 +2,12 @@
   <div class="spinner-border text-danger" role="status"></div>
 </div>
 <div *ngIf="!isLoading()">
-  <mdb-card *ngFor="let job of jobs" class="mb-4">
+  <mdb-card
+    *ngFor="
+      let job of jobs | paginate: { id: 'job-pagination', totalItems: totalCount, currentPage: page + 1 || 1, itemsPerPage: pageSize }
+    "
+    class="mb-4"
+  >
     <mdb-card-header>{{ job.name }}</mdb-card-header>
     <mdb-card-body fxLayout="row" fxFlexAlign="start center" fxLayoutGap="8px">
       <div fxLayout="column" fxFlexAlign="space-between center" fxFlex="1 1 350px">
@@ -16,4 +21,14 @@
     </mdb-card-body>
   </mdb-card>
   <div *ngIf="!withContent()">No content</div>
+  <div *ngIf="withContent()" class="d-flex justify-content-center">
+    <pagination-controls
+      id="job-pagination"
+      responsive="true"
+      previousLabel="Prev"
+      nextLabel="Next"
+      (pageChange)="handlePageChange($event)"
+    >
+    </pagination-controls>
+  </div>
 </div>

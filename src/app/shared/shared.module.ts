@@ -24,11 +24,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ButtonsModule, IconsModule, MDBBootstrapModule, NavbarModule, TooltipModule, WavesModule } from 'angular-bootstrap-md';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { OrderReviewComponent } from '../routes/order/order-review/order-review.component';
 import { AdsCardComponent } from './ads-card/ads-card.component';
 import { AdsFormComponent } from './ads-form/ads-form.component';
 import { BoothCardComponent } from './booth-card/booth-card.component';
 import { BoothFormComponent } from './booth-form/booth-form.component';
 import { FooterComponent } from './footer/footer.component';
+import { HasPermissionDirective } from './has-permission.directive';
 import { JobCardComponent } from './job-card/job-card.component';
 import { JobFormComponent } from './job-form/job-form.component';
 import { MainContentComponent } from './main-content/main-content.component';
@@ -38,7 +41,6 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ResourceEditFormComponent } from './resource-edit-form/resource-edit-form.component';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
-import { HasPermissionDirective } from './has-permission.directive';
 
 // #region third libs
 
@@ -88,6 +90,7 @@ const DIRECTIVES: Type<any>[] = [];
     ButtonsModule,
     TooltipModule,
     WavesModule,
+    NgxPaginationModule,
   ],
   declarations: [
     // your components
