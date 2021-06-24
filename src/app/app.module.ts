@@ -1,6 +1,7 @@
 // tslint:disable: no-duplicate-imports
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, Injector, LOCALE_ID, NgModule, Type } from '@angular/core';
+// #region Http Interceptors
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { APP_INITIALIZER, LOCALE_ID, NgModule, Type } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NzMessageModule } from 'ng-zorro-antd/message';
@@ -8,10 +9,31 @@ import { NzNotificationModule } from 'ng-zorro-antd/notification';
 
 // #region default language
 // Reference: https://ng-alain.com/docs/i18n
+// register angular
+import { registerLocaleData } from '@angular/common';
 import { default as ngLang } from '@angular/common/locales/en';
-import { DELON_LOCALE, en_US as delonLang } from '@delon/theme';
+import { FormsModule } from '@angular/forms';
+// #endregion
+// #region i18n services
+// #region Startup Service
+import { DefaultInterceptor, I18NService, StartupService } from '@core';
+import { ALAIN_I18N_TOKEN, DELON_LOCALE, en_US as delonLang } from '@delon/theme';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+// #region JSON Schema form (using @delon/form)
+import { JsonSchemaModule, SharedModule } from '@shared';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { zhCN as dateLang } from 'date-fns/locale';
-import { NZ_DATE_LOCALE, NZ_I18N, en_US as zorroLang, zh_CN } from 'ng-zorro-antd/i18n';
+import { en_US as zorroLang, NZ_DATE_LOCALE, NZ_I18N, zh_CN } from 'ng-zorro-antd/i18n';
+import { AppComponent } from './app.component';
+import { CoreModule } from './core/core.module';
+import { CustomJwtInterceptor } from './core/interceptors/custom.jwt.interceptor';
+import { GlobalConfigModule } from './global-config.module';
+import { LayoutModule } from './layout/layout.module';
+import { RoutesModule } from './routes/routes.module';
+import { HasPermissionDirective } from './shared/has-permission.directive';
+import { STWidgetModule } from './shared/st-widget/st-widget.module';
+
 const LANG = {
   abbr: 'en',
   ng: ngLang,
@@ -19,8 +41,6 @@ const LANG = {
   date: dateLang,
   delon: delonLang,
 };
-// register angular
-import { registerLocaleData } from '@angular/common';
 registerLocaleData(LANG.ng, LANG.abbr);
 const LANG_PROVIDES = [
   { provide: LOCALE_ID, useValue: LANG.abbr },
@@ -28,12 +48,6 @@ const LANG_PROVIDES = [
   { provide: NZ_DATE_LOCALE, useValue: LANG.date },
   { provide: DELON_LOCALE, useValue: LANG.delon },
 ];
-// #endregion
-// #region i18n services
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { ALAIN_I18N_TOKEN } from '@delon/theme';
-import { I18NService } from '@core';
 
 export function I18nHttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, `assets/tmp/i18n/`, '.json');
@@ -51,16 +65,8 @@ const I18NSERVICE_MODULES = [
 
 const I18NSERVICE_PROVIDES = [{ provide: ALAIN_I18N_TOKEN, useClass: I18NService, multi: false }];
 // #region
-
-// #region JSON Schema form (using @delon/form)
-import { JsonSchemaModule } from '@shared';
 const FORM_MODULES = [JsonSchemaModule];
 // #endregion
-
-// #region Http Interceptors
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { DefaultInterceptor } from '@core';
-import { JWTInterceptor, SimpleInterceptor } from '@delon/auth';
 const INTERCEPTOR_PROVIDES = [
   { provide: HTTP_INTERCEPTORS, useClass: CustomJwtInterceptor, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: DefaultInterceptor, multi: true },
@@ -69,13 +75,12 @@ const INTERCEPTOR_PROVIDES = [
 
 // #region global third module
 const GLOBAL_THIRD_MODULES: Type<any>[] = [];
-// #endregion
 
-// #region Startup Service
-import { StartupService } from '@core';
+// #endregion
 export function StartupServiceFactory(startupService: StartupService): () => Promise<void> {
   return () => startupService.load();
 }
+
 const APPINIT_PROVIDES = [
   StartupService,
   {
@@ -85,19 +90,8 @@ const APPINIT_PROVIDES = [
     multi: true,
   },
 ];
-// #endregion
 
-import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
-import { GlobalConfigModule } from './global-config.module';
-import { LayoutModule } from './layout/layout.module';
-import { RoutesModule } from './routes/routes.module';
-import { SharedModule } from './shared/shared.module';
-import { STWidgetModule } from './shared/st-widget/st-widget.module';
-import zh from '@angular/common/locales/zh';
-import { FormsModule } from '@angular/forms';
-import { CustomJwtInterceptor } from './core/net/custom.jwt.interceptor';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
+// #endregion
 
 @NgModule({
   declarations: [AppComponent],

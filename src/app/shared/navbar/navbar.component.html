@@ -1,7 +1,7 @@
 <!--Navbar-->
 <mdb-navbar SideClass="navbar navbar-expand-sm navbar-dark pl-0 pr-3 m-0" [containerInside]="false">
   <!-- Navbar brand -->
-  <mdb-navbar-brand style="width: 140px; height: 25px" class="m-0 d-flex justify-content-center">
+  <mdb-navbar-brand style="width: 140px; height: 25px; margin-right: 24px">
     <mdb-icon
       style="position: absolute; left: 15px; height: 20px; color: white; vertical-align: sub"
       class="ml-1 mr-2"
@@ -15,15 +15,27 @@
   <!-- Collapsible content -->
   <links fxLayout="row" fxFlexAlign="space-between">
     <ul class="navbar-nav mr-auto">
-      <li
-        class="nav-item"
-        *ngFor="let navTab of navTabs; index as i; trackBy: identifyNav"
-        [ngClass]="{ active: navTab.name === selectedNavTab }"
-      >
-        <a style="padding-top: 15px" class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">{{ navTab.name }}</a>
-      </li>
+      <ng-template ngFor let-navTab [ngForOf]="navTabs" let-i="index" [ngForTrackBy]="identifyNav">
+        <div *ngIf="navTab.name === 'Shopping'; then shopping; else nonShopping"></div>
+        <ng-template #nonShopping>
+          <li class="nav-item" [ngClass]="{ active: navTab.name === selectedNavTab }">
+            <a class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">{{ navTab.name }}</a>
+          </li>
+        </ng-template>
+        <ng-template #shopping>
+          <li [appHasPermission]="shoppingReadPermission" class="nav-item" [ngClass]="{ active: navTab.name === selectedNavTab }">
+            <a class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">{{ navTab.name }}</a>
+          </li>
+        </ng-template>
+      </ng-template>
     </ul>
-    <a class="nav-link waves-light m-1" mdbWavesEffect fxFlexAlign="center end" (click)="viewShoppingCart()">
+    <a
+      [appHasPermission]="shoppingReadPermission"
+      class="nav-link waves-light m-1"
+      mdbWavesEffect
+      fxFlexAlign="center end"
+      (click)="viewShoppingCart()"
+    >
       <mat-icon
         style="color: white"
         matBadge="{{ shoppingService.hasResource() ? shoppingService.shoppingItems.length : 0 }}"
@@ -41,9 +53,7 @@
       </ng-template>
       <ng-template #loggedIn>
         <li class="nav-item avatar dropdown pl-3 pr-3" dropdown>
-          <a dropdownToggle mdbWavesEffect type="button" style="padding-top: 15px" class="nav-link dropdown-toggle waves-light">
-            {{ authService.getUserName() }}</a
-          >
+          <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"> {{ authService.getUserName() }}</a>
           <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
             <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/account/info">My account</a>
             <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Log out</a>

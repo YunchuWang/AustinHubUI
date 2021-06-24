@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { AuthService } from '../../../core/auth/auth.service';
+import { AuthService } from '../../../core/services/auth/auth.service';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { PasswordUtil } from '../../../core/utils/password.util';
 

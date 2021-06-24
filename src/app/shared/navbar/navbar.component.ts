@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
+import { AuthService } from '@core';
+import { ShoppingService } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { AuthService } from '../../core/auth/auth.service';
+import { PermissionAllowed } from '../has-permission.directive';
 import { NavTab } from '../../core/models/NavTab';
-import { ShoppingService } from '../../core/shopping/shopping.service';
 
 @Component({
   selector: 'app-navbar',
@@ -17,6 +18,10 @@ export class NavbarComponent implements OnInit {
   @Input() hideSideMenu: boolean;
   @Output() tabClicked: EventEmitter<NavTab> = new EventEmitter<NavTab>();
   selectedNavTab = '';
+  shoppingReadPermission = {
+    name: 'shopping',
+    allowed: 'READ',
+  };
 
   constructor(
     public router: Router,

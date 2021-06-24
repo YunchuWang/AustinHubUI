@@ -6,7 +6,7 @@ import { ResourceService } from '@core';
 import { Observable } from 'rxjs';
 import { Category } from '../../core/models/Category';
 import { NavTab } from '../../core/models/NavTab';
-import { NavigationService } from '../../core/navigation/navigation.service';
+import { NavigationService } from '../../core/services/navigation/navigation.service';
 
 @Component({
   selector: 'app-layout-main',

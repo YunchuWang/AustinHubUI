@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { _HttpClient } from '@delon/theme';
 import { Observable } from 'rxjs';
-import { API_PREFIX_PATH } from '../constants/ApiClientConstants';
+import { API_PREFIX_PATH } from '../../constants/ApiClientConstants';
 
 @Injectable({
   providedIn: 'root',

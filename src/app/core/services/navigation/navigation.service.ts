@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Category } from '../models/Category';
-import { CategoryMap, NavTabMap } from '../models/NavigationEntry';
+import { Category } from '../../models/Category';
+import { CategoryMap, NavTabMap } from '../../models/NavigationEntry';
 
 @Injectable({
   providedIn: 'root',

@@ -4,6 +4,7 @@ import { _HttpClient } from '@delon/theme';
 import jwt_decode from 'jwt-decode';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable } from 'rxjs';
+import { Role } from '../../models/Role';
 
 @Injectable({
   providedIn: 'root',
@@ -81,6 +82,10 @@ export class AuthService {
 
   getMembership(): string {
     return this.account?.membership;
+  }
+
+  getRole(): Role {
+    return this.account?.role;
   }
 
   isLoggedIn(): boolean {

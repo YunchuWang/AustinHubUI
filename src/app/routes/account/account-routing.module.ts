@@ -7,8 +7,8 @@ import { AccountMyJobsComponent } from './my-jobs/my-jobs.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'info', pathMatch: 'full' },
-  { path: 'info', component: AccountInfoComponent },
+  { path: '', redirectTo: 'account-info', pathMatch: 'full' },
+  { path: 'account-info', component: AccountInfoComponent },
   { path: 'my-booths', component: AccountMyBoothsComponent },
   { path: 'my-jobs', component: AccountMyJobsComponent },
   { path: 'my-ads', component: AccountMyAdsComponent },
