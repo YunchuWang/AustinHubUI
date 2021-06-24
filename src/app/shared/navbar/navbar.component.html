@@ -27,6 +27,7 @@
             fxLayout="row"
             fxLayoutAlign="center"
             [appHasPermission]="shoppingWritePermission"
+            isLoggedIn="{{ authService.isLoggedIn() }}"
             class="nav-item"
             [ngClass]="{ active: navTab.name === selectedNavTab }"
           >
@@ -37,6 +38,7 @@
     </ul>
     <a
       [appHasPermission]="shoppingWritePermission"
+      isLoggedIn="{{ authService.isLoggedIn() }}"
       class="nav-link waves-light m-1"
       mdbWavesEffect
       fxFlexAlign="center end"

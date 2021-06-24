@@ -48,7 +48,7 @@ export class AuthService {
     }
 
     // From token, accountId is extracted, then load account info of id
-    // @ts-ignoreacc
+    // @ts-ignore
     this.getAcctInfo(Number(decodedToken.sub)).subscribe(
       (acctInfo) => {
         console.log(acctInfo);

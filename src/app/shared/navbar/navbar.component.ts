@@ -1,10 +1,8 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
-import { AuthService } from '@core';
-import { ShoppingService } from '@core';
+import { AuthService, ShoppingService } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { PermissionAllowed } from '../has-permission.directive';
 import { NavTab } from '../../core/models/NavTab';
 
 @Component({
