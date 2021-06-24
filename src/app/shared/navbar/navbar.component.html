@@ -1,16 +1,16 @@
 <!--Navbar-->
 <mdb-navbar SideClass="navbar navbar-expand-sm navbar-dark pl-0 pr-3 m-0" [containerInside]="false">
   <!-- Navbar brand -->
-  <mdb-navbar-brand style="width: 140px; height: 25px; margin-right: 24px">
+  <mdb-navbar-brand style="width: 140px; height: 25px; margin-right: 24px" fxLayout="row" fxLayoutAlign="center space-between">
     <mdb-icon
-      style="position: absolute; left: 15px; height: 20px; color: white; vertical-align: sub"
+      style="color: white; line-height: normal"
       class="ml-1 mr-2"
       fas
       icon="{{ sideBar.opened ? 'angle-double-left' : 'angle-double-right' }}"
       [ngClass]="{ 'd-none': hideSideMenu }"
       (click)="sideBar.toggle()"
     ></mdb-icon>
-    <a style="position: absolute; left: 45px; font-weight: bold" class="navbar-brand p-0 m-0" routerLink="/dashboard"> AustinHub </a>
+    <a style="font-weight: bold; line-height: normal" class="navbar-brand p-0 m-0" routerLink="/dashboard"> AustinHub </a>
   </mdb-navbar-brand>
   <!-- Collapsible content -->
   <links fxLayout="row" fxFlexAlign="space-between">
@@ -18,19 +18,25 @@
       <ng-template ngFor let-navTab [ngForOf]="navTabs" let-i="index" [ngForTrackBy]="identifyNav">
         <div *ngIf="navTab.name === 'Shopping'; then shopping; else nonShopping"></div>
         <ng-template #nonShopping>
-          <li class="nav-item" [ngClass]="{ active: navTab.name === selectedNavTab }">
+          <li fxLayout="row" fxLayoutAlign="center" class="nav-item" [ngClass]="{ active: navTab.name === selectedNavTab }">
             <a class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">{{ navTab.name }}</a>
           </li>
         </ng-template>
         <ng-template #shopping>
-          <li [appHasPermission]="shoppingReadPermission" class="nav-item" [ngClass]="{ active: navTab.name === selectedNavTab }">
+          <li
+            fxLayout="row"
+            fxLayoutAlign="center"
+            [appHasPermission]="shoppingWritePermission"
+            class="nav-item"
+            [ngClass]="{ active: navTab.name === selectedNavTab }"
+          >
             <a class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">{{ navTab.name }}</a>
           </li>
         </ng-template>
       </ng-template>
     </ul>
     <a
-      [appHasPermission]="shoppingReadPermission"
+      [appHasPermission]="shoppingWritePermission"
       class="nav-link waves-light m-1"
       mdbWavesEffect
       fxFlexAlign="center end"
@@ -55,7 +61,7 @@
         <li class="nav-item avatar dropdown pl-3 pr-3" dropdown>
           <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"> {{ authService.getUserName() }}</a>
           <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-            <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/account/info">My account</a>
+            <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/account/account-info">My account</a>
             <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Log out</a>
           </div>
         </li>

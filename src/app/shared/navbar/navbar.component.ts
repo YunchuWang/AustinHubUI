@@ -18,9 +18,9 @@ export class NavbarComponent implements OnInit {
   @Input() hideSideMenu: boolean;
   @Output() tabClicked: EventEmitter<NavTab> = new EventEmitter<NavTab>();
   selectedNavTab = '';
-  shoppingReadPermission = {
+  shoppingWritePermission = {
     name: 'shopping',
-    allowed: 'READ',
+    allowed: 'WRITE',
   };
 
   constructor(
