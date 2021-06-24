@@ -9,10 +9,10 @@ import { OrderHistoryComponent } from './order-history/order-history.component';
 const routes: Routes = [
   { path: '', redirectTo: 'info', pathMatch: 'full' },
   { path: 'info', component: AccountInfoComponent },
-  { path: 'mybooths', component: AccountMyBoothsComponent },
-  { path: 'myjobs', component: AccountMyJobsComponent },
-  { path: 'myads', component: AccountMyAdsComponent },
-  { path: 'orderhistory', component: OrderHistoryComponent },
+  { path: 'my-booths', component: AccountMyBoothsComponent },
+  { path: 'my-jobs', component: AccountMyJobsComponent },
+  { path: 'my-ads', component: AccountMyAdsComponent },
+  { path: 'order-history', component: OrderHistoryComponent },
 ];
 
 @NgModule({

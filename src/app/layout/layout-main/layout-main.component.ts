@@ -1,12 +1,12 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CategoryType } from '@core';
+import { ResourceService } from '@core';
 import { Observable } from 'rxjs';
 import { Category } from '../../core/models/Category';
-import { CategoryType } from '../../core/models/CategoryType';
 import { NavTab } from '../../core/models/NavTab';
 import { NavigationService } from '../../core/navigation/navigation.service';
-import { ResourceService } from '../../core/resource/resource.service';
 
 @Component({
   selector: 'app-layout-main',
@@ -45,13 +45,15 @@ export class LayoutMainComponent implements OnInit {
           this.navigationService.initializeCategoryMap(tabName, categories);
           const url: string = this.router.url;
           const paramsMap = { query: '', page: 0 };
-          const urlParams = url.split('?')[1].split('&');
-          urlParams.forEach((urlParam) => {
-            const contents = urlParam.split('=');
-            if (contents && contents.length >= 1) {
-              paramsMap[contents[0]] = contents.length === 2 ? contents[1] : '';
-            }
-          });
+          const urlParams = url.split('?')[1]?.split('&');
+          if (urlParams) {
+            urlParams.forEach((urlParam) => {
+              const contents = urlParam.split('=');
+              if (contents && contents.length >= 1) {
+                paramsMap[contents[0]] = contents.length === 2 ? contents[1] : '';
+              }
+            });
+          }
           const { page, query } = paramsMap;
           const category = categories.filter((c) => url.includes(c.link))[0];
           this.selectedCategory = category;

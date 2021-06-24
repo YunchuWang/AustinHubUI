@@ -28,8 +28,7 @@ export class BoothCardComponent implements OnInit {
         this.resourceService
           .loadBoothsByCategory(categoryName, CategoryType[CategoryType.RESC], query, page)
           .subscribe((result: PageList<Booth>) => {
-            this.booths = Array.from(result.entries);
-            console.log(this.booths);
+            this.booths = result.entries;
           });
       });
     });
