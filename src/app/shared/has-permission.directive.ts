@@ -1,5 +1,4 @@
-import { AfterViewInit, Directive, ElementRef, Input } from '@angular/core';
-import { AuthService } from '@core';
+import { AfterViewInit, Directive, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { PERMISSION_ORDER_MAP } from '../core/constants/PermissionConstants';
 import { Permission } from '../core/models/Role';
 
@@ -11,27 +10,45 @@ export type PermissionAllowed = {
 @Directive({
   selector: '[appHasPermission]',
 })
-export class HasPermissionDirective implements AfterViewInit {
+export class HasPermissionDirective implements AfterViewInit, OnChanges {
+  constructor(private el: ElementRef) {}
   @Input() appHasPermission: PermissionAllowed;
-  @Input() isLoggedIn: boolean;
-
-  constructor(private el: ElementRef, private authService: AuthService) {}
+  @Input() userRole: any;
 
   ngAfterViewInit(): void {
+    // const permissionName = this.appHasPermission?.name;
+    // const permissionAllowed = this.appHasPermission?.allowed;
+    // let permissionOwned;
+    // if (!this.userRole) {
+    //   permissionOwned = 'NONE';
+    // } else {
+    //   permissionOwned = this.userRole[permissionName];
+    // }
+    //
+    // if (PERMISSION_ORDER_MAP[permissionOwned] < PERMISSION_ORDER_MAP[permissionAllowed]) {
+    //   this.el.nativeElement.style.display = 'none';
+    //   console.log(permissionOwned);
+    // }
+  }
+
+  ngOnChanges(changes: any): void {
+    console.log(changes);
+    this.userRole = changes.userRole.currentValue;
     const permissionName = this.appHasPermission?.name;
     const permissionAllowed = this.appHasPermission?.allowed;
-
     let permissionOwned;
-    console.log('jj');
-    if (!this.isLoggedIn) {
+    if (!this.userRole) {
       permissionOwned = 'NONE';
     } else {
-      const role = this.authService.getRole();
-      permissionOwned = !role ? 'NONE' : role[permissionName];
+      permissionOwned = this.userRole[permissionName];
     }
 
     if (PERMISSION_ORDER_MAP[permissionOwned] < PERMISSION_ORDER_MAP[permissionAllowed]) {
       this.el.nativeElement.style.display = 'none';
+    } else {
+      this.el.nativeElement.style.display = 'flex';
     }
+    console.log(this.userRole);
+    console.log(PERMISSION_ORDER_MAP[permissionOwned]);
   }
 }
