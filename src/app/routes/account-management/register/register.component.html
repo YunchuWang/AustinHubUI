@@ -1,31 +1,31 @@
 <h3 style="margin-bottom: 15px">{{ 'app.register.register' | translate }}</h3>
 <form nz-form [formGroup]="registerForm" (ngSubmit)="submit()" role="form">
-  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+  <nz-alert *ngIf="!!error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
   <nz-form-item>
-    <nz-form-control [nzErrorTip]="usernameErrorTip">
+    <nz-form-control [nzErrorTip]="usernameErrorTip" nzHasFeedback>
       <nz-input-group nzSize="large" nzPrefixIcon="user">
         <input nz-input formControlName="username" placeholder="{{ 'app.register.username' | translate }}" />
+        <ng-template #usernameErrorTip let-username>
+          <ng-container *ngIf="username.hasError('required')">{{ 'validation.username.required' | translate }}</ng-container>
+          <ng-container *ngIf="username.hasError('minlength')">{{ 'validation.username.min-length' | translate }}</ng-container>
+          <ng-container *ngIf="username.hasError('maxlength')">{{ 'validation.username.max-length' | translate }}</ng-container>
+        </ng-template>
       </nz-input-group>
-      <ng-template #usernameErrorTip let-username>
-        <ng-container *ngIf="username.errors?.required">{{ 'validation.username.required' | translate }}</ng-container>
-        <ng-container *ngIf="username.errors?.minlength">{{ 'validation.username.min-length' | translate }}</ng-container>
-        <ng-container *ngIf="username.errors?.maxlength">{{ 'validation.username.max-length' | translate }}</ng-container>
-      </ng-template>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control [nzErrorTip]="mailErrorTip">
+    <nz-form-control [nzErrorTip]="mailErrorTip" nzHasFeedback>
       <nz-input-group nzSize="large" nzPrefixIcon="mail">
         <input nz-input formControlName="email" placeholder="Email" />
       </nz-input-group>
-      <ng-template #mailErrorTip let-i>
-        <ng-container *ngIf="i.errors?.required">{{ 'validation.email.required' | translate }}</ng-container>
-        <ng-container *ngIf="i.errors?.email">{{ 'validation.email.wrong-format' | translate }}</ng-container>
+      <ng-template #mailErrorTip let-mail>
+        <ng-container *ngIf="mail.hasError('required')">{{ 'validation.email.required' | translate }}</ng-container>
+        <ng-container *ngIf="mail.hasError('email')">{{ 'validation.email.wrong-format' | translate }}</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control [nzErrorTip]="'validation.password.required' | translate">
+    <nz-form-control [nzErrorTip]="passwordErrorTip" nzHasFeedback>
       <nz-input-group
         nzSize="large"
         nzPrefixIcon="lock"
@@ -38,6 +38,10 @@
         [nzPopoverContent]="pwdCdkTpl"
       >
         <input nz-input type="password" formControlName="password" placeholder="Password" />
+        <ng-template #passwordErrorTip let-password>
+          <ng-container *ngIf="password.hasError('required')">{{ 'validation.password.required' | translate }}</ng-container>
+          <ng-container *ngIf="password.hasError('minlength')">{{ 'validation.password.min-length' | translate }}</ng-container>
+        </ng-template>
       </nz-input-group>
       <ng-template #pwdCdkTpl>
         <div style="padding: 4px 0">
@@ -60,13 +64,13 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control [nzErrorTip]="confirmErrorTip">
+    <nz-form-control [nzErrorTip]="confirmErrorTip" nzHasFeedback>
       <nz-input-group nzSize="large" nzPrefixIcon="lock">
         <input nz-input type="password" formControlName="confirm" placeholder="Confirm Password" />
       </nz-input-group>
       <ng-template #confirmErrorTip let-i>
         <ng-container *ngIf="i.errors?.required">{{ 'validation.confirm-password.required' | translate }}</ng-container>
-        <ng-container *ngIf="i.errors?.equal">{{ 'validation.password.twice' | translate }}</ng-container>
+        <ng-container *ngIf="!i.errors?.required && i.errors?.equal">{{ 'validation.password.twice' | translate }}</ng-container>
       </ng-template>
     </nz-form-control>
   </nz-form-item>

@@ -1,11 +1,10 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NzMessageService } from 'ng-zorro-antd/message';
-import { NzSafeAny } from 'ng-zorro-antd/core/types';
-import { AuthService } from '../../../core/services/auth/auth.service';
+import { AuthService, PasswordUtil } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { PasswordUtil } from '../../../core/utils/password.util';
+import { NzMessageService } from 'ng-zorro-antd/message';
+import { Observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'app-account-management-register',
@@ -14,7 +13,7 @@ import { PasswordUtil } from '../../../core/utils/password.util';
 })
 export class AccountManagementRegisterComponent implements OnInit {
   registerForm: FormGroup;
-  error: string = '';
+  error = '';
   visible: boolean;
   status = 'pool';
   progress = 0;
@@ -41,11 +40,21 @@ export class AccountManagementRegisterComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  submit() {
-    this.authService.signup(this.registerForm.value).subscribe((res) => {
-      this.tokenService.set({ token: res.accessToken, refreshToken: res.refreshToken });
-      this.router.navigate(['/auth/register-result', this.registerForm.controls['email'].value]);
-    });
+  submit(): void {
+    if (!this.registerForm.valid) {
+      this.error = 'Please enter valid information to sign up!';
+      return;
+    }
+    this.authService.signup(this.registerForm.value).subscribe(
+      (res) => {
+        this.tokenService.set({ token: res.accessToken, refreshToken: res.refreshToken });
+        this.router.navigate(['/auth/register-result', this.registerForm.controls.email.value]);
+      },
+      (err) => {
+        console.log(err);
+        this.error = err?.error?.message || 'Unknown error';
+      },
+    );
   }
 
   isLoading(): boolean {

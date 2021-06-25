@@ -101,26 +101,18 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   private handleData(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    this.checkStatus(ev);
+    // this.checkStatus(ev);
     // 业务处理：一些通用操作
     switch (ev.status) {
       case 200:
         break;
       case 401:
-        this.toLogin();
+        // this.toLogin();
         break;
       case 403:
       case 404:
       case 500:
-        this.goTo(`/exception/${ev.status}`);
-        break;
       default:
-        if (ev instanceof HttpErrorResponse) {
-          console.warn(
-            '未可知错误，大部分是由于后端不支持跨域CORS或无效配置引起，请参考 https://ng-alain.com/docs/server 解决跨域问题',
-            ev,
-          );
-        }
         break;
     }
     if (ev instanceof HttpErrorResponse) {

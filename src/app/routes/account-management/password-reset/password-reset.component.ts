@@ -42,9 +42,19 @@ export class AccountManagementPasswordResetComponent implements OnInit {
   ngOnInit(): void {}
 
   submit(): void {
-    this.authService.changePassword(this.token, this.resetForm.controls.password.value).subscribe((res) => {
-      this.router.navigate(['/auth/password-reset-result']);
-    });
+    if (!this.resetForm.valid) {
+      this.error = 'Please enter new password correctly!';
+      return;
+    }
+    this.authService.changePassword(this.token, this.resetForm.controls.password.value).subscribe(
+      (res) => {
+        this.router.navigate(['/auth/password-reset-result']);
+      },
+      (err) => {
+        console.log(err);
+        this.error = err?.error?.message || 'Unknown error';
+      },
+    );
   }
 
   isLoading(): boolean {

@@ -29,11 +29,21 @@ export class AccountManagementLoginComponent implements OnInit {
   ngOnInit(): void {}
 
   submit(): void {
-    this.authService.login(this.loginForm.value).subscribe((res) => {
-      this.tokenService.set({ token: res.accessToken, refreshToken: res.refreshToken });
-      this.authService.setAccountFromToken(res.accessToken);
-      this.router.navigate(['']);
-    });
+    if (!this.loginForm.valid) {
+      this.error = 'Please enter your username and password correctly!';
+      return;
+    }
+    this.authService.login(this.loginForm.value).subscribe(
+      (res) => {
+        this.tokenService.set({ token: res.accessToken, refreshToken: res.refreshToken });
+        this.authService.setAccountFromToken(res.accessToken);
+        this.router.navigate(['']);
+      },
+      (err) => {
+        console.log(err);
+        this.error = err?.error?.message || 'Unknown error';
+      },
+    );
   }
 
   forgotPassword(): void {}

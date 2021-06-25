@@ -148,6 +148,7 @@
   "validation.email.required": "Please enter your email!",
   "validation.email.wrong-format": "The email address is in the wrong format!",
   "validation.password.required": "Please enter your password!",
+  "validation.password.min-length": "Password can not be shorter than 6 characters",
   "validation.password.twice": "The passwords entered twice do not match!",
   "validation.password.strength.msg":
     "Please enter at least 6 characters and don't use passwords that are easy to guess.",

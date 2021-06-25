@@ -1,16 +1,24 @@
 <form nz-form [formGroup]="loginForm" (ngSubmit)="submit()" role="form">
-  <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
+  <nz-alert *ngIf="!!error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please enter username">
+    <nz-form-control [nzErrorTip]="nameErrTip" nzHasFeedback>
       <nz-input-group nzSize="large" nzPrefixIcon="user">
         <input nz-input formControlName="username" placeholder="{{ 'app.login.username' | translate }}" />
+        <ng-template #nameErrTip let-control>
+          <ng-container *ngIf="control.hasError('required')"> Please enter username! </ng-container>
+          <ng-container *ngIf="control.hasError('maxlength')"> Username can not be longer than 45 characters! </ng-container>
+        </ng-template>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please enter password">
+    <nz-form-control [nzErrorTip]="passwordErrTip" nzHasFeedback>
       <nz-input-group nzSize="large" nzPrefixIcon="lock">
         <input nz-input type="password" formControlName="password" placeholder="password" />
+        <ng-template #passwordErrTip let-control>
+          <ng-container *ngIf="control.hasError('required')"> Please enter username! </ng-container>
+          <ng-container *ngIf="control.hasError('minlength')"> Password can not be shorter than 6 characters! </ng-container>
+        </ng-template>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
