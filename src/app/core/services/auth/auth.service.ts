@@ -11,7 +11,7 @@ import { Role } from '../../models/Role';
 })
 export class AuthService {
   private readonly AUTH_BASE_URL: string = '/api/accounts';
-  private account: any;
+  account: any;
 
   constructor(
     public httpClient: _HttpClient,
@@ -35,7 +35,10 @@ export class AuthService {
     return this.httpClient.post(this.AUTH_BASE_URL + '/changepassword', { token, password });
   }
 
-  setAccountFromToken(token: string): Observable<any> {
+  decodeToken(token: string): any {
+    if (!token) {
+      return null;
+    }
     const decodedToken = jwt_decode(token);
     console.log(JSON.stringify(decodedToken));
 
@@ -44,20 +47,21 @@ export class AuthService {
     if (Date.now() >= decodedToken.exp * 1000) {
       this.notificationService.error('Please log in again', '');
       this.tokenService.clear();
-      return of(false);
     }
 
+    return decodedToken;
+  }
+
+  setAccountFromToken(token: any): void {
     // From token, accountId is extracted, then load account info of id
     // @ts-ignore
-    this.getAcctInfo(Number(decodedToken.sub)).subscribe(
+    this.getAcctInfo(Number(token.sub)).subscribe(
       (acctInfo) => {
         console.log(acctInfo);
         this.account = acctInfo;
-        return of(true);
       },
       (error) => {
         this.notificationService.error('Account not found', '');
-        return of(false);
       },
     );
   }
@@ -94,8 +98,8 @@ export class AuthService {
     return !!this.account;
   }
 
-  getAcctInfo(accountId: number): Observable<any> {
-    return this.httpClient.get(this.AUTH_BASE_URL + '/' + accountId);
+  getAcctInfo(accountId: number): Promise<any> {
+    return this.httpClient.get(this.AUTH_BASE_URL + '/' + accountId).toPromise();
   }
 
   refreshToken(refreshToken: any): Observable<any> {

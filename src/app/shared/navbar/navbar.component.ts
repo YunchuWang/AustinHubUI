@@ -54,9 +54,9 @@ export class NavbarComponent implements OnInit {
   }
 
   logout(): void {
+    this.shoppingService.saveShoppingItems();
     this.tokenService.clear();
     this.authService.removeAccountInfo();
-    this.shoppingService.saveShoppingItems();
     localStorage.removeItem('account');
     this.router.navigateByUrl('/auth/login').then(() => {
       this.router.navigateByUrl(this.router.url);

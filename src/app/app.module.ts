@@ -78,7 +78,7 @@ const GLOBAL_THIRD_MODULES: Type<any>[] = [];
 
 // #endregion
 export function StartupServiceFactory(startupService: StartupService): () => Promise<void> {
-  return () => startupService.load();
+  return async () => await startupService.load();
 }
 
 const APPINIT_PROVIDES = [
