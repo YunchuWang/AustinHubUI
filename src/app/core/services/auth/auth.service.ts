@@ -3,7 +3,7 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
 import jwt_decode from 'jwt-decode';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Role } from '../../models/Role';
 
 @Injectable({
@@ -35,7 +35,7 @@ export class AuthService {
     return this.httpClient.post(this.AUTH_BASE_URL + '/changepassword', { token, password });
   }
 
-  setAccountFromToken(token: string): void {
+  setAccountFromToken(token: string): Observable<any> {
     const decodedToken = jwt_decode(token);
     console.log(JSON.stringify(decodedToken));
 
@@ -44,7 +44,7 @@ export class AuthService {
     if (Date.now() >= decodedToken.exp * 1000) {
       this.notificationService.error('Please log in again', '');
       this.tokenService.clear();
-      return;
+      return of(false);
     }
 
     // From token, accountId is extracted, then load account info of id
@@ -53,9 +53,11 @@ export class AuthService {
       (acctInfo) => {
         console.log(acctInfo);
         this.account = acctInfo;
+        return of(true);
       },
       (error) => {
         this.notificationService.error('Account not found', '');
+        return of(false);
       },
     );
   }

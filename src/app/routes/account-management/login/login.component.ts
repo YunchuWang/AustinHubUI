@@ -6,7 +6,7 @@ import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
 
 @Component({
-  selector: 'app-account-management-login',
+  selector: `app-account-management-login`,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
 })

@@ -62,7 +62,6 @@ export class StartupService {
       this.authService.refreshToken(refreshToken).subscribe(
         (token) => {
           this.tokenService.get().token = token;
-          this.authService.setAccountFromToken(token);
         },
         (error) => {
           this.tokenService.clear();
