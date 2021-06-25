@@ -8,13 +8,12 @@ import {
   HttpResponseBase,
 } from '@angular/common/http';
 import { Injectable, Injector } from '@angular/core';
-import { Router } from '@angular/router';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { ALAIN_I18N_TOKEN, _HttpClient } from '@delon/theme';
+import { _HttpClient, ALAIN_I18N_TOKEN } from '@delon/theme';
 import { environment } from '@env/environment';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, mergeMap } from 'rxjs/operators';
+import { catchError, concatMap, delay, mergeMap, retryWhen } from 'rxjs/operators';
 
 const CODEMESSAGE: { [key: number]: string } = {
   200: '服务器成功返回请求的数据。',
@@ -33,6 +32,9 @@ const CODEMESSAGE: { [key: number]: string } = {
   503: '服务不可用，服务器暂时过载或维护。',
   504: '网关超时。',
 };
+
+export const retryCount = 3;
+export const retryWaitMilliSeconds = 1000;
 
 /**
  * 默认HTTP拦截器，其注册细节见 `app.module.ts`
@@ -62,8 +64,18 @@ export class DefaultInterceptor implements HttpInterceptor {
     }
 
     const newReq = req.clone({ url, headers: this.getAdditionalHeaders(req.headers) });
-    // return next.handle(newReq);
     return next.handle(newReq).pipe(
+      retryWhen((err) =>
+        err.pipe(
+          concatMap((error, count) => {
+            if (count <= retryCount && error.status === 503) {
+              return of(error);
+            }
+            return throwError(error);
+          }),
+          delay(retryWaitMilliSeconds),
+        ),
+      ),
       mergeMap((ev) => {
         // 允许统一对请求错误处理
         if (ev instanceof HttpResponseBase) {
@@ -76,24 +88,6 @@ export class DefaultInterceptor implements HttpInterceptor {
     );
   }
 
-  private goTo(url: string): void {
-    setTimeout(() => this.injector.get(Router).navigateByUrl(url));
-  }
-
-  private checkStatus(ev: HttpResponseBase): void {
-    if ((ev.status >= 200 && ev.status < 300) || ev.status === 401) {
-      return;
-    }
-
-    const errortext = CODEMESSAGE[ev.status] || ev.statusText;
-    this.notification.error(`请求错误 ${ev.status}: ${ev.url}`, errortext);
-  }
-
-  private toLogin(): void {
-    this.notification.error(`未登录或登录已过期，请重新登录。`, ``);
-    this.goTo('/auth/login');
-  }
-
   private getAdditionalHeaders(headers?: HttpHeaders): HttpHeaders {
     const lang = this.injector.get(ALAIN_I18N_TOKEN).currentLang;
     headers = headers.append('Accept-Language', lang);
@@ -101,20 +95,6 @@ export class DefaultInterceptor implements HttpInterceptor {
   }
 
   private handleData(ev: HttpResponseBase, req: HttpRequest<any>, next: HttpHandler): Observable<any> {
-    // this.checkStatus(ev);
-    // 业务处理：一些通用操作
-    switch (ev.status) {
-      case 200:
-        break;
-      case 401:
-        // this.toLogin();
-        break;
-      case 403:
-      case 404:
-      case 500:
-      default:
-        break;
-    }
     if (ev instanceof HttpErrorResponse) {
       return throwError(ev);
     } else {
