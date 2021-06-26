@@ -9,13 +9,14 @@ import { readUrl } from '../../core/utils/urlReader.util';
 @Component({
   selector: 'app-booth-card',
   templateUrl: './booth-card.component.html',
-  styles: [],
+  styleUrls: ['./booth-card.component.less'],
 })
 export class BoothCardComponent implements OnInit {
   @Input() booths: Booth[] = [];
   pageSize: number;
   totalCount: number;
   page: number;
+  searchQuery: string;
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -31,8 +32,9 @@ export class BoothCardComponent implements OnInit {
       }
       const { page, query } = readUrl(this.router.url);
       this.page = parseInt(page, 10) || 0;
+      this.searchQuery = query;
       this.resourceService
-        .loadBoothsByCategory(categoryName, CategoryType[CategoryType.RESC], query, this.page)
+        .loadBoothsByCategory(categoryName, CategoryType[CategoryType.RESC], this.searchQuery, this.page)
         .subscribe((result: PageList<Booth>) => {
           this.booths = result.entries;
           this.pageSize = result.pageSize;
@@ -57,10 +59,24 @@ export class BoothCardComponent implements OnInit {
     const { query } = this.navigationService.getCategoryMap('Booth')[category.name];
     this.navigationService.changePage('Booth', category.name, newPage);
     this.router.navigate(['/booths', category.name], { queryParams: { query, page: newPage } });
+    this.page = newPage;
     this.resourceService
       .loadBoothsByCategory(category.name, CategoryType[CategoryType.RESC], query, newPage)
       .subscribe((result: PageList<Booth>) => {
-        this.page = newPage;
+        this.booths = result.entries;
+        this.pageSize = result.pageSize;
+        this.totalCount = result.totalCount;
+      });
+  }
+
+  handleQueryChange(): void {
+    const category = this.navigationService.getSelectedCategory('Booth');
+    this.navigationService.updateSelectedCategoryAndParams('Booth', category, 0, this.searchQuery);
+    this.router.navigate(['/booths', category.name], { queryParams: { query: this.searchQuery, page: 0 } });
+    this.page = 0;
+    this.resourceService
+      .loadBoothsByCategory(category.name, CategoryType[CategoryType.RESC], this.searchQuery, 0)
+      .subscribe((result: PageList<Booth>) => {
         this.booths = result.entries;
         this.pageSize = result.pageSize;
         this.totalCount = result.totalCount;
