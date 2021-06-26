@@ -2,6 +2,16 @@
   <div class="spinner-border text-danger" role="status"></div>
 </div>
 <div *ngIf="!isLoading()">
+  <nav *ngIf="withContent() || this.searchQuery !== ''" class="navbar secondary-navbar">
+    <nz-form-control>
+      <nz-input-group nzSize="medium" style="display: flex">
+        <input nz-input class="search-input-box" placeholder="Search" [(ngModel)]="searchQuery" (keyup.enter)="handleQueryChange()" />
+        <span class="input-group-text border-0 submit-button" id="search-addon" (click)="handleQueryChange()">
+          <i class="fas fa-search"></i>
+        </span>
+      </nz-input-group>
+    </nz-form-control>
+  </nav>
   <mdb-card
     *ngFor="
       let job of jobs | paginate: { id: 'job-pagination', totalItems: totalCount, currentPage: page + 1 || 1, itemsPerPage: pageSize }
@@ -20,7 +30,7 @@
       <p fxFlex="1 1 auto">{{ job.description }}</p>
     </mdb-card-body>
   </mdb-card>
-  <div *ngIf="!withContent()">No content</div>
+  <div *ngIf="!withContent()">{{ this.searchQuery !== '' ? 'No results found' : 'No content created yet' }}</div>
   <div *ngIf="withContent()" class="d-flex justify-content-center">
     <pagination-controls
       id="job-pagination"

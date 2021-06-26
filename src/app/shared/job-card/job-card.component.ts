@@ -10,13 +10,14 @@ import { readUrl } from '../../core/utils/urlReader.util';
 @Component({
   selector: 'app-job-card',
   templateUrl: './job-card.component.html',
-  styles: [],
+  styleUrls: ['./job-card.component.less'],
 })
 export class JobCardComponent implements OnInit {
   @Input() jobs: Job[];
   page: number;
   pageSize: number;
   totalCount: number;
+  searchQuery: string;
 
   constructor(
     public activatedRoute: ActivatedRoute,
@@ -32,6 +33,7 @@ export class JobCardComponent implements OnInit {
       }
       const { page, query } = readUrl(this.router.url);
       this.page = parseInt(page, 10) || 0;
+      this.searchQuery = query;
       this.resourceService
         .loadJobsByCategory(categoryName, CategoryType[CategoryType.RESC], query, this.page)
         .subscribe((result: PageList<Job>) => {
@@ -54,14 +56,28 @@ export class JobCardComponent implements OnInit {
 
   handlePageChange(event: number): void {
     const newPage: number = event - 1;
-    const category = this.navigationService.getSelectedCategory('Job');
-    const { query } = this.navigationService.getCategoryMap('Job')[category.name];
-    this.navigationService.changePage('Job', category.name, newPage);
+    const category = this.navigationService.getSelectedCategory('Jobs');
+    const { query } = this.navigationService.getCategoryMap('Jobs')[category.name];
+    this.navigationService.changePage('Jobs', category.name, newPage);
     this.router.navigate(['/jobs', category.name], { queryParams: { query, page: newPage } });
+    this.page = newPage;
     this.resourceService
       .loadJobsByCategory(category.name, CategoryType[CategoryType.RESC], query, newPage)
       .subscribe((result: PageList<Job>) => {
-        this.page = newPage;
+        this.jobs = result.entries;
+        this.pageSize = result.pageSize;
+        this.totalCount = result.totalCount;
+      });
+  }
+
+  handleQueryChange(): void {
+    const category = this.navigationService.getSelectedCategory('Jobs');
+    this.navigationService.updateSelectedCategoryAndParams('Jobs', category, 0, this.searchQuery);
+    this.router.navigate(['/jobs', category.name], { queryParams: { query: this.searchQuery, page: 0 } });
+    this.page = 0;
+    this.resourceService
+      .loadJobsByCategory(category.name, CategoryType[CategoryType.RESC], this.searchQuery, 0)
+      .subscribe((result: PageList<Job>) => {
         this.jobs = result.entries;
         this.pageSize = result.pageSize;
         this.totalCount = result.totalCount;
