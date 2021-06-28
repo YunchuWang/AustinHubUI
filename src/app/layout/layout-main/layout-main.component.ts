@@ -5,6 +5,7 @@ import { CategoryType } from '@core';
 import { ResourceService } from '@core';
 import { Observable } from 'rxjs';
 import { Category } from '../../core/models/Category';
+import { OrderBy } from '../../core/models/NavigationEntry';
 import { NavTab } from '../../core/models/NavTab';
 import { NavigationService } from '../../core/services/navigation/navigation.service';
 
@@ -44,7 +45,7 @@ export class LayoutMainComponent implements OnInit {
           const tabName = this.getTabName();
           this.navigationService.initializeCategoryMap(tabName, categories);
           const url: string = this.router.url;
-          const paramsMap = { query: '', page: 0 };
+          const paramsMap = { query: '', page: 0, orderBy: 'TITLE' };
           const urlParams = url.split('?')[1]?.split('&');
           if (urlParams) {
             urlParams.forEach((urlParam) => {
@@ -54,10 +55,10 @@ export class LayoutMainComponent implements OnInit {
               }
             });
           }
-          const { page, query } = paramsMap;
+          const { page, query, orderBy } = paramsMap;
           const category = categories.filter((c) => url.includes(c.link))[0];
           this.selectedCategory = category;
-          this.navigationService.updateSelectedCategoryAndParams(tabName, category, page, query);
+          this.navigationService.updateSelectedCategoryAndParams(tabName, category, page, query, orderBy as OrderBy);
         });
       }
     });
@@ -69,9 +70,9 @@ export class LayoutMainComponent implements OnInit {
       this.navigationService.initializeCategoryMap(tab.name, categories);
       if (tab.isResource) {
         const selectedCategory = this.navigationService.getSelectedCategory(tab.name);
-        const { query, page } = this.navigationService.getCategoryMap(tab.name)[selectedCategory.name];
+        const { query, page, orderBy } = this.navigationService.getCategoryMap(tab.name)[selectedCategory.name];
         this.selectedCategory = selectedCategory;
-        this.router.navigate([tab.link, selectedCategory.name], { queryParams: { query, page } });
+        this.router.navigate([tab.link, selectedCategory.name], { queryParams: { query, page, orderBy } });
       } else {
         this.router.navigate([tab.link]);
       }
@@ -87,9 +88,9 @@ export class LayoutMainComponent implements OnInit {
     const tabName = this.getTabName();
     this.navigationService.updateSelectedCategory(tabName, category);
     this.selectedCategory = category;
-    const { query, page } = this.navigationService.getCategoryMap(tabName)[category.name];
+    const { query, page, orderBy } = this.navigationService.getCategoryMap(tabName)[category.name];
     const path = this.router.url.split('/').slice(0, -1).join('/');
-    this.router.navigate([path, category.name], { queryParams: { query, page } });
+    this.router.navigate([path, category.name], { queryParams: { query, page, orderBy } });
   }
 
   getTabName(): string {
