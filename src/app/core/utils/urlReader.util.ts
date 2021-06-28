@@ -1,10 +1,11 @@
 type UrlParameter = {
   query: string;
   page: string;
+  orderBy: string;
 };
 
 export function readUrl(url: string): UrlParameter {
-  const paramsMap = { query: '', page: '' };
+  const paramsMap = { query: '', page: '0', orderBy: 'TITLE' };
   const urlParams = url.split('?')[1].split('&');
   urlParams.forEach((urlParam) => {
     const contents = urlParam.split('=');

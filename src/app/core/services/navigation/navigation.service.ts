@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Category } from '../../models/Category';
-import { CategoryMap, NavTabMap } from '../../models/NavigationEntry';
+import { CategoryMap, NavTabMap, OrderBy } from '../../models/NavigationEntry';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +36,7 @@ export class NavigationService {
     if (!isInitialized) {
       const categoryMap: CategoryMap = {};
       categories.forEach((m) => {
-        categoryMap[m.name] = { page: 0, query: '' };
+        categoryMap[m.name] = { page: 0, query: '', orderBy: 'TITLE' };
       });
       const { selectedCategory } = this.navTabMap[name];
       this.navTabMap[name] = {
@@ -56,9 +56,9 @@ export class NavigationService {
     };
   }
 
-  updateSelectedCategoryAndParams(name: string, selectedCategory: Category, page: number, query: string): void {
+  updateSelectedCategoryAndParams(name: string, selectedCategory: Category, page: number, query: string, orderBy: OrderBy): void {
     const { categoryMap, isInitialized } = this.navTabMap[name];
-    categoryMap[selectedCategory.name] = { page, query };
+    categoryMap[selectedCategory.name] = { page, query, orderBy };
     this.navTabMap[name] = {
       selectedCategory,
       categoryMap,
@@ -76,8 +76,8 @@ export class NavigationService {
 
   changePage(name: string, categoryName: string, page: number): void {
     const { selectedCategory, categoryMap, isInitialized } = this.navTabMap[name];
-    const { query } = categoryMap[categoryName];
-    categoryMap[categoryName] = { page, query };
+    const { query, orderBy } = categoryMap[categoryName];
+    categoryMap[categoryName] = { page, query, orderBy };
     this.navTabMap[name] = {
       selectedCategory,
       categoryMap,
@@ -87,8 +87,19 @@ export class NavigationService {
 
   updateQuery(name: string, categoryName: string, query: string): void {
     const { selectedCategory, categoryMap, isInitialized } = this.navTabMap[name];
-    const { page } = categoryMap[categoryName];
-    categoryMap[categoryName] = { page, query };
+    const { page, orderBy } = categoryMap[categoryName];
+    categoryMap[categoryName] = { page, query, orderBy };
+    this.navTabMap[name] = {
+      selectedCategory,
+      categoryMap,
+      isInitialized,
+    };
+  }
+
+  changeOrderBy(name: string, categoryName: string, orderBy: OrderBy): void {
+    const { selectedCategory, categoryMap, isInitialized } = this.navTabMap[name];
+    const { page, query } = categoryMap[categoryName];
+    categoryMap[categoryName] = { page, query, orderBy };
     this.navTabMap[name] = {
       selectedCategory,
       categoryMap,

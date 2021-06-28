@@ -52,6 +52,7 @@
     "hammerjs": "^2.0.8",
     "jwt-decode": "^3.1.2",
     "lodash-es": "^4.17.21",
+    "mdb-ui-kit": "^3.8.0",
     "ng-alain": "^11.10.3",
     "ng-zorro-antd": "^11.4.0",
     "ngx-pagination": "^5.1.1",
