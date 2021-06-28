@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthService, CategoryType, MyResourceType, ResourceService } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { _HttpClient } from '@delon/theme';
 import * as _ from 'lodash-es';
+import { Category } from '../../core/models/Category';
 import { TipValidators } from '../custom-validators/TipValidators';
 
 @Component({
@@ -30,15 +30,13 @@ export class BoothFormComponent implements OnInit {
     private resourceService: ResourceService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     fb: FormBuilder,
-    private router: Router,
-    public dialogRef: MatDialogRef<BoothFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.row = data.resource;
     this.persist = data.persist;
     this.category = this.row.category;
-    this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
-      this.allCategories = categories;
+    this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories: Category[]) => {
+      this.allCategories = categories.filter((c) => c.name !== 'all');
     });
 
     const { required, maxLength, minLength, email, mobile } = TipValidators;

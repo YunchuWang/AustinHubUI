@@ -58,8 +58,8 @@ export class AdsFormComponent implements OnInit {
     this.row = data.resource;
     this.persist = data.persist;
     this.category = this.row.category;
-    this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
-      this.allCategories = categories;
+    this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories: Category[]) => {
+      this.allCategories = categories.filter((c) => c.name !== 'all');
     });
 
     const { required, maxLength, minLength, email, mobile } = TipValidators;

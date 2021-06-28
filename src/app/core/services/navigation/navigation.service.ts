@@ -11,12 +11,12 @@ export class NavigationService {
   constructor() {
     this.navTabMap = {
       Booth: {
-        selectedCategory: { id: '1', displayName: 'Restaurant', name: 'restaurant', link: '/restaurant' },
+        selectedCategory: { id: '12', displayName: 'All', name: 'all', link: '/all' },
         categoryMap: {} as CategoryMap,
         isInitialized: false,
       },
       Jobs: {
-        selectedCategory: { id: '1', displayName: 'Restaurant', name: 'restaurant', link: '/restaurant' },
+        selectedCategory: { id: '12', displayName: 'All', name: 'all', link: '/all' },
         categoryMap: {} as CategoryMap,
         isInitialized: false,
       },
