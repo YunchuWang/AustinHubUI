@@ -3,14 +3,25 @@
 </div>
 <div *ngIf="!isLoading()">
   <nav *ngIf="withContent() || this.searchQuery !== ''" class="navbar secondary-navbar">
-    <nz-form-control>
-      <nz-input-group nzSize="medium" style="display: flex">
-        <input nz-input class="search-input-box" placeholder="Search" [(ngModel)]="searchQuery" (keyup.enter)="handleQueryChange()" />
-        <span class="input-group-text border-0 submit-button" id="search-addon" (click)="handleQueryChange()">
-          <i class="fas fa-search"></i>
-        </span>
-      </nz-input-group>
-    </nz-form-control>
+    <div>
+      <nz-form-control>
+        <nz-input-group nzSize="medium" style="display: flex">
+          <input nz-input class="search-input-box" placeholder="Search" [(ngModel)]="searchQuery" (keyup.enter)="handleQueryChange()" />
+          <span class="input-group-text border-0 submit-button" id="search-addon" (click)="handleQueryChange()">
+            <i class="fas fa-search"></i>
+          </span>
+        </nz-input-group>
+      </nz-form-control>
+    </div>
+    <div class="navbar-nav">
+      <nz-form-control>
+        <nz-form-label class="resource-page-order-by">Order By</nz-form-label>
+        <nz-select [(ngModel)]="this.orderBy" (ngModelChange)="handleOrderByChange($event)" style="width: 140px">
+          <nz-option nzValue="TITLE" nzLabel="Title"></nz-option>
+          <nz-option nzValue="CREATED_TIMESTAMP" nzLabel="Created Time"></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </div>
   </nav>
   <mdb-card
     *ngFor="
