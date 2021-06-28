@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Router } from '@angular/router';
 import { CategoryType, MyResourceType } from '@core';
 import { AuthService } from '@core';
 import { ResourceService } from '@core';
@@ -33,15 +32,14 @@ export class JobFormComponent implements OnInit {
     private resourceService: ResourceService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
     fb: FormBuilder,
-    private router: Router,
     public dialogRef: MatDialogRef<JobFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.row = data.resource;
     this.persist = data.persist;
     this.category = this.row.category;
-    this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories) => {
-      this.allCategories = categories;
+    this.resourceService.loadCategories(CategoryType.RESC).subscribe((categories: Category[]) => {
+      this.allCategories = categories.filter((c) => c.name !== 'all');
     });
 
     const { required, maxLength, minLength, email, mobile } = TipValidators;

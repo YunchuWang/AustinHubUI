@@ -8,6 +8,7 @@ import { Category } from '../../core/models/Category';
 import { OrderBy } from '../../core/models/NavigationEntry';
 import { NavTab } from '../../core/models/NavTab';
 import { NavigationService } from '../../core/services/navigation/navigation.service';
+import { sortCategories } from '../../shared/utils/sortCategories';
 
 @Component({
   selector: 'app-layout-main',
@@ -40,8 +41,8 @@ export class LayoutMainComponent implements OnInit {
       this.hideSideMenu = data.hideSideMenu;
       if (!this.hideSideMenu) {
         this.categoryType = data.categoryType;
-        this.setCategories(this.categoryType).subscribe((categories) => {
-          this.categories = categories;
+        this.setCategories(this.categoryType).subscribe((categories: Category[]) => {
+          this.categories = categories.sort(sortCategories);
           const tabName = this.getTabName();
           this.navigationService.initializeCategoryMap(tabName, categories);
           const url: string = this.router.url;
@@ -65,8 +66,8 @@ export class LayoutMainComponent implements OnInit {
   }
 
   selectNavTab(tab: NavTab): void {
-    this.setCategories(CategoryType.RESC).subscribe((categories) => {
-      this.categories = categories;
+    this.setCategories(CategoryType.RESC).subscribe((categories: Category[]) => {
+      this.categories = categories.sort(sortCategories);
       this.navigationService.initializeCategoryMap(tab.name, categories);
       if (tab.isResource) {
         const selectedCategory = this.navigationService.getSelectedCategory(tab.name);
