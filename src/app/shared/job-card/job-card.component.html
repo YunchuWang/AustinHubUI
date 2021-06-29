@@ -12,9 +12,10 @@
           </span>
         </nz-input-group>
       </nz-form-control>
+      <div style="margin-top: 10px; margin-left: 5px">Page {{ page + 1 }} out of {{ totalCount }} job{{ totalCount === 1 ? '' : 's' }}</div>
     </div>
     <div class="navbar-nav">
-      <nz-form-control>
+      <nz-form-control style="margin-bottom: 30px">
         <nz-form-label class="resource-page-order-by">Order By</nz-form-label>
         <nz-select [(ngModel)]="this.orderBy" (ngModelChange)="handleOrderByChange($event)" style="width: 140px">
           <nz-option nzValue="TITLE" nzLabel="Title"></nz-option>
