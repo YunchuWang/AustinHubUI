@@ -5,14 +5,16 @@ import { AccountMyAdsComponent } from './my-ads/my-ads.component';
 import { AccountMyBoothsComponent } from './my-booths/my-booths.component';
 import { AccountMyJobsComponent } from './my-jobs/my-jobs.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { RenewComponent } from './renew/renew.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'account-info', pathMatch: 'full' },
-  { path: 'account-info', component: AccountInfoComponent },
-  { path: 'my-booths', component: AccountMyBoothsComponent },
-  { path: 'my-jobs', component: AccountMyJobsComponent },
-  { path: 'my-ads', component: AccountMyAdsComponent },
-  { path: 'order-history', component: OrderHistoryComponent },
+  { path: '', redirectTo: 'accountinfo', pathMatch: 'full' },
+  { path: 'accountinfo', component: AccountInfoComponent },
+  { path: 'mybooths', component: AccountMyBoothsComponent },
+  { path: 'myjobs', component: AccountMyJobsComponent },
+  { path: 'myads', component: AccountMyAdsComponent },
+  { path: 'orderhistory', component: OrderHistoryComponent },
+  { path: 'renew', component: RenewComponent },
 ];
 
 @NgModule({

@@ -14,6 +14,7 @@ import { AccountMyAdsComponent } from './my-ads/my-ads.component';
 import { AccountMyBoothsComponent } from './my-booths/my-booths.component';
 import { AccountMyJobsComponent } from './my-jobs/my-jobs.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
+import { RenewComponent } from './renew/renew.component';
 
 const COMPONENTS: Type<void>[] = [
   AccountInfoComponent,
@@ -24,7 +25,7 @@ const COMPONENTS: Type<void>[] = [
 ];
 
 @NgModule({
-  declarations: [COMPONENTS, OrderHistoryComponent],
+  declarations: [COMPONENTS, OrderHistoryComponent, RenewComponent],
   imports: [
     CommonModule,
     SharedModule,

@@ -21,7 +21,7 @@ export class NavigationService {
         isInitialized: false,
       },
       Account: {
-        selectedCategory: { id: '7', displayName: 'Account Info', name: 'account-info', link: 'info' },
+        selectedCategory: { id: '7', displayName: 'Account Info', name: 'accountinfo', link: 'accountinfo' },
         categoryMap: {} as CategoryMap,
         isInitialized: false,
       },

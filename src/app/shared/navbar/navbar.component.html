@@ -69,7 +69,7 @@
         <li fxLayout="row" fxFlexAlign="center" class="nav-item avatar dropdown pl-3 pr-3" dropdown>
           <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"> {{ authService.getUserName() }}</a>
           <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-            <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/account/account-info">My account</a>
+            <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/account/accountinfo">My account</a>
             <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Log out</a>
           </div>
         </li>
