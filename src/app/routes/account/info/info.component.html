@@ -31,19 +31,5 @@
       <div style="width: 150px">Active Until:</div>
       <div>{{ membership.expirationTimestamp | date: 'shortDate' }}</div>
     </li>
-    <li class="list-group-item" fxLayout="row" fxLayoutAlign="start center">
-      <div style="width: 150px">Auto subscribe?</div>
-      <div class="btn-group col-3 p-0" role="group">
-        <mat-button-toggle-group
-          name="autoSubscribe"
-          [disabled]="autoSubscribeBtnDisabled"
-          value="{{ membership.autoSubscribed }}"
-          (change)="onAutoSubscribeChange($event)"
-        >
-          <mat-button-toggle value="true">ON</mat-button-toggle>
-          <mat-button-toggle value="false">OFF</mat-button-toggle>
-        </mat-button-toggle-group>
-      </div>
-    </li>
   </ul>
 </mdb-card>
