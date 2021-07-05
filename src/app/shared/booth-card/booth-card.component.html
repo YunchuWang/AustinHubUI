@@ -2,7 +2,7 @@
   <div class="spinner-border text-danger" role="status"></div>
 </div>
 <div *ngIf="!isLoading()">
-  <nav *ngIf="withContent() || this.searchQuery !== ''" class="navbar secondary-navbar">
+  <nav *ngIf="!isReview && (withContent() || this.searchQuery !== '')" class="navbar secondary-navbar">
     <div>
       <nz-form-control>
         <nz-input-group nzSize="medium" style="display: flex">
@@ -32,19 +32,31 @@
     "
     class="mb-4"
   >
-    <mdb-card-header>{{ booth.name }}</mdb-card-header>
-    <mdb-card-body fxLayout="row" fxFlexAlign="start center" fxLayoutGap="8px">
-      <div fxLayout="column" fxFlexAlign="space-between center" fxFlex="1 1 350px">
-        <p>Email: {{ booth.email }}</p>
-        <p>Address: {{ booth.address }}</p>
-        <p>Phone: {{ booth.phone }}</p>
-        <p>Posted {{ this.timePast(booth.resource.createdTimestamp) }} ago</p>
+    <mdb-card-body>
+      <div class="row">
+        <div class="col-sm-3">
+          <mdb-card-title>
+            <h4>{{ booth.name || 'java dev' }}</h4>
+          </mdb-card-title>
+          <mdb-card-text>
+            <p><i class="far fa-envelope booth-icon"></i> {{ booth.email }}</p>
+            <p><i class="fas fa-location-arrow booth-icon"></i> {{ booth.address }}</p>
+            <p><i class="fas fa-phone-alt booth-icon"></i> {{ booth.phone }}</p>
+            <p *ngIf="!isReview"><i class="far fa-clock booth-icon"></i> Posted {{ this.timePast(booth.resource.createdTimestamp) }} ago</p>
+          </mdb-card-text>
+        </div>
+        <div class="col-md">
+          <mdb-card-text>
+            <div style="margin-top: 10px; line-height: 27px">
+              {{ booth.description }}
+            </div>
+          </mdb-card-text>
+        </div>
       </div>
-      <p fxFlex="1 1 auto">{{ booth.description }}</p>
     </mdb-card-body>
   </mdb-card>
   <div *ngIf="!withContent()">{{ this.searchQuery !== '' ? 'No results found' : 'No content created yet' }}</div>
-  <div *ngIf="withContent()" class="d-flex justify-content-center">
+  <div *ngIf="!isReview && withContent()" class="d-flex justify-content-center">
     <pagination-controls
       id="booth-pagination"
       responsive="true"
