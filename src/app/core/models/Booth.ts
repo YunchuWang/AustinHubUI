@@ -1,4 +1,5 @@
 import { Category } from './Category';
+import { Resource } from './Resource';
 import { ResourceBase } from './ResourceBase';
 
 export class Booth extends ResourceBase {
@@ -8,6 +9,7 @@ export class Booth extends ResourceBase {
   address: string;
   description: string;
   category: Category;
+  resource: Resource;
   link: string;
   type = 'booth';
 
@@ -19,6 +21,7 @@ export class Booth extends ResourceBase {
     this.address = null;
     this.description = null;
     this.category = null;
+    this.resource = null;
     this.link = null;
   }
 }
