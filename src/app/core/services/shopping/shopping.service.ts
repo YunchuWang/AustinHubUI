@@ -41,13 +41,13 @@ export class ShoppingService {
     );
   }
 
-  makeOrder(transactionAmount: number): any {
+  generateNewOrder(transactionAmount: number): any {
     const order = {
       accountName: this.authService.getUserName(),
       price: transactionAmount,
       orderItems: [],
+      orderType: 'NEW',
     };
-    console.log(this.shoppingItems);
     this.shoppingItems.forEach((shoppingItem) => {
       let orderItem;
       if (shoppingItem.merchandise.type === 'membership') {
@@ -67,6 +67,26 @@ export class ShoppingService {
         };
       }
       order.orderItems.push(orderItem);
+    });
+
+    console.log(order);
+    return order;
+  }
+
+  generateRenewOrder(transactionAmount: number, itemsToRenew: any[]): any {
+    const order = {
+      accountName: this.authService.getUserName(),
+      price: transactionAmount,
+      orderItems: [],
+      orderType: 'RENEW',
+    };
+
+    itemsToRenew.forEach((itemToRenew) => {
+      order.orderItems.push({
+        itemType: itemToRenew.type.toUpperCase(),
+        pricingPlan: itemToRenew.pricingPlan,
+        itemId: itemToRenew.id,
+      });
     });
 
     console.log(order);

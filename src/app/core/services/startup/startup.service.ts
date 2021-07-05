@@ -79,6 +79,7 @@ export class StartupService {
     if (accessToken) {
       try {
         const acctInfo = await this.authService.getAcctInfo(Number(accessToken.sub));
+        console.log('shit');
         console.log(acctInfo);
         this.authService.account = acctInfo;
         // Load shopping items from localStorage

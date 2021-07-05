@@ -7,10 +7,31 @@ import { API_PREFIX_PATH } from '../../constants/ApiClientConstants';
   providedIn: 'root',
 })
 export class OrderService {
-  orderBaseUrl = API_PREFIX_PATH + '/orders';
+  ORDER_BASE_URL = API_PREFIX_PATH + '/orders';
+
   constructor(private httpClient: _HttpClient) {}
 
   loadOrders(accountName: string): Observable<any> {
-    return this.httpClient.get(this.orderBaseUrl + '/owned', { accountName });
+    return this.httpClient.get(this.ORDER_BASE_URL + '/owned', { accountName });
+  }
+
+  public placeOrder(
+    nonce: string,
+    transactionAmount: string,
+    order: { accountName: string; price: number; orderItems: { itemType: null } },
+  ): Observable<any> {
+    return this.httpClient.post(this.ORDER_BASE_URL + '/make', {
+      nonce,
+      transactionAmount,
+      orderInfo: order,
+    });
+  }
+
+  public renewOrder(nonce: string, transactionAmount: any, order: any): Observable<any> {
+    return this.httpClient.post(this.ORDER_BASE_URL + '/renew', {
+      nonce,
+      transactionAmount,
+      orderInfo: order,
+    });
   }
 }

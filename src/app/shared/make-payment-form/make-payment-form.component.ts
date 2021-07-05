@@ -1,7 +1,7 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AuthService, PaymentService, ShoppingService } from '@core';
+import { AuthService, OrderService, PaymentService, ShoppingService } from '@core';
 import * as dropin from 'braintree-web-drop-in';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 
@@ -13,7 +13,8 @@ import { NzNotificationService } from 'ng-zorro-antd/notification';
 export class MakePaymentFormComponent implements OnInit {
   placeOrderHidden = true;
   placeOrderDisabled = true;
-  transactionAmount: number;
+  transactionAmount: any;
+  private renewOrder: any;
   @ViewChild('placeOrderBtn') placeOrderBtn;
 
   constructor(
@@ -22,10 +23,17 @@ export class MakePaymentFormComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     public paymentService: PaymentService,
+    public orderService: OrderService,
     public shoppingService: ShoppingService,
     public notificationService: NzNotificationService,
   ) {
-    this.transactionAmount = data;
+    if (data.type === 'RENEW') {
+      this.renewOrder = data.order;
+      this.transactionAmount = Number(this.renewOrder.price).toFixed(2);
+    } else {
+      this.transactionAmount = Number(data).toFixed(2);
+    }
+
     if (!this.transactionAmount) {
       this.notificationService.error(`Payment amount is unspecified!`, '');
       this.router.navigateByUrl('/shopping/cart');
@@ -82,29 +90,36 @@ export class MakePaymentFormComponent implements OnInit {
               // if passed, continue
               // Make payment
               // construct order info
-              const order = this.shoppingService.makeOrder(this.transactionAmount);
-              this.paymentService.makePayment(payload.nonce, this.transactionAmount.toString(), order).subscribe(
-                (res) => {
-                  // if found customer id and account does not have customer id yet, update account with customer id
-                  const newCustomerId = res.customerId;
-                  if (newCustomerId && !this.authService.getCustomerId()) {
-                    this.authService.updateAccountCustomerId(newCustomerId).subscribe((data) => {
-                      localStorage.setItem('customerId', newCustomerId);
-                      console.log(data);
-                    });
-                  }
-                  console.log(res);
-                  this.dialogRef.close();
+              if (!!this.renewOrder) {
+                this.orderService.renewOrder(payload.nonce, this.renewOrder.price, this.renewOrder).subscribe((res) => {
                   this.notificationService.success('', res.message);
-                  this.shoppingService.clearCart();
                   this.router.navigate(['/order/confirmation', res.orderNo]);
-                },
-                (error) => {
-                  console.log(error);
-                  this.notificationService.error('', error.message);
-                  this.dialogRef.close();
-                },
-              );
+                  this.dialogRef.close(true);
+                });
+              } else {
+                const order = this.shoppingService.generateNewOrder(this.transactionAmount);
+                this.orderService.placeOrder(payload.nonce, this.transactionAmount.toString(), order).subscribe(
+                  (res) => {
+                    // if found customer id and account does not have customer id yet, update account with customer
+                    // id
+                    const newCustomerId = res.customerId;
+                    if (newCustomerId && !this.authService.getCustomerId()) {
+                      this.authService.updateAccountCustomerId(newCustomerId).subscribe((data) => {
+                        localStorage.setItem('customerId', newCustomerId);
+                      });
+                    }
+                    this.dialogRef.close();
+                    this.notificationService.success('', res.message);
+                    this.shoppingService.clearCart();
+                    this.router.navigate(['/order/confirmation', res.orderNo]);
+                  },
+                  (error) => {
+                    console.log(error);
+                    this.notificationService.error('', error.message);
+                    this.dialogRef.close();
+                  },
+                );
+              }
             });
           });
 
@@ -118,10 +133,6 @@ export class MakePaymentFormComponent implements OnInit {
         },
       );
     });
-  }
-
-  fulfillOrder(): void {
-    //
   }
 
   getPlaceOrderToolTip(): string {

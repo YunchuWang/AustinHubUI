@@ -15,6 +15,8 @@ import { AccountMyBoothsComponent } from './my-booths/my-booths.component';
 import { AccountMyJobsComponent } from './my-jobs/my-jobs.component';
 import { OrderHistoryComponent } from './order-history/order-history.component';
 import { RenewComponent } from './renew/renew.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
 
 const COMPONENTS: Type<void>[] = [
   AccountInfoComponent,
@@ -38,6 +40,8 @@ const COMPONENTS: Type<void>[] = [
     MatTableModule,
     MatPaginatorModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatSelectModule,
   ],
 })
 export class AccountModule {}

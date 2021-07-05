@@ -70,10 +70,6 @@ export class AuthService {
     this.account = null;
   }
 
-  getAccountId(): string {
-    return this.account?.id;
-  }
-
   getCustomerId(): string {
     return this.account?.customerId;
   }
@@ -107,6 +103,6 @@ export class AuthService {
   }
 
   updateAccountCustomerId(customerId: string): Observable<any> {
-    return this.httpClient.post(this.AUTH_BASE_URL + '/' + this.getAccountId() + '/customerId', customerId);
+    return this.httpClient.post(this.AUTH_BASE_URL + '/' + this.getUserName() + '/customerId', customerId);
   }
 }
