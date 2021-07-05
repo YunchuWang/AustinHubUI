@@ -92,4 +92,12 @@ export class ResourceService {
       isArchived,
     });
   }
+
+  getRenewableItems(username: string): Observable<any[]> {
+    return this.httpClient.get(this.resourceBaseUrl + '/' + username + '/renewable');
+  }
+
+  renewItems(itemsToRenew: any[]): Observable<any[]> {
+    return this.httpClient.post(this.resourceBaseUrl + '/renew', { itemsToRenew });
+  }
 }

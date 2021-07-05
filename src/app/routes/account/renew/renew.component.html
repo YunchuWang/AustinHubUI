@@ -1,30 +1,57 @@
-<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="32px">
+<div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="24px">
   <div style="font-size: 24px; font-weight: bold; line-height: normal; color: #fc7054">The following items are renewable:</div>
-  <div class="send-request">
-    <button nz-button nzType="primary" [disabled]="setOfCheckedId.size === 0" [nzLoading]="loading" (click)="sendRequest()">Renew</button>
+  <div fxLayout="row" fxLayoutAlign="end center">
     <span>Selected {{ setOfCheckedId.size }} items</span>
+    <button
+      nz-button
+      nzType="primary"
+      style="margin-left: 16px"
+      [disabled]="setOfCheckedId.size === 0"
+      [nzLoading]="loading"
+      (click)="renewItems()"
+    >
+      Renew
+    </button>
   </div>
   <nz-table
     #rowSelectionTable
     nzShowPagination
     nzShowSizeChanger
-    [nzData]="listOfData"
+    [nzData]="tableData"
     (nzCurrentPageDataChange)="onCurrentPageDataChange($event)"
   >
     <thead>
       <tr>
-        <th [nzChecked]="checked" [nzIndeterminate]="indeterminate" (nzCheckedChange)="onAllChecked($event)"></th>
-        <th>Name</th>
-        <th>Age</th>
-        <th>Address</th>
+        <th
+          style="background: #c96360 !important; color: white"
+          [nzChecked]="checked"
+          [nzIndeterminate]="indeterminate"
+          (nzCheckedChange)="onAllChecked($event)"
+        ></th>
+        <th class="renew-item">Name</th>
+        <th class="renew-item">Type</th>
+        <th class="renew-item">Category</th>
+        <th class="renew-item">Expiration Time</th>
+        <th class="renew-item">Pricing Plan</th>
+        <th class="renew-item">Price</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let data of rowSelectionTable.data">
-        <td [nzChecked]="setOfCheckedId.has(data.id)" [nzDisabled]="data.disabled" (nzCheckedChange)="onItemChecked(data.id, $event)"></td>
-        <td>{{ data.name }}</td>
-        <td>{{ data.age }}</td>
-        <td>{{ data.address }}</td>
+      <tr *ngFor="let row of rowSelectionTable.data">
+        <td [nzChecked]="setOfCheckedId.has(row.id)" [nzDisabled]="row.disabled" (nzCheckedChange)="onItemChecked(row.id, $event)"></td>
+        <td>{{ row.name }}</td>
+        <td>{{ row.type }}</td>
+        <td>{{ row.category }}</td>
+        <td>{{ row.expirationTime | date: 'medium' }}</td>
+        <td>
+          <mat-form-field>
+            <mat-label>Select the plan</mat-label>
+            <mat-select [(ngModel)]="row.pricingPlan" (selectionChange)="onPlanChange($event, row)">
+              <mat-option *ngFor="let resourcePlan of resourcePlans" value="{{ resourcePlan }}">{{ resourcePlan }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </td>
+        <td>{{ row.price | currency }}</td>
       </tr>
     </tbody>
   </nz-table>
