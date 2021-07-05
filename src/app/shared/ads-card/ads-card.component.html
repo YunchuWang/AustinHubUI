@@ -2,7 +2,7 @@
   <mdb-card-header>{{ ads.name }}</mdb-card-header>
   <mdb-card-body fxLayout="row" fxFlexAlign="start center" fxLayoutGap="8px">
     <div fxLayout="column" fxFlexAlign="space-between center" fxFlex="1 1 350px">
-      <p>Email: {{ ads.email }}</p>
+      <p *ngIf="false">Email: {{ ads.email }}</p>
       <p>Address: {{ ads.webLink }}</p>
       <p>Phone: {{ ads.phone }}</p>
     </div>
