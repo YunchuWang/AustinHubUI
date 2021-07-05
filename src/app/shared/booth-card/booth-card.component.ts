@@ -14,6 +14,7 @@ import { readUrl } from '../../core/utils/urlReader.util';
 })
 export class BoothCardComponent implements OnInit {
   @Input() booths: Booth[] = [];
+  @Input() isReview = false;
   pageSize: number;
   totalCount: number;
   page: number;

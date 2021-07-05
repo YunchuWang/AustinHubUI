@@ -21,7 +21,12 @@ export class Booth extends ResourceBase {
     this.address = null;
     this.description = null;
     this.category = null;
-    this.resource = null;
+    this.resource = {
+      id: 0,
+      isArchived: true,
+      createdTimestamp: '',
+      expirationTimestamp: '',
+    };
     this.link = null;
   }
 }
