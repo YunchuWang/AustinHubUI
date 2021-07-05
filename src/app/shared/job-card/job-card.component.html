@@ -2,7 +2,7 @@
   <div class="spinner-border text-danger" role="status"></div>
 </div>
 <div *ngIf="!isLoading()">
-  <nav *ngIf="withContent() || this.searchQuery !== ''" class="navbar secondary-navbar">
+  <nav *ngIf="!isReview && (withContent() || this.searchQuery !== '')" class="navbar secondary-navbar">
     <div>
       <nz-form-control>
         <nz-input-group nzSize="medium" style="display: flex">
@@ -30,20 +30,36 @@
     "
     class="mb-4"
   >
-    <mdb-card-header>{{ job.name }}</mdb-card-header>
-    <mdb-card-body fxLayout="row" fxFlexAlign="start center" fxLayoutGap="8px">
-      <div fxLayout="column" fxFlexAlign="space-between center" fxFlex="1 1 350px">
-        <p>Email: {{ job.salary }}</p>
-        <p>Address: {{ job.address }}</p>
-        <p>Phone: {{ job.phone }}</p>
-        <p>Contact: {{ job.contact }}</p>
-        <p>Company Link: {{ job.companyLink }}</p>
+    <mdb-card-body>
+      <div class="row">
+        <div class="col-sm-3">
+          <mdb-card-title>
+            <h4>{{ job.name }}</h4>
+          </mdb-card-title>
+          <mdb-card-text>
+            <p><i class="fas fa-coins job-icon"></i> {{ job.salary }}</p>
+            <p><i class="fas fa-location-arrow job-icon"></i> {{ job.address }}</p>
+            <p><i class="fas fa-phone-alt job-icon"></i> {{ job.phone }}</p>
+            <p>Contact: {{ job.contact }}</p>
+            <p *ngIf="job.companyLink">Company Link: {{ job.companyLink }}</p>
+            <p *ngIf="!isReview">
+              <i class="far fa-clock booth-icon"></i>
+              <span>Posted {{ this.timePast(job.resource.createdTimestamp) }} ago</span>
+            </p>
+          </mdb-card-text>
+        </div>
+        <div class="col-md">
+          <mdb-card-text>
+            <div style="margin-top: 10px; line-height: 27px">
+              {{ job.description }}
+            </div>
+          </mdb-card-text>
+        </div>
       </div>
-      <p fxFlex="1 1 auto">{{ job.description }}</p>
     </mdb-card-body>
   </mdb-card>
   <div *ngIf="!withContent()">{{ this.searchQuery !== '' ? 'No results found' : 'No content created yet' }}</div>
-  <div *ngIf="withContent()" class="d-flex justify-content-center">
+  <div *ngIf="!isReview && withContent()" class="d-flex justify-content-center">
     <pagination-controls
       id="job-pagination"
       responsive="true"

@@ -24,6 +24,11 @@ export class Job extends ResourceBase {
     this.companyLink = null;
     this.description = null;
     this.category = null;
-    this.resource = null;
+    this.resource = {
+      id: 0,
+      isArchived: true,
+      createdTimestamp: '',
+      expirationTimestamp: '',
+    };
   }
 }

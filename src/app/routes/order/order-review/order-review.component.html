@@ -32,8 +32,8 @@
         <mat-divider></mat-divider>
         <br />
         <div *ngFor="let resourceItem of shoppingItem.resource" [ngSwitch]="resourceItem.type">
-          <app-booth-card *ngSwitchCase="'booth'" [booths]="[resourceItem]"></app-booth-card>
-          <app-job-card *ngSwitchCase="'job'" [jobs]="[resourceItem]"></app-job-card>
+          <app-booth-card *ngSwitchCase="'booth'" [booths]="[resourceItem]" [isReview]="true"></app-booth-card>
+          <app-job-card *ngSwitchCase="'job'" [jobs]="[resourceItem]" [isReview]="true"></app-job-card>
           <app-ads-card *ngSwitchCase="'ads'" [adsList]="[resourceItem]"></app-ads-card>
         </div>
       </mat-expansion-panel>
