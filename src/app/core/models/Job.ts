@@ -1,4 +1,5 @@
 import { Category } from './Category';
+import { Resource } from './Resource';
 import { ResourceBase } from './ResourceBase';
 
 export class Job extends ResourceBase {
@@ -10,7 +11,7 @@ export class Job extends ResourceBase {
   companyLink: string;
   description: string;
   category: Category;
-  resourceId: number;
+  resource: Resource;
   type = 'job';
 
   constructor() {
@@ -23,6 +24,6 @@ export class Job extends ResourceBase {
     this.companyLink = null;
     this.description = null;
     this.category = null;
-    this.resourceId = null;
+    this.resource = null;
   }
 }

@@ -38,6 +38,7 @@
         <p>Email: {{ booth.email }}</p>
         <p>Address: {{ booth.address }}</p>
         <p>Phone: {{ booth.phone }}</p>
+        <p>Posted {{ this.timePast(booth.resource.createdTimestamp) }} ago</p>
       </div>
       <p fxFlex="1 1 auto">{{ booth.description }}</p>
     </mdb-card-body>

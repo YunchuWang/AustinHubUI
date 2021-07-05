@@ -102,4 +102,24 @@ export class BoothCardComponent implements OnInit {
         this.totalCount = result.totalCount;
       });
   }
+
+  timePast(timestr: string): string {
+    const timestamp = Date.now() - Date.parse(timestr);
+    if (timestamp >= 0 && timestamp <= 60_000) {
+      const seconds = Math.floor(timestamp / 1000);
+      return `${seconds} second${seconds > 1 ? 's' : ''}`;
+    } else if (timestamp > 60_000 && timestamp <= 3_600_000) {
+      const minutes = Math.floor(timestamp / 1000 / 60);
+      return `${minutes} minute${minutes > 1 ? 's' : ''}`;
+    } else if (timestamp > 3_600_000 && timestamp <= 86_400_000) {
+      const hours = Math.floor(timestamp / 1000 / 60 / 60);
+      return `${hours} hour${hours > 1 ? 's' : ''}`;
+    } else if (timestamp > 86_400_000 && timestamp <= 2_592_000_000) {
+      const days = Math.floor(timestamp / 1000 / 60 / 60 / 24);
+      return `${days} day${days > 1 ? 's' : ''}`;
+    } else if (timestamp > 2_592_000_000) {
+      const months = Math.floor(timestamp / 1000 / 60 / 60 / 24 / 30);
+      return `${months} month${months > 1 ? 's' : ''}`;
+    }
+  }
 }
