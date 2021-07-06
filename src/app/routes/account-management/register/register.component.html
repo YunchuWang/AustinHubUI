@@ -8,7 +8,9 @@
         <ng-template #usernameErrorTip let-username>
           <ng-container *ngIf="username.hasError('required')">{{ 'validation.username.required' | translate }}</ng-container>
           <ng-container *ngIf="username.hasError('minlength')">{{ 'validation.username.min-length' | translate }}</ng-container>
-          <ng-container *ngIf="username.hasError('maxlength')">{{ 'validation.username.max-length' | translate }}</ng-container>
+          <ng-container *ngIf="username.hasError('maxlength')">{{
+            'validation.username.max-length' | translate: { maxLen: 45 }
+          }}</ng-container>
         </ng-template>
       </nz-input-group>
     </nz-form-control>
@@ -16,7 +18,7 @@
   <nz-form-item>
     <nz-form-control [nzErrorTip]="mailErrorTip" nzHasFeedback>
       <nz-input-group nzSize="large" nzPrefixIcon="mail">
-        <input nz-input formControlName="email" placeholder="Email" />
+        <input nz-input formControlName="email" placeholder="{{ 'app.register.email' | translate }}" />
       </nz-input-group>
       <ng-template #mailErrorTip let-mail>
         <ng-container *ngIf="mail.hasError('required')">{{ 'validation.email.required' | translate }}</ng-container>
@@ -37,10 +39,12 @@
         [nzPopoverOverlayStyle]="{ 'width.px': 240 }"
         [nzPopoverContent]="pwdCdkTpl"
       >
-        <input nz-input type="password" formControlName="password" placeholder="Password" />
+        <input nz-input type="password" formControlName="password" placeholder="{{ 'app.register.password' | translate }}" />
         <ng-template #passwordErrorTip let-password>
           <ng-container *ngIf="password.hasError('required')">{{ 'validation.password.required' | translate }}</ng-container>
-          <ng-container *ngIf="password.hasError('minlength')">{{ 'validation.password.min-length' | translate }}</ng-container>
+          <ng-container *ngIf="password.hasError('minlength')">{{
+            'validation.password.strength.msg' | translate: { minLen: 6 }
+          }}</ng-container>
         </ng-template>
       </nz-input-group>
       <ng-template #pwdCdkTpl>
@@ -58,7 +62,7 @@
               [nzShowInfo]="false"
             ></nz-progress>
           </div>
-          <p class="mt-sm">{{ 'validation.password.strength.msg' | translate }}</p>
+          <p class="mt-sm">{{ 'validation.password.strength.msg' | translate: { minLen: 6 } }}</p>
         </div>
       </ng-template>
     </nz-form-control>
@@ -66,7 +70,7 @@
   <nz-form-item>
     <nz-form-control [nzErrorTip]="confirmErrorTip" nzHasFeedback>
       <nz-input-group nzSize="large" nzPrefixIcon="lock">
-        <input nz-input type="password" formControlName="confirm" placeholder="Confirm Password" />
+        <input nz-input type="password" formControlName="confirm" placeholder="{{ 'app.register.confirm-password' | translate }}" />
       </nz-input-group>
       <ng-template #confirmErrorTip let-i>
         <ng-container *ngIf="i.errors?.required">{{ 'validation.confirm-password.required' | translate }}</ng-container>

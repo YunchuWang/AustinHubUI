@@ -1,4 +1,5 @@
 import { NgModule, Type } from '@angular/core';
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from '@shared';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { AccountManagementRoutingModule } from './account-management-routing.module';
@@ -21,7 +22,7 @@ const COMPONENTS: Type<void>[] = [
 ];
 
 @NgModule({
-  imports: [SharedModule, AccountManagementRoutingModule, NzLayoutModule],
+  imports: [SharedModule, AccountManagementRoutingModule, NzLayoutModule, FlexLayoutModule],
   declarations: COMPONENTS,
 })
 export class AccountManagementModule {}

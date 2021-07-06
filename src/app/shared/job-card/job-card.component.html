@@ -16,7 +16,7 @@
     </div>
     <div class="navbar-nav">
       <nz-form-control style="margin-bottom: 30px">
-        <nz-form-label class="resource-page-order-by">Order By</nz-form-label>
+        <nz-form-label class="resource-page-order-by">{{ 'search.order-by' | translate }}</nz-form-label>
         <nz-select [(ngModel)]="this.orderBy" (ngModelChange)="handleOrderByChange($event)" style="width: 140px">
           <nz-option nzValue="TITLE" nzLabel="Title"></nz-option>
           <nz-option nzValue="CREATED_TIMESTAMP" nzLabel="Created Time"></nz-option>

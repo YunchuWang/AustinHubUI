@@ -21,20 +21,13 @@ import { NzSpinModule } from 'ng-zorro-antd/spin';
 import { LayoutBasicComponent } from './basic/basic.component';
 import { HeaderClearStorageComponent } from './basic/widgets/clear-storage.component';
 import { HeaderFullScreenComponent } from './basic/widgets/fullscreen.component';
-import { HeaderI18nComponent } from './basic/widgets/i18n.component';
 import { HeaderSearchComponent } from './basic/widgets/search.component';
 import { HeaderUserComponent } from './basic/widgets/user.component';
 import { LayoutBlankComponent } from './blank/blank.component';
 
 const COMPONENTS = [LayoutBasicComponent, LayoutBlankComponent];
 
-const HEADERCOMPONENTS = [
-  HeaderSearchComponent,
-  HeaderFullScreenComponent,
-  HeaderI18nComponent,
-  HeaderClearStorageComponent,
-  HeaderUserComponent,
-];
+const HEADERCOMPONENTS = [HeaderSearchComponent, HeaderFullScreenComponent, HeaderClearStorageComponent, HeaderUserComponent];
 
 // passport
 import { MatButtonModule } from '@angular/material/button';
@@ -76,6 +69,6 @@ const PASSPORT = [LayoutPassportComponent];
     MatListModule,
   ],
   declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT, LayoutMainComponent],
-  exports: [...COMPONENTS, ...PASSPORT, LayoutMainComponent],
+  exports: [...COMPONENTS, ...PASSPORT, ...HEADERCOMPONENTS, LayoutMainComponent],
 })
 export class LayoutModule {}

@@ -10,7 +10,9 @@
       [ngClass]="{ 'd-none': hideSideMenu }"
       (click)="sideBar.toggle()"
     ></mdb-icon>
-    <a style="font-weight: bold; line-height: normal" class="navbar-brand p-0 m-0" routerLink="/dashboard"> AustinHub </a>
+    <a style="font-weight: bold; line-height: normal" class="navbar-brand p-0 m-0" routerLink="/dashboard">
+      {{ 'website.name' | translate }}
+    </a>
   </mdb-navbar-brand>
   <!-- Collapsible content -->
   <links fxLayout="row" fxFlexAlign="space-between">
@@ -19,9 +21,9 @@
         <div *ngIf="navTab.name === 'Shopping'; then shopping; else nonShopping"></div>
         <ng-template #nonShopping>
           <li fxLayout="row" fxLayoutAlign="center" class="nav-item" [ngClass]="{ active: navTab.name === selectedNavTab }">
-            <a fxLayout="row" fxFlexAlign="center" class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">{{
-              navTab.name
-            }}</a>
+            <a fxLayout="row" fxFlexAlign="center" class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">
+              {{ navTab.name | translate }}</a
+            >
           </li>
         </ng-template>
         <ng-template #shopping>
@@ -34,17 +36,19 @@
             [ngClass]="{ active: navTab.name === selectedNavTab }"
           >
             <a fxLayout="row" fxFlexAlign="center" class="nav-link waves-light" mdbWavesEffect (click)="selectNavTab(navTab)">{{
-              navTab.name
+              navTab.name | translate
             }}</a>
           </li>
         </ng-template>
       </ng-template>
     </ul>
+    <div fxLayout="row" fxFlexAlign="center" class="mr-4">
+      <header-i18n [showLangText]="false" [iconColor]="'white'"></header-i18n>
+    </div>
     <a
       [appHasPermission]="shoppingWritePermission"
       userRole="{{ authService.getRole() }}"
       fxLayout="row"
-      fxFlexAlign="center"
       class="nav-link waves-light m-1"
       mdbWavesEffect
       fxFlexAlign="center end"
@@ -61,16 +65,18 @@
     <div class="navbar-nav">
       <div *ngIf="authService.isLoggedIn(); then loggedIn; else notLoggedIn"></div>
       <ng-template #notLoggedIn>
-        <a fxLayout="row" fxFlexAlign="center" mdbWavesEffect type="button" class="nav-link waves-light active" routerLink="/auth/login"
-          >Please log in</a
-        >
+        <a fxLayout="row" fxFlexAlign="center" mdbWavesEffect type="button" class="nav-link waves-light active" routerLink="/auth/login">{{
+          'app.login.prompt' | translate
+        }}</a>
       </ng-template>
       <ng-template #loggedIn>
         <li fxLayout="row" fxFlexAlign="center" class="nav-item avatar dropdown pl-3 pr-3" dropdown>
           <a dropdownToggle mdbWavesEffect type="button" class="nav-link dropdown-toggle waves-light"> {{ authService.getUserName() }}</a>
           <div *dropdownMenu class="dropdown-menu dropdown-menu-right dropdown dropdown-primary" role="menu">
-            <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/account/accountinfo">My account</a>
-            <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">Log out</a>
+            <a class="dropdown-item waves-light" mdbWavesEffect routerLink="/account/accountinfo">{{
+              'navbar.menu.my-account' | translate
+            }}</a>
+            <a class="dropdown-item waves-light" mdbWavesEffect (click)="logout()">{{ 'navbar.menu.log-out' | translate }}</a>
           </div>
         </li>
       </ng-template>

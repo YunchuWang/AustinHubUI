@@ -14,6 +14,7 @@ import {
 } from '@core';
 import { _HttpClient } from '@delon/theme';
 import * as _ from 'lodash-es';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-shopping-market',
@@ -24,6 +25,7 @@ export class ShoppingMarketComponent implements OnInit {
   membershipTypes: MembershipType[];
   resourceTypes: ResourceType[];
   disableMembershipSale = true;
+  isLoading = true;
   typeToResources = new Map();
 
   constructor(
@@ -35,35 +37,35 @@ export class ShoppingMarketComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.resourceService.loadResourceTypes().subscribe((resourceTypes) => {
-      this.resourceTypes = resourceTypes;
-      this.resourceTypes.forEach((resourceType) => {
-        resourceType.name = resourceType.tableName;
-        resourceType.type = 'resource';
-        this.typeToResources.set(this.resolveType(resourceType), this.resourceInstanceFrom(resourceType.name));
-      });
-    });
-
-    this.loadMembershipTypes();
-    if (!this.authService.getMembership() && !this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
-      this.disableMembershipSale = false;
-    }
-  }
-
-  loadMembershipTypes(): void {
-    this.resourceService.loadMembershipTypes().subscribe((memberTypes) => {
-      this.membershipTypes = memberTypes;
-      this.membershipTypes.forEach((membershipType) => {
-        membershipType.type = 'membership';
-        let assignedResources = [];
-        membershipType.resourceLimits.forEach((resourceLimit) => {
-          assignedResources = assignedResources.concat(
-            Array(resourceLimit.quantity).fill(this.resourceInstanceFrom(resourceLimit.resourceName)),
-          );
+    combineLatest([this.resourceService.loadResourceTypes(), this.resourceService.loadMembershipTypes()]).subscribe(
+      ([resourceTypes, memberTypes]) => {
+        this.resourceTypes = resourceTypes;
+        this.resourceTypes.forEach((resourceType) => {
+          resourceType.name = resourceType.tableName;
+          resourceType.type = 'resource';
+          this.typeToResources.set(this.resolveType(resourceType), this.resourceInstanceFrom(resourceType.name));
         });
-        this.typeToResources.set(this.resolveType(membershipType), assignedResources);
-      });
-    });
+
+        this.membershipTypes = memberTypes;
+        this.membershipTypes.forEach((membershipType) => {
+          membershipType.type = 'membership';
+          let assignedResources = [];
+          membershipType.resourceLimits.forEach((resourceLimit) => {
+            assignedResources = assignedResources.concat(
+              Array(resourceLimit.quantity).fill(this.resourceInstanceFrom(resourceLimit.resourceName)),
+            );
+          });
+          this.typeToResources.set(this.resolveType(membershipType), assignedResources);
+        });
+
+        if (!this.authService.getMembership() && !this.hasMembershipInShoppingCart(this.shoppingService.shoppingItems)) {
+          this.disableMembershipSale = false;
+        }
+
+        this.isLoading = false;
+      },
+      (err) => console.error(err),
+    );
   }
 
   addToCart(merchandiseType: any): void {

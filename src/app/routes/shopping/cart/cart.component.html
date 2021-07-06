@@ -3,7 +3,7 @@
     <div id="checkout-btn" fxLayout="row" fxLayoutAlign="space-between center">
       <div style="font-weight: bold; font-size: 1.5rem">
         <i class="fas fa-arrow-left" style="cursor: pointer" (click)="backToMarket()"></i>
-        <span style="padding-left: 20px">Shopping Cart</span>
+        <span style="padding-left: 20px">{{ 'shopping.cart' | translate }}</span>
       </div>
       <button
         mdbBtn
@@ -12,7 +12,7 @@
         (click)="checkout()"
         [disabled]="!areAllItemsValid() || this.shoppingService.shoppingItems.length === 0"
       >
-        Check out
+        {{ 'shopping.cart.checkout' | translate }}
       </button>
     </div>
   </mdb-card-body>
@@ -27,29 +27,33 @@
       <div style="width: 15em; margin-right: 5em">
         <span style="font-size: 1rem">{{
           shoppingItem.merchandise.type !== 'membership'
-            ? (shoppingItem.merchandise.name | titlecase)
+            ? (shoppingItem.merchandise.name | titlecase | translate)
             : shoppingItem.merchandise.name + ' Membership'
         }}</span>
       </div>
       <div style="padding-right: 5em">
         <mat-form-field>
-          <mat-label>Select the plan</mat-label>
+          <mat-label>{{ 'shopping.cart.choose-plan' | translate }}</mat-label>
           <mat-select
             [(ngModel)]="shoppingItem.plan"
             [formControl]="planControls[i]"
             (selectionChange)="onPlanChange($event, shoppingItem)"
             required
           >
-            <mat-option *ngFor="let resourcePlan of resourcePlans" value="{{ resourcePlan }}">{{ resourcePlan }}</mat-option>
+            <mat-option *ngFor="let resourcePlan of resourcePlans" value="{{ resourcePlan }}">{{ resourcePlan | translate }}</mat-option>
           </mat-select>
-          <mat-error *ngIf="planControls[i].hasError('required')">Please choose a plan</mat-error>
+          <mat-error *ngIf="planControls[i].hasError('required')">{{ 'shopping.cart.choose-plan-prompt' | translate }}</mat-error>
         </mat-form-field>
       </div>
       <div class="btn-group" role="group">
-        <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect (click)="editResource(i)">Edit</button>
-        <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect (click)="removeShoppingItem(i)">Remove</button>
+        <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect (click)="editResource(i)">
+          {{ 'shopping.cart.edit' | translate }}
+        </button>
+        <button mdbBtn type="button" color="primary" class="waves-light" mdbWavesEffect (click)="removeShoppingItem(i)">
+          {{ 'shopping.cart.remove' | translate }}
+        </button>
       </div>
-      <div *ngIf="hasFormErrors(i)" class="form-error">* Please complete editing the ordered item</div>
+      <div *ngIf="hasFormErrors(i)" class="form-error">* {{ 'shopping.cart.complete-editing-prompt' | translate }}</div>
       <div style="margin-left: auto">
         {{ shoppingItem.price | currency }}
       </div>
@@ -61,7 +65,7 @@
       fxLayout="row"
       fxLayoutAlign="space-between center"
     >
-      <div style="font-size: 1.2rem">Order total</div>
+      <div style="font-size: 1.2rem">{{ 'shopping.cart.order-total' | translate }}</div>
       <div>{{ totalPrice | currency }}</div>
     </li>
   </ul>

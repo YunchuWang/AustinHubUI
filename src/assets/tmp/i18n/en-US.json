@@ -125,6 +125,7 @@
   "app.login.sign-in-with": "Sign in with",
   "app.login.signup": "Sign up",
   "app.login.login": "Login",
+  "app.login.prompt": "Log in here",
   "app.login.username": "Username",
   "app.login.forgot-password.email": "Email",
   "app.login.forgot-password.button": "Submit",
@@ -165,5 +166,48 @@
   "validation.title.required": "Please enter a title",
   "validation.date.required": "Please select the start and end date",
   "validation.goal.required": "Please enter a description of the goal",
-  "validation.standard.required": "Please enter a metric"
+  "validation.standard.required": "Please enter a metric",
+  "navbar.menu.my-account": "My account",
+  "navbar.menu.log-out": "Log out",
+  "website.name": "AustinHub",
+  "search.order-by": "Order by",
+  "search.order-by.title": "Title",
+  "search.order-by.created-time": "Created Time",
+  "search.placeholder": "Search",
+  "search.page": "Page",
+  "search.page.joiner": "out of",
+  "search.page.plural": "s",
+  "search.item-type.booth": "booth",
+  "search.item-type.job": "job",
+  "resource.display.posted": "Posted",
+  "resource.display.ago": "ago",
+
+  "account-info.my-account.profile" : "Profile",
+  "account-info.my-account.profile.username" : "Username",
+  "account-info.my-account.profile.email" : "Email",
+  "account-info.my-account.membership" : "Membership",
+  "account-info.my-account.membership.type" : "Type",
+  "account-info.my-account.membership.activeUntil" : "Active Until",
+
+  "membership.header": "Membership",
+
+  "shopping.market.cost.monthly": "Per month",
+  "shopping.market.cost.quarterly": "Per quarter",
+  "shopping.market.cost.yearly": "Per year",
+  "shopping.market.add-cart": "Add To Cart",
+  "shopping.cart": "Shopping Cart",
+  "shopping.cart.checkout": "CHECK OUT",
+  "shopping.cart.edit": "Edit",
+  "shopping.cart.remove": "Remove",
+  "shopping.cart.choose-plan": "Select the plan",
+  "shopping.cart.choose-plan-prompt": "Please select a pricing plan",
+  "shopping.cart.complete-editing-prompt": "Please complete editing the ordered item",
+  "shopping.cart.order-total": "Order Total",
+  "shopping.market.resource.section": "Resource",
+
+  "ads.description": "Ads lets you promote your business at home page with flexible customizations",
+  "booth.description": "A resource to display your business information in clean text view",
+  "job.description": "A hiring post to attract talents for your business"
+
+
 }

@@ -1,16 +1,16 @@
 <mdb-card>
   <mdb-card-body>
     <mdb-card-title>
-      <h3 class="font-weight-bold">Profile</h3>
+      <h3 class="font-weight-bold">{{ 'account-info.my-account.profile' | translate }}</h3>
     </mdb-card-title>
   </mdb-card-body>
   <ul class="list-group list-group-flush">
     <li class="list-group-item" fxLayout="row">
-      <div style="width: 150px">Username:</div>
+      <div style="width: 150px">{{ 'account-info.my-account.profile.username' | translate }}</div>
       <div>{{ userName }}</div>
     </li>
     <li class="list-group-item" fxLayout="row">
-      <div style="width: 150px">Email:</div>
+      <div style="width: 150px">{{ 'account-info.my-account.profile.email' | translate }}</div>
       <div>{{ email }}</div>
     </li>
   </ul>
@@ -19,16 +19,16 @@
 <mdb-card *ngIf="membership">
   <mdb-card-body>
     <mdb-card-title>
-      <h3 class="font-weight-bold">Membership</h3>
+      <h3 class="font-weight-bold">{{ 'account-info.my-account.membership' | translate }}</h3>
     </mdb-card-title>
   </mdb-card-body>
   <ul class="list-group list-group-flush">
     <li class="list-group-item" fxLayout="row">
-      <div style="width: 150px">Type:</div>
-      <div>{{ membership.membershipType.name | titlecase }}</div>
+      <div style="width: 150px">{{ 'account-info.my-account.membership.type' | translate }}</div>
+      <div>{{ membership.membershipType.name | titlecase | translate }}</div>
     </li>
     <li class="list-group-item" fxLayout="row">
-      <div style="width: 150px">Active Until:</div>
+      <div style="width: 150px">{{ 'account-info.my-account.membership.activeUntil' | translate }}</div>
       <div>{{ membership.expirationTimestamp | date: 'shortDate' }}</div>
     </li>
   </ul>

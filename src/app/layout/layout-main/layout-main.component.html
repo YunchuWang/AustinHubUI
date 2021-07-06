@@ -11,7 +11,7 @@
           [ngClass]="{ active: selectedCategory && category.displayName === selectedCategory.displayName }"
           mdbWavesEffect
         >
-          {{ category.displayName }}
+          {{ category.displayName | translate }}
         </a>
       </div>
     </mat-drawer>

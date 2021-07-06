@@ -1,16 +1,23 @@
-<div class="container-fluid m-0 p-2 pb-3" style="min-height: 100%" fxLayout="column" fxFlexAlign="center space-around" fxLayoutGap="32px">
+<div
+  *ngIf="!isLoading"
+  class="container-fluid m-0 p-2 pb-3"
+  style="min-height: 100%"
+  fxLayout="column"
+  fxFlexAlign="center space-around"
+  fxLayoutGap="32px"
+>
   <mdb-card fxFlex="3 1" fxLayout="column">
     <mdb-card-header style="height: 4rem; font-size: 2rem" class="d-flex flex-row align-items-center justify-content-center">
-      Membership
+      {{ 'membership.header' | translate }}
     </mdb-card-header>
     <div class="m-4 d-flex justify-content-around flex-1">
       <mdb-card *ngFor="let membershipType of membershipTypes" class="text-white" bgColor="bg-info" style="width: 20rem">
-        <mdb-card-header class="membership-card-header text-center">{{ membershipType.name }}</mdb-card-header>
+        <mdb-card-header class="membership-card-header text-center">{{ membershipType.name | translate }}</mdb-card-header>
         <mdb-card-body class="white d-flex flex-column justify-content-between">
           <div fxLayout="column" fxLayoutGap="16px" class="mb-5">
             <ul class="list-group text-black-50">
               <li class="list-group-item" *ngFor="let resourceLimit of membershipType.resourceLimits" fxLayout="row">
-                <span>{{ resourceLimit.resourceName }}</span>
+                <span>{{ resourceLimit.resourceName | translate }}</span>
                 <span style="margin-left: auto"><span>&#215;</span>{{ resourceLimit.quantity }}</span>
               </li>
             </ul>
@@ -18,13 +25,16 @@
           <div fxLayout="column" fxLayoutGap="16px">
             <ul class="list-group text-black-50">
               <li fxLayout="row" class="list-group-item">
-                <span>Monthly cost:</span><span style="margin-left: auto">{{ membershipType.monthlyPrice | currency }}</span>
+                <span>{{ 'shopping.market.cost.monthly' | translate }}</span
+                ><span style="margin-left: auto">{{ membershipType.monthlyPrice | currency }}</span>
               </li>
               <li fxLayout="row" class="list-group-item">
-                <span>Quarterly cost:</span><span style="margin-left: auto">{{ membershipType.quarterlyPrice | currency }}</span>
+                <span>{{ 'shopping.market.cost.quarterly' | translate }}</span
+                ><span style="margin-left: auto">{{ membershipType.quarterlyPrice | currency }}</span>
               </li>
               <li fxLayout="row" class="list-group-item">
-                <span>Yearly cost:</span><span style="margin-left: auto">{{ membershipType.yearlyPrice | currency }}</span>
+                <span>{{ 'shopping.market.cost.yearly' | translate }}</span
+                ><span style="margin-left: auto">{{ membershipType.yearlyPrice | currency }}</span>
               </li>
             </ul>
             <button
@@ -33,7 +43,7 @@
               [disabled]="disableMembershipSale"
               (click)="addToCart(membershipType)"
             >
-              Add to Cart
+              {{ 'shopping.market.add-cart' | translate }}
             </button>
           </div>
         </mdb-card-body>
@@ -48,14 +58,14 @@
         (click)="viewShoppingCart()"
         [disabled]="this.shoppingService.shoppingItems.length === 0"
       >
-        Shopping Cart
+        {{ 'shopping.cart' | translate }}
       </button>
     </div>
   </mdb-card>
 
   <mdb-card>
     <mdb-card-header style="height: 4rem; font-size: 2rem" class="d-flex flex-row align-items-center justify-content-center">
-      Resource
+      {{ 'shopping.market.resource.section' | translate }}
     </mdb-card-header>
     <mdb-card-body>
       <ul class="list-group text-black-50" fxLayout="column" fxLayoutGap="32px">
@@ -66,14 +76,18 @@
           fxLayoutAlign="start center"
           fxLayoutGap="16px"
         >
-          <div style="font-size: 1rem" class="text-center font-weight-bold" fxFlex="10%">{{ resourceType.tableName }}</div>
-          <div style="font-size: 1rem" class="font-weight-bold" fxFlex="60%">{{ resourceType.description }}</div>
+          <div style="font-size: 1rem" class="text-center font-weight-bold" fxFlex="10%">{{ resourceType.tableName | translate }}</div>
+          <div style="font-size: 1rem" class="font-weight-bold" fxFlex="60%">{{ resourceType.tableName + '.description' | translate }}</div>
           <div fxFlex="30%">
-            <div style="font-size: 1rem" class="text-center font-weight-bold">Monthly cost: {{ resourceType.monthlyPrice | currency }}</div>
             <div style="font-size: 1rem" class="text-center font-weight-bold">
-              Quarterly cost: {{ resourceType.quarterlyPrice | currency }}
+              {{ 'shopping.market.cost.monthly' | translate }} {{ resourceType.monthlyPrice | currency }}
             </div>
-            <div style="font-size: 1rem" class="text-center font-weight-bold">Yearly cost: {{ resourceType.yearlyPrice | currency }}</div>
+            <div style="font-size: 1rem" class="text-center font-weight-bold">
+              {{ 'shopping.market.cost.quarterly' | translate }} {{ resourceType.quarterlyPrice | currency }}
+            </div>
+            <div style="font-size: 1rem" class="text-center font-weight-bold">
+              {{ 'shopping.market.cost.yearly' | translate }} {{ resourceType.yearlyPrice | currency }}
+            </div>
           </div>
           <button type="button" class="btn btn-danger btn-floating" (click)="addToCart(resourceType)">
             <i class="fas fa-cart-plus"></i>
@@ -88,7 +102,7 @@
         (click)="viewShoppingCart()"
         [disabled]="this.shoppingService.shoppingItems.length === 0"
       >
-        Shopping Cart
+        {{ 'shopping.cart' | translate }}
       </button>
     </mdb-card-body>
   </mdb-card>

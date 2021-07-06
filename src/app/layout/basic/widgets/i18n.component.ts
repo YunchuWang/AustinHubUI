@@ -11,9 +11,17 @@ import { I18NService } from '@core';
     <div *ngIf="showLangText" nz-dropdown [nzDropdownMenu]="langMenu" nzPlacement="bottomRight">
       <i nz-icon nzType="global"></i>
       {{ 'menu.lang' | translate }}
-      <i nz-icon nzType="down"></i>
+      <i nz-icon nzType="down" [style.color]="iconColor"></i>
     </div>
-    <i *ngIf="!showLangText" nz-dropdown [nzDropdownMenu]="langMenu" nzPlacement="bottomRight" nz-icon nzType="global"></i>
+    <i
+      *ngIf="!showLangText"
+      nz-dropdown
+      [style.color]="iconColor"
+      [nzDropdownMenu]="langMenu"
+      nzPlacement="bottomRight"
+      nz-icon
+      nzType="global"
+    ></i>
     <nz-dropdown-menu #langMenu="nzDropdownMenu">
       <ul nz-menu>
         <li nz-menu-item *ngFor="let item of langs" [nzSelected]="item.code === curLangCode" (click)="change(item.code)">
@@ -29,6 +37,7 @@ export class HeaderI18nComponent {
   static ngAcceptInputType_showLangText: BooleanInput;
   /** Whether to display language text */
   @Input() @InputBoolean() showLangText = true;
+  @Input() iconColor = 'black';
 
   get langs(): Array<{ code: string; text: string; abbr: string }> {
     return this.i18n.getLangs();

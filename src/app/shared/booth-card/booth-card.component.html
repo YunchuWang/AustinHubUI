@@ -6,22 +6,29 @@
     <div>
       <nz-form-control>
         <nz-input-group nzSize="medium" style="display: flex">
-          <input nz-input class="search-input-box" placeholder="Search" [(ngModel)]="searchQuery" (keyup.enter)="handleQueryChange()" />
+          <input
+            nz-input
+            class="search-input-box"
+            placeholder="{{ 'search.placeholder' | translate }}"
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="handleQueryChange()"
+          />
           <span class="input-group-text border-0 submit-button" id="search-addon" (click)="handleQueryChange()">
             <i class="fas fa-search"></i>
           </span>
         </nz-input-group>
       </nz-form-control>
       <div style="margin-top: 10px; margin-left: 5px">
-        Page {{ page + 1 }} out of {{ totalCount }} booth{{ totalCount === 1 ? '' : 's' }}
+        {{ 'search.page' | translate }} {{ page + 1 }} {{ 'search.page.joiner' | translate }} {{ totalCount }}
+        {{ 'search.item-type.booth' | translate }}{{ totalCount === 1 ? '' : ('search.page.plural' | translate) }}
       </div>
     </div>
     <div class="navbar-nav">
       <nz-form-control style="margin-bottom: 30px">
-        <nz-form-label class="resource-page-order-by">Order By</nz-form-label>
+        <nz-form-label class="resource-page-order-by">{{ 'search.order-by' | translate }}</nz-form-label>
         <nz-select [(ngModel)]="this.orderBy" (ngModelChange)="handleOrderByChange($event)" style="width: 140px">
-          <nz-option nzValue="TITLE" nzLabel="Title"></nz-option>
-          <nz-option nzValue="CREATED_TIMESTAMP" nzLabel="Created Time"></nz-option>
+          <nz-option nzValue="TITLE" [nzLabel]="'search.order-by.title' | translate"></nz-option>
+          <nz-option nzValue="CREATED_TIMESTAMP" [nzLabel]="'search.order-by.created-time' | translate"></nz-option>
         </nz-select>
       </nz-form-control>
     </div>
@@ -42,7 +49,10 @@
             <p><i class="far fa-envelope booth-icon"></i> {{ booth.email }}</p>
             <p><i class="fas fa-location-arrow booth-icon"></i> {{ booth.address }}</p>
             <p><i class="fas fa-phone-alt booth-icon"></i> {{ booth.phone }}</p>
-            <p *ngIf="!isReview"><i class="far fa-clock booth-icon"></i> Posted {{ this.timePast(booth.resource.createdTimestamp) }} ago</p>
+            <p *ngIf="!isReview">
+              <i class="far fa-clock booth-icon"></i> {{ 'resource.display.posted' | translate }}
+              {{ this.timePast(booth.resource.createdTimestamp) }} {{ 'resource.display.ago' | translate }}
+            </p>
           </mdb-card-text>
         </div>
         <div class="col-md">

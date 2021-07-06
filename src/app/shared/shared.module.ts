@@ -25,7 +25,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ButtonsModule, IconsModule, MDBBootstrapModule, NavbarModule, TooltipModule, WavesModule } from 'angular-bootstrap-md';
 import { NzUploadModule } from 'ng-zorro-antd/upload';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { OrderReviewComponent } from '../routes/order/order-review/order-review.component';
+import { HeaderI18nComponent } from '../layout/basic/widgets/i18n.component';
 import { AdsCardComponent } from './ads-card/ads-card.component';
 import { AdsFormComponent } from './ads-form/ads-form.component';
 import { BoothCardComponent } from './booth-card/booth-card.component';
@@ -50,7 +50,7 @@ const THIRDMODULES: Type<any>[] = [];
 
 // #region your componets & directives
 
-const COMPONENTS: Type<any>[] = [];
+const COMPONENTS: Type<any>[] = [HeaderI18nComponent];
 const DIRECTIVES: Type<any>[] = [];
 
 // #endregion
@@ -61,6 +61,7 @@ const DIRECTIVES: Type<any>[] = [];
     CommonModule,
     FormsModule,
     RouterModule,
+    TranslateModule,
     ReactiveFormsModule,
     AlainThemeModule.forChild(),
     DelonACLModule,

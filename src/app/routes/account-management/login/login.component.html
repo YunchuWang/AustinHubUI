@@ -5,8 +5,10 @@
       <nz-input-group nzSize="large" nzPrefixIcon="user">
         <input nz-input formControlName="username" placeholder="{{ 'app.login.username' | translate }}" />
         <ng-template #nameErrTip let-control>
-          <ng-container *ngIf="control.hasError('required')"> Please enter username! </ng-container>
-          <ng-container *ngIf="control.hasError('maxlength')"> Username can not be longer than 45 characters! </ng-container>
+          <ng-container *ngIf="control.hasError('required')"> {{ 'validation.username.required' | translate }} </ng-container>
+          <ng-container *ngIf="control.hasError('maxlength')">
+            {{ 'validation.username.max-length' | translate: { maxLen: 45 } }}
+          </ng-container>
         </ng-template>
       </nz-input-group>
     </nz-form-control>
@@ -14,10 +16,12 @@
   <nz-form-item>
     <nz-form-control [nzErrorTip]="passwordErrTip" nzHasFeedback>
       <nz-input-group nzSize="large" nzPrefixIcon="lock">
-        <input nz-input type="password" formControlName="password" placeholder="password" />
+        <input nz-input type="password" formControlName="password" placeholder="{{ 'app.login.password' | translate }}" />
         <ng-template #passwordErrTip let-control>
-          <ng-container *ngIf="control.hasError('required')"> Please enter username! </ng-container>
-          <ng-container *ngIf="control.hasError('minlength')"> Password can not be shorter than 6 characters! </ng-container>
+          <ng-container *ngIf="control.hasError('required')"> {{ 'validation.password.required' | translate }} </ng-container>
+          <ng-container *ngIf="control.hasError('minlength')">
+            {{ 'validation.password.strength.msg' | translate: { minLen: 6 } }}</ng-container
+          >
         </ng-template>
       </nz-input-group>
     </nz-form-control>

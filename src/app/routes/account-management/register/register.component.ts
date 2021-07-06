@@ -1,10 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService, PasswordUtil } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
 import { NzMessageService } from 'ng-zorro-antd/message';
-import { Observable, Observer } from 'rxjs';
 
 @Component({
   selector: 'app-account-management-register',
