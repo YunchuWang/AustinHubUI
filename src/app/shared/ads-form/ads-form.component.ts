@@ -67,7 +67,7 @@ export class AdsFormComponent implements OnInit {
       name: [null, [required, minLength(3), maxLength(45)]],
       phone: [null, [required, mobile]],
       email: [null, [required, email]],
-      description: [null, [required]],
+      description: [null, [required, maxLength(350)]],
       category: [null, [required]],
     });
   }

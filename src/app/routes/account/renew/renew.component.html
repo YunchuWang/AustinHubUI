@@ -1,7 +1,7 @@
 <div fxLayout="column" fxLayoutAlign="start" fxLayoutGap="24px">
-  <div style="font-size: 24px; font-weight: bold; line-height: normal; color: #fc7054">The following items are renewable:</div>
+  <div style="font-size: 24px; font-weight: bold; line-height: normal; color: #fc7054">{{ 'renew.header' | translate }}</div>
   <div fxLayout="row" fxLayoutAlign="end center">
-    <span>Selected {{ setOfCheckedId.size }} items</span>
+    <span>{{ 'renew.selected' | translate }} {{ setOfCheckedId.size }} {{ 'renew.items' | translate }}</span>
     <button
       nz-button
       nzType="primary"
@@ -10,7 +10,7 @@
       [nzLoading]="loading"
       (click)="renewItems()"
     >
-      Renew
+      {{ 'renew.btn.renew' | translate }}
     </button>
   </div>
   <nz-table
@@ -28,26 +28,26 @@
           [nzIndeterminate]="indeterminate"
           (nzCheckedChange)="onAllChecked($event)"
         ></th>
-        <th class="renew-item">Name</th>
-        <th class="renew-item">Type</th>
-        <th class="renew-item">Category</th>
-        <th class="renew-item">Expiration Time</th>
-        <th class="renew-item">Pricing Plan</th>
-        <th class="renew-item">Price</th>
+        <th class="renew-item">{{ 'renew.column.name' | translate }}</th>
+        <th class="renew-item">{{ 'renew.column.type' | translate }}</th>
+        <th class="renew-item">{{ 'renew.column.category' | translate }}</th>
+        <th class="renew-item">{{ 'renew.column.expiration-time' | translate }}</th>
+        <th class="renew-item">{{ 'renew.column.pricing-plan' | translate }}</th>
+        <th class="renew-item">{{ 'renew.column.price' | translate }}</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let row of rowSelectionTable.data">
         <td [nzChecked]="setOfCheckedId.has(row.id)" [nzDisabled]="row.disabled" (nzCheckedChange)="onItemChecked(row.id, $event)"></td>
         <td>{{ row.name }}</td>
-        <td>{{ row.type }}</td>
-        <td>{{ row.category }}</td>
+        <td>{{ row.type | translate }}</td>
+        <td>{{ row.category | translate }}</td>
         <td>{{ row.expirationTime | date: 'medium' }}</td>
         <td>
           <mat-form-field>
-            <mat-label>Select the plan</mat-label>
+            <mat-label>{{ 'renew.column.pricing-plan.prompt' | translate }}</mat-label>
             <mat-select [(ngModel)]="row.pricingPlan" (selectionChange)="onPlanChange($event, row)">
-              <mat-option *ngFor="let resourcePlan of resourcePlans" value="{{ resourcePlan }}">{{ resourcePlan }}</mat-option>
+              <mat-option *ngFor="let resourcePlan of resourcePlans" value="{{ resourcePlan }}">{{ resourcePlan | translate }}</mat-option>
             </mat-select>
           </mat-form-field>
         </td>

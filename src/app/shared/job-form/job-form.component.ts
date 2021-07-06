@@ -46,9 +46,9 @@ export class JobFormComponent implements OnInit {
     this.jobForm = fb.group({
       name: [null, [required, minLength(3), maxLength(45)]],
       phone: [null, [required, mobile]],
-      address: [null, [required]],
+      address: [null, [required, minLength(3), maxLength(140)]],
       salary: [null, [required]],
-      description: [null, [required]],
+      description: [null, [required, maxLength(350)]],
       contact: [null, [required]],
       category: [null, [required]],
     });

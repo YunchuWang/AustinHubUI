@@ -6,20 +6,29 @@
     <div>
       <nz-form-control>
         <nz-input-group nzSize="medium" style="display: flex">
-          <input nz-input class="search-input-box" placeholder="Search" [(ngModel)]="searchQuery" (keyup.enter)="handleQueryChange()" />
+          <input
+            nz-input
+            class="search-input-box"
+            placeholder="{{ 'search.placeholder' | translate }}"
+            [(ngModel)]="searchQuery"
+            (keyup.enter)="handleQueryChange()"
+          />
           <span class="input-group-text border-0 submit-button" id="search-addon" (click)="handleQueryChange()">
             <i class="fas fa-search"></i>
           </span>
         </nz-input-group>
       </nz-form-control>
-      <div style="margin-top: 10px; margin-left: 5px">Page {{ page + 1 }} out of {{ totalCount }} job{{ totalCount === 1 ? '' : 's' }}</div>
+      <div style="margin-top: 10px; margin-left: 5px">
+        {{ 'search.page' | translate }} {{ page + 1 }} {{ 'search.page.joiner' | translate }} {{ totalCount }}
+        {{ 'search.item-type.booth' | translate }}{{ totalCount === 1 ? '' : ('search.page.plural' | translate) }}
+      </div>
     </div>
     <div class="navbar-nav">
       <nz-form-control style="margin-bottom: 30px">
         <nz-form-label class="resource-page-order-by">{{ 'search.order-by' | translate }}</nz-form-label>
         <nz-select [(ngModel)]="this.orderBy" (ngModelChange)="handleOrderByChange($event)" style="width: 140px">
-          <nz-option nzValue="TITLE" nzLabel="Title"></nz-option>
-          <nz-option nzValue="CREATED_TIMESTAMP" nzLabel="Created Time"></nz-option>
+          <nz-option nzValue="TITLE" [nzLabel]="'search.order-by.title' | translate"></nz-option>
+          <nz-option nzValue="CREATED_TIMESTAMP" [nzLabel]="'search.order-by.created-time' | translate"></nz-option>
         </nz-select>
       </nz-form-control>
     </div>

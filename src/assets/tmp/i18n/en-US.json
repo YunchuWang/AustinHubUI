@@ -173,6 +173,7 @@
   "search.order-by": "Order by",
   "search.order-by.title": "Title",
   "search.order-by.created-time": "Created Time",
+  "table.no-data": "No data available",
   "search.placeholder": "Search",
   "search.page": "Page",
   "search.page.joiner": "out of",
@@ -207,7 +208,69 @@
 
   "ads.description": "Ads lets you promote your business at home page with flexible customizations",
   "booth.description": "A resource to display your business information in clean text view",
-  "job.description": "A hiring post to attract talents for your business"
+  "job.description": "A hiring post to attract talents for your business",
 
+  "resource.form.title.job" : "Job",
+  "resource.form.title.booth" : "Booth",
+  "resource.form.title.ads" : "Ads",
 
+  "resource.form.field.name" : "Name",
+  "resource.form.field.phone" : "Phone",
+  "resource.form.field.email" : "Email",
+  "resource.form.field.salary" : "Salary",
+  "resource.form.field.description" : "Description",
+  "resource.form.field.address" : "Address",
+  "resource.form.field.category" : "Category",
+  "resource.form.field.location" : "Location",
+  "resource.form.field.contact" : "Contact",
+
+  "resource.form.placeholder.name" : "name",
+  "resource.form.placeholder.phone" : "phone",
+  "resource.form.placeholder.email" : "email",
+  "resource.form.placeholder.salary" : "salary",
+  "resource.form.placeholder.description" : "description",
+  "resource.form.placeholder.address" : "address",
+  "resource.form.placeholder.category" : "category",
+  "resource.form.placeholder.location" : "location",
+  "resource.form.placeholder.contact" : "contact",
+
+  "resource.form.button.save" : "Save",
+  "resource.form.button.cancel" : "Cancel",
+
+  "order.review.title" : "Order Review",
+  "order.review.button.confirm" : "Confirm",
+  "order.review.total" : "Total",
+  "order.button.place" : "Place Order",
+
+  "order.history.title": "Order History",
+  "order.column.orderNo": "Order No",
+  "order.column.price": "Price",
+  "order.column.createdAt": "Created At",
+  "order.column.status": "Status",
+  
+  "order-confirmation.greeting" : "Hey  ",
+  "order-confirmation.msg.order-placed" : "Your order is placed!",
+  "order-confirmation.msg.following-up" : "Thanks for shopping with us! A confirmation has been sent to your email.",
+
+  "my-resource.type.active" : "Active {{resc}}",
+  "my-resource.type.inactive" : "Inactive {{resc}}",
+  "my-resource.column.name" : "Name",
+  "my-resource.column.category" : "Category",
+  "my-resource.column.expiration-time" : "Expiration Time",
+  "my-resource.column.action" : "Actions",
+  "my-resource.tooltip.edit" : "Edit",
+  "my-resource.tooltip.archive" : "Archive",
+  "my-resource.tooltip.unarchive" : "Unarchive",
+
+  "renew.header": "The following items are renewable",
+  "renew.selected": "Selected",
+  "renew.items": "items",
+  "renew.btn.renew": "Renew",
+  "renew.column.name": "Name",
+  "renew.column.type": "Type",
+  "renew.column.category": "Category",
+  "renew.column.price": "Price",
+  "renew.column.expiration-time": "Expiration Time",
+  "renew.column.pricing-plan": "Pricing Plan",
+  "renew.column.pricing-plan.prompt": "Please select the plan"
 }

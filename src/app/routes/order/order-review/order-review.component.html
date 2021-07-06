@@ -4,7 +4,7 @@
       <div>
         <div style="font-weight: bold; font-size: 1.5rem">
           <i class="fas fa-arrow-left" style="cursor: pointer" (click)="backToShoppingCart()"></i>
-          <span style="padding: 20px">Order Review</span>
+          <span style="padding: 20px">{{ 'order.review.title' | translate }}</span>
         </div>
       </div>
       <button
@@ -14,7 +14,7 @@
         style="margin-right: 0 !important; margin-left: 0 !important; color: white; background-color: #e6484e"
         (click)="onClickPay($event)"
       >
-        Confirm
+        {{ 'order.review.button.confirm' | translate }}
       </button>
     </div>
     <mat-accordion>
@@ -52,7 +52,7 @@
       fxLayout="row"
       fxLayoutAlign="space-between center"
     >
-      <div style="font-size: 1.2rem">Total</div>
+      <div style="font-size: 1.2rem">{{ 'order.review.total' | translate }}</div>
       <div>{{ totalPrice | currency }}</div>
     </div>
   </mdb-card-body>

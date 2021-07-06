@@ -1,51 +1,78 @@
 <form nz-form [formGroup]="boothForm" role="form" style="height: 400px; overflow-y: auto">
   <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
   <nz-form-item>
-    <nz-form-label [nzSpan]="3" nzRequired>Name</nz-form-label>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.name' | translate }}</nz-form-label>
     <nz-form-control nzHasFeedback>
       <nz-input-group nzSize="large">
-        <input nz-input formControlName="name" placeholder="name" [(ngModel)]="formData.name" />
+        <input nz-input formControlName="name" [placeholder]="'resource.form.placeholder.name' | translate" [(ngModel)]="formData.name" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="3" nzRequired>Phone</nz-form-label>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.phone' | translate }}</nz-form-label>
     <nz-form-control nzErrorTip="Please enter phone" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <input nz-input type="tel" formControlName="phone" placeholder="phone" [(ngModel)]="formData.phone" />
+        <input
+          nz-input
+          type="tel"
+          formControlName="phone"
+          [placeholder]="'resource.form.placeholder.phone' | translate"
+          [(ngModel)]="formData.phone"
+        />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="3" nzRequired>Email</nz-form-label>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.email' | translate }}</nz-form-label>
     <nz-form-control nzErrorTip="Please enter email" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <input nz-input type="email" formControlName="email" placeholder="email" [(ngModel)]="formData.email" />
+        <input
+          nz-input
+          type="email"
+          formControlName="email"
+          [placeholder]="'resource.form.placeholder.email' | translate"
+          [(ngModel)]="formData.email"
+        />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="3" nzRequired>Description</nz-form-label>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.description' | translate }}</nz-form-label>
     <nz-form-control nzErrorTip="Please enter description" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <textarea nz-input formControlName="description" formDatas="8" placeholder="description" [(ngModel)]="formData.description">
+        <textarea
+          nz-input
+          formControlName="description"
+          formDatas="8"
+          [placeholder]="'resource.form.placeholder.description' | translate"
+          [(ngModel)]="formData.description"
+        >
         </textarea>
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="3" nzRequired>Address</nz-form-label>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.address' | translate }}</nz-form-label>
     <nz-form-control nzHasFeedback>
       <nz-input-group nzSize="large">
-        <input nz-input formControlName="address" placeholder="address" [(ngModel)]="formData.address" />
+        <input
+          nz-input
+          formControlName="address"
+          [placeholder]="'resource.form.placeholder.address' | translate"
+          [(ngModel)]="formData.address"
+        />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-label [nzSpan]="3" nzRequired>Category</nz-form-label>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.category' | translate }}</nz-form-label>
     <nz-form-control nzErrorTip="Please select category" nzHasFeedback>
       <nz-select formControlName="category" [(ngModel)]="this.category" (ngModelChange)="onCategoryChange($event)">
-        <nz-option *ngFor="let category of allCategories" nzValue="{{ category.name }}" nzLabel="{{ category.displayName }}"></nz-option>
+        <nz-option
+          *ngFor="let category of allCategories"
+          nzValue="{{ category.name }}"
+          nzLabel="{{ category.displayName | translate }}"
+        ></nz-option>
       </nz-select>
     </nz-form-control>
   </nz-form-item>
@@ -61,7 +88,7 @@
       [disabled]="persist ? boothForm.pristine || !boothForm.valid : !boothForm.valid"
       (click)="save()"
     >
-      Save
+      {{ 'resource.form.button.save' | translate }}
     </button>
   </nz-form-item>
 </form>
