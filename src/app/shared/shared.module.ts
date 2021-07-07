@@ -41,6 +41,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { ResourceEditFormComponent } from './resource-edit-form/resource-edit-form.component';
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
+import { CustomerAgreementFormComponent } from './customer-agreement-form/customer-agreement-form.component';
 
 // #region third libs
 
@@ -110,6 +111,7 @@ const DIRECTIVES: Type<any>[] = [];
     MakePaymentFormComponent,
     FooterComponent,
     HasPermissionDirective,
+    CustomerAgreementFormComponent,
   ],
   exports: [
     CommonModule,

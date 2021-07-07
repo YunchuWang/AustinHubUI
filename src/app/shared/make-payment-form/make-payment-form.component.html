@@ -1,5 +1,12 @@
 <div id="dropin-container" class="mb-3"></div>
-<div style="width: 100%" fxLayout="row" fxFlexAlign="center">
+<div style="width: 100%" fxLayout="column" fxFlexAlign="center" [hidden]="isLoading">
+  <div style="margin-top: 8px; margin-bottom: 16px">
+    <mdb-checkbox [default]="true" [required]="true" (change)="onChange($event)"
+      >{{ 'customer.agreement.prompt' | translate }}
+      <a href="javascript: void(0);" (click)="openAgreement()">{{ 'customer.agreement.name' | translate }}</a
+      >.
+    </mdb-checkbox>
+  </div>
   <span class="d-inline-block" style="margin: auto" tabindex="0" [mdbTooltip]="getPlaceOrderToolTip()">
     <button
       #placeOrderBtn
@@ -8,7 +15,7 @@
       color="warning"
       mdbWavesEffect
       style="margin-left: auto !important; margin-right: auto !important"
-      [disabled]="placeOrderDisabled"
+      [disabled]="placeOrderDisabled || !agreeChecked"
     >
       {{ 'order.button.place' | translate }}
     </button>

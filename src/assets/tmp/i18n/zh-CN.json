@@ -319,5 +319,8 @@
   "renew.column.expiration-time": "过期时间",
   "renew.column.price": "价格",
   "renew.column.pricing-plan": "服务计划",
-  "renew.column.pricing-plan.prompt": "请选择服务计划"
+  "renew.column.pricing-plan.prompt": "请选择服务计划",
+
+  "customer.agreement.prompt": "请在这里打勾表示您阅读过并同意",
+  "customer.agreement.name": "看看网用户条款"
 }

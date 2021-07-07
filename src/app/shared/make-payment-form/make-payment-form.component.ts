@@ -1,9 +1,12 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AuthService, OrderService, PaymentService, ShoppingService } from '@core';
+import { TranslateService } from '@ngx-translate/core';
+import { MdbCheckboxChange } from 'angular-bootstrap-md';
 import * as dropin from 'braintree-web-drop-in';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
+import { CustomerAgreementFormComponent } from '../customer-agreement-form/customer-agreement-form.component';
 
 @Component({
   selector: 'app-credit-card-payment-form',
@@ -14,15 +17,19 @@ export class MakePaymentFormComponent implements OnInit {
   placeOrderHidden = true;
   placeOrderDisabled = true;
   transactionAmount: any;
-  private renewOrder: any;
+  agreeChecked = false;
   @ViewChild('placeOrderBtn') placeOrderBtn;
+  isLoading = true;
+  private renewOrder: any;
 
   constructor(
     public dialogRef: MatDialogRef<MakePaymentFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
+    public dialog: MatDialog,
     public router: Router,
     public authService: AuthService,
     public paymentService: PaymentService,
+    private translate: TranslateService,
     public orderService: OrderService,
     public shoppingService: ShoppingService,
     public notificationService: NzNotificationService,
@@ -52,7 +59,7 @@ export class MakePaymentFormComponent implements OnInit {
           // Insert your tokenization key here
           authorization: token.client_token,
           container: '#dropin-container',
-          locale: 'zh_CN',
+          locale: this.translate.defaultLang,
           card: {
             cardholderName: {
               required: true,
@@ -71,6 +78,7 @@ export class MakePaymentFormComponent implements OnInit {
           }
 
           this.placeOrderHidden = false;
+          this.isLoading = false;
           const btn = this.placeOrderBtn.el.nativeElement;
           if (customerId) {
             this.placeOrderDisabled = false;
@@ -137,5 +145,19 @@ export class MakePaymentFormComponent implements OnInit {
 
   getPlaceOrderToolTip(): string {
     return !this.placeOrderHidden && this.placeOrderDisabled ? 'Please fill payment info first' : '';
+  }
+
+  onChange(event: MdbCheckboxChange): void {
+    this.agreeChecked = event.checked;
+  }
+
+  openAgreement(): void {
+    console.log(this.translate.defaultLang);
+    const dialogRef = this.dialog.open(CustomerAgreementFormComponent, {
+      width: '50%',
+      minWidth: 200,
+      maxHeight: '85vh',
+      data: { lang: this.translate.defaultLang },
+    });
   }
 }

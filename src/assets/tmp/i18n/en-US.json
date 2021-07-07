@@ -272,5 +272,8 @@
   "renew.column.price": "Price",
   "renew.column.expiration-time": "Expiration Time",
   "renew.column.pricing-plan": "Pricing Plan",
-  "renew.column.pricing-plan.prompt": "Please select the plan"
+  "renew.column.pricing-plan.prompt": "Please select the plan",
+
+  "customer.agreement.prompt": "Please check here to indicate that you have read and agree to the terms of ",
+  "customer.agreement.name": "AustinHub Customer Agreement"
 }
