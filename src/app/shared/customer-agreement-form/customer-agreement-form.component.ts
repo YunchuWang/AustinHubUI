@@ -10,8 +10,6 @@ export class CustomerAgreementFormComponent implements OnInit {
   lang: string;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
-    console.log('www');
-    console.log(data.lang);
     this.lang = data.lang;
   }
 

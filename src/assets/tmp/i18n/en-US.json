@@ -125,11 +125,15 @@
   "app.login.sign-in-with": "Sign in with",
   "app.login.signup": "Sign up",
   "app.login.login": "Login",
+  "app.login.password": "Password",
   "app.login.prompt": "Log in here",
   "app.login.username": "Username",
   "app.login.forgot-password.email": "Email",
   "app.login.forgot-password.button": "Submit",
   "app.login.forgot-password.success": "Email sent! Please check your mail.",
+  "app.register.email": "Email",
+  "app.register.password": "Password",
+  "app.register.confirm-password": "Confirm password",
   "app.register.register": "Register",
   "app.register.username": "Username",
   "app.register.get-verification-code": "Get code",
@@ -275,5 +279,6 @@
   "renew.column.pricing-plan.prompt": "Please select the plan",
 
   "customer.agreement.prompt": "Please check here to indicate that you have read and agree to the terms of ",
-  "customer.agreement.name": "AustinHub Customer Agreement"
+  "customer.agreement.name": "AustinHub Customer Agreement",
+  "website.title": "AustinHub"
 }

@@ -322,5 +322,6 @@
   "renew.column.pricing-plan.prompt": "请选择服务计划",
 
   "customer.agreement.prompt": "请在这里打勾表示您阅读过并同意",
-  "customer.agreement.name": "看看网用户条款"
+  "customer.agreement.name": "看看网用户条款",
+  "website.title": "看看网"
 }

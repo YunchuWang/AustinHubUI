@@ -5,6 +5,7 @@ import { TitleService, VERSION as VERSION_ALAIN } from '@delon/theme';
 import { NzModalService } from 'ng-zorro-antd/modal';
 import { VERSION as VERSION_ZORRO } from 'ng-zorro-antd/version';
 import { filter } from 'rxjs/operators';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ export class AppComponent implements OnInit {
     renderer: Renderer2,
     private router: Router,
     private titleSrv: TitleService,
+    private translate: TranslateService,
     private shoppingService: ShoppingService,
     private modalSrv: NzModalService,
   ) {
@@ -29,7 +31,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.titleSrv.default = 'Austin Hub';
+    this.titleSrv.default = this.translate.instant('website.title');
     this.router.events.pipe(filter((evt) => evt instanceof NavigationEnd)).subscribe(() => {
       this.titleSrv.setTitle();
       this.modalSrv.closeAll();
