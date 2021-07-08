@@ -19,7 +19,7 @@ import { ResourceType } from '../../models/ResourceType';
 export class ResourceService {
   resourceBaseUrl = API_PREFIX_PATH + '/resource';
   categoryBaseUrl = API_PREFIX_PATH + '/categories';
-  adsBaseUrl = API_PREFIX_PATH + '/ads';
+  adsBaseUrl = API_PREFIX_PATH + '/compaigns';
   boothsBaseUrl = API_PREFIX_PATH + '/booths';
   jobsBaseUrl = API_PREFIX_PATH + '/jobs';
   membershipBaseUrl = API_PREFIX_PATH + '/memberships';
