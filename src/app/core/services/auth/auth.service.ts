@@ -52,20 +52,6 @@ export class AuthService {
     return decodedToken;
   }
 
-  setAccountFromToken(token: any): void {
-    // From token, accountId is extracted, then load account info of id
-    // @ts-ignore
-    this.getAcctInfo(Number(token.sub)).subscribe(
-      (acctInfo) => {
-        console.log(acctInfo);
-        this.account = acctInfo;
-      },
-      (error) => {
-        this.notificationService.error('Account not found', '');
-      },
-    );
-  }
-
   removeAccountInfo(): void {
     this.account = null;
   }
@@ -80,6 +66,10 @@ export class AuthService {
 
   getUserName(): string {
     return this.account?.username;
+  }
+
+  getPreferredLang(): string {
+    return this.account?.preference?.lang;
   }
 
   getMembership(): string {
@@ -104,5 +94,9 @@ export class AuthService {
 
   updateAccountCustomerId(customerId: string): Observable<any> {
     return this.httpClient.post(this.AUTH_BASE_URL + '/' + this.getUserName() + '/customerId', customerId);
+  }
+
+  updatePreference(preference: { lang: string }): Observable<any> {
+    return this.httpClient.post(this.AUTH_BASE_URL + '/' + this.getUserName() + '/preference', preference);
   }
 }

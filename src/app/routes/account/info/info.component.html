@@ -13,6 +13,15 @@
       <div style="width: 150px">{{ 'account-info.my-account.profile.email' | translate }}</div>
       <div>{{ email }}</div>
     </li>
+    <li class="list-group-item" fxLayout="row" fxLayoutAlign="start center">
+      <div style="width: 150px">{{ 'account-info.my-account.profile.preference.language' | translate }}</div>
+      <div class="btn-group col-3 p-0" role="group">
+        <mat-button-toggle-group name="autoSubscribe" value="{{ preferredLanguage }}" (change)="onLangChange($event)">
+          <mat-button-toggle value="zh-CN">{{ 'lang.mandarin' | translate }}</mat-button-toggle>
+          <mat-button-toggle value="en-US">{{ 'lang.english' | translate }}</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </li>
   </ul>
 </mdb-card>
 <div class="mt-4"></div>

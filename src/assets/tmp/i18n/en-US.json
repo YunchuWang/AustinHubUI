@@ -190,10 +190,14 @@
   "account-info.my-account.profile" : "Profile",
   "account-info.my-account.profile.username" : "Username",
   "account-info.my-account.profile.email" : "Email",
+  "account-info.my-account.profile.preference.language" : "Preferred Language",
   "account-info.my-account.membership" : "Membership",
   "account-info.my-account.membership.type" : "Type",
   "account-info.my-account.membership.activeUntil" : "Active Until",
 
+  "lang.english" : "English",
+  "lang.mandarin" : "Simplified Chinese",
+  
   "membership.header": "Membership",
 
   "shopping.market.cost.monthly": "Per month",

@@ -72,21 +72,29 @@ export class StartupService {
         },
       );
     });
-
-    // Set account info
     const accessToken = this.authService.decodeToken(this.tokenService.get().token);
+    await this.setUpAccount(accessToken);
 
+    resolve({});
+  }
+
+  private async setUpAccount(accessToken: string): Promise<void> {
+    // Set account info
     if (accessToken) {
       try {
         const acctInfo = await this.authService.getAcctInfo(Number(accessToken.sub));
-        console.log('shit');
-        console.log(acctInfo);
         this.authService.account = acctInfo;
+        // load account preference if any
+        const accountPreference = acctInfo.preference;
+        if (!!accountPreference) {
+          if (accountPreference.lang) {
+            this.translate.setDefaultLang(accountPreference.lang);
+          }
+        }
         // Load shopping items from localStorage
         const shoppingItems = localStorage.getItem('shopping_cart');
         if (shoppingItems) {
           const shoppingInfo = JSON.parse(shoppingItems);
-          console.log(this.authService.getUserName());
           if (this.authService.getUserName() === shoppingInfo.owner) {
             this.shoppingService.shoppingItems = shoppingInfo.shoppingItems || [];
           } else {
@@ -96,12 +104,9 @@ export class StartupService {
           this.shoppingService.shoppingItems = [];
         }
       } catch (e) {
-        this.notificationService.error('Account can not be found!', '');
         this.tokenService.clear();
         this.router.navigate(['/auth/login']);
       }
     }
-
-    resolve({});
   }
 }

@@ -153,7 +153,7 @@
   "app.password-reset-result.login" : "返回登录",
   "validation.email.required": "请输入邮箱地址！",
   "validation.username.required": "请输入用户名！",
-  "validation.email.wrong-format": "邮箱地址格式错误！",
+  "validation.email.wrong-format": "邮箱地址格式错误:",
   "validation.password.required": "请输入密码！",
   "validation.password.twice": "两次输入的密码不匹配!",
   "validation.password.strength.msg": "请至少输入 {{minLen}} 个字符。请不要使用容易被猜到的密码。",
@@ -223,11 +223,15 @@
 
   "account-info.my-account.profile" : "个人档案",
   "account-info.my-account.profile.username" : "用户名",
+  "account-info.my-account.profile.preference.language" : "偏好的语言",
   "account-info.my-account.profile.email" : "邮箱",
   "account-info.my-account.membership" : "会员信息",
   "account-info.my-account.membership.type" : "类型",
   "account-info.my-account.membership.activeUntil" : "有效期至",
 
+  "lang.english" : "英语",
+  "lang.mandarin" : "简体中文",
+  
   "membership.header" : "会员",
   "Basic" : "初级",
   "Advanced" : "高级",
