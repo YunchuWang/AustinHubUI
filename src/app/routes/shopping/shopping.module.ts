@@ -10,6 +10,7 @@ import { ShoppingCartComponent } from './cart/cart.component';
 import { EmptyCartComponent } from './empty-cart/empty-cart.component';
 import { ShoppingMarketComponent } from './market/market.component';
 import { ShoppingRoutingModule } from './shopping-routing.module';
+import { MatButtonModule } from '@angular/material/button';
 
 const COMPONENTS: Type<void>[] = [ShoppingMarketComponent, ShoppingCartComponent, EmptyCartComponent];
 
@@ -24,6 +25,7 @@ const COMPONENTS: Type<void>[] = [ShoppingMarketComponent, ShoppingCartComponent
     MatSelectModule,
     NzBadgeModule,
     MatBadgeModule,
+    MatButtonModule,
   ],
   declarations: COMPONENTS,
 })
