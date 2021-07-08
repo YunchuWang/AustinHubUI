@@ -68,7 +68,6 @@ export class MyResourceComponent implements OnInit {
       default:
         return;
     }
-    console.log(row);
     const dialogRef = this.dialog.open(formComponent, {
       width: '70%',
       data: {

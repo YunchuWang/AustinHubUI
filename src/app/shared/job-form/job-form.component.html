@@ -1,17 +1,17 @@
 <form nz-form [formGroup]="jobForm" (ngSubmit)="updateJob()" role="form" style="height: 400px; overflow-y: auto">
   <nz-alert *ngIf="error" [nzType]="'error'" [nzMessage]="error" [nzShowIcon]="true" class="mb-lg"></nz-alert>
   <nz-form-item>
-    <nz-form-control nzHasFeedback>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.name' | translate }}</nz-form-label>
+    <nz-form-control [nzSpan]="18" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <nz-form-label [nzSpan]="5" nzRequired>{{ 'resource.form.field.name' | translate }}</nz-form-label>
         <input nz-input formControlName="name" [placeholder]="'resource.form.placeholder.name' | translate" [(ngModel)]="formData.name" />
       </nz-input-group>
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please enter phone" nzHasFeedback>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.phone' | translate }}</nz-form-label>
+    <nz-form-control [nzSpan]="18" nzErrorTip="Please enter phone" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <nz-form-label [nzSpan]="5" nzRequired>{{ 'resource.form.field.phone' | translate }}</nz-form-label>
         <input
           nz-input
           type="tel"
@@ -23,9 +23,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please enter salary">
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.salary' | translate }}</nz-form-label>
+    <nz-form-control [nzSpan]="18" nzErrorTip="Please enter salary" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <nz-form-label [nzSpan]="5" nzRequired>{{ 'resource.form.field.salary' | translate }}</nz-form-label>
         <textarea
           nz-input
           formControlName="salary"
@@ -37,9 +37,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please enter location">
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.address' | translate }}</nz-form-label>
+    <nz-form-control [nzSpan]="18" nzErrorTip="Please enter location" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <nz-form-label [nzSpan]="5" nzRequired>{{ 'resource.form.field.address' | translate }}</nz-form-label>
         <textarea
           nz-input
           formControlName="address"
@@ -51,9 +51,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please enter description">
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.description' | translate }}</nz-form-label>
+    <nz-form-control [nzSpan]="18" nzErrorTip="Please enter description" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <nz-form-label [nzSpan]="5" nzRequired>{{ 'resource.form.field.description' | translate }}</nz-form-label>
         <textarea
           nz-input
           formControlName="description"
@@ -66,9 +66,9 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control nzHasFeedback>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.contact' | translate }}</nz-form-label>
+    <nz-form-control [nzSpan]="18" nzHasFeedback>
       <nz-input-group nzSize="large">
-        <nz-form-label [nzSpan]="5" nzRequired>{{ 'resource.form.field.contact' | translate }}</nz-form-label>
         <input
           nz-input
           formControlName="contact"
@@ -79,8 +79,8 @@
     </nz-form-control>
   </nz-form-item>
   <nz-form-item>
-    <nz-form-control nzErrorTip="Please select category" nzHasFeedback>
-      <nz-form-label nzRequired>{{ 'resource.form.field.category' | translate }}</nz-form-label>
+    <nz-form-label [nzSpan]="3" nzRequired>{{ 'resource.form.field.category' | translate }}</nz-form-label>
+    <nz-form-control [nzSpan]="18" nzErrorTip="Please select category" nzHasFeedback>
       <nz-select formControlName="category" [(ngModel)]="this.category" (ngModelChange)="onCategoryChange($event)">
         <nz-option
           *ngFor="let category of allCategories"

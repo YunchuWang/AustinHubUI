@@ -7,7 +7,7 @@
   <nz-tab *ngFor="let item of resourceItems; index as i" [nzTitle]="titleTemplate" [ngSwitch]="item.type">
     <ng-template #titleTemplate>
       <div fxLayout="row" fxFlexAlign="space-between center" fxLayoutGap="4px">
-        <span>{{ item.type | titlecase }}</span>
+        <span>{{ item.type | titlecase | translate }}</span>
         <mat-icon style="font-size: 12px !important; width: 12px !important; height: 12px !important; color: #52c41a" *ngIf="saveChecks[i]"
           >check_circle
         </mat-icon>
