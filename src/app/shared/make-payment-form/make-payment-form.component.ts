@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { AuthService, OrderService, PaymentService, ShoppingService } from '@core';
+import { AuthService, I18NService, OrderService, PaymentService, ShoppingService } from '@core';
+import { ALAIN_I18N_TOKEN } from '@delon/theme';
 import { TranslateService } from '@ngx-translate/core';
 import { MdbCheckboxChange } from 'angular-bootstrap-md';
 import * as dropin from 'braintree-web-drop-in';
@@ -29,7 +30,7 @@ export class MakePaymentFormComponent implements OnInit {
     public router: Router,
     public authService: AuthService,
     public paymentService: PaymentService,
-    private translate: TranslateService,
+    @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
     public orderService: OrderService,
     public shoppingService: ShoppingService,
     public notificationService: NzNotificationService,
@@ -53,13 +54,15 @@ export class MakePaymentFormComponent implements OnInit {
 
   createPaymentBraintreeUI(): void {
     const customerId = this.authService.getCustomerId();
+    console.log(this.i18n.currentLang);
+
     this.paymentService.getClientToken(customerId).subscribe((token) => {
       dropin.create(
         {
           // Insert your tokenization key here
           authorization: token.client_token,
           container: '#dropin-container',
-          locale: this.translate.defaultLang,
+          locale: this.i18n.currentLang,
           card: {
             cardholderName: {
               required: true,
@@ -152,12 +155,11 @@ export class MakePaymentFormComponent implements OnInit {
   }
 
   openAgreement(): void {
-    console.log(this.translate.defaultLang);
     const dialogRef = this.dialog.open(CustomerAgreementFormComponent, {
       width: '50%',
       minWidth: 200,
       maxHeight: '85vh',
-      data: { lang: this.translate.defaultLang },
+      data: { lang: this.i18n.currentLang },
     });
   }
 }

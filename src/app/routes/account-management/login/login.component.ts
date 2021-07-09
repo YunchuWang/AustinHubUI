@@ -1,9 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService, ShoppingService } from '@core';
+import { AuthService, I18NService, ShoppingService } from '@core';
 import { DA_SERVICE_TOKEN, ITokenService } from '@delon/auth';
-import { _HttpClient } from '@delon/theme';
+import { _HttpClient, ALAIN_I18N_TOKEN } from '@delon/theme';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -19,7 +19,7 @@ export class AccountManagementLoginComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     private authService: AuthService,
-    private translate: TranslateService,
+    @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
     private shoppingService: ShoppingService,
     private notificationService: NzNotificationService,
     @Inject(DA_SERVICE_TOKEN) private tokenService: ITokenService,
@@ -67,7 +67,7 @@ export class AccountManagementLoginComponent implements OnInit {
         const accountPreference = acctInfo.preference;
         if (!!accountPreference) {
           if (accountPreference.lang) {
-            this.translate.setDefaultLang(accountPreference.lang);
+            this.i18n.use(accountPreference.lang);
           }
         }
 
