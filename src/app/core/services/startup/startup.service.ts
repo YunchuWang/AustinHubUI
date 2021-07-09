@@ -84,13 +84,6 @@ export class StartupService {
       try {
         const acctInfo = await this.authService.getAcctInfo(Number(accessToken.sub));
         this.authService.account = acctInfo;
-        // load account preference if any
-        const accountPreference = acctInfo.preference;
-        if (!!accountPreference) {
-          if (accountPreference.lang) {
-            this.translate.setDefaultLang(accountPreference.lang);
-          }
-        }
         // Load shopping items from localStorage
         const shoppingItems = localStorage.getItem('shopping_cart');
         if (shoppingItems) {

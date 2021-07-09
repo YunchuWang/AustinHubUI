@@ -8,7 +8,7 @@ import { NavTab } from '../../core/models/NavTab';
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
-  styles: [],
+  styleUrls: ['./navbar.component.less'],
 })
 export class NavbarComponent implements OnInit {
   @Input() navTabs: NavTab[] = [];

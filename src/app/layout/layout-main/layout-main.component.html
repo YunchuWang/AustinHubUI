@@ -1,7 +1,12 @@
 <div class="container-fluid m-0 p-0 d-flex flex-column" style="height: 100%">
   <app-navbar [navTabs]="navTabs" [sideBar]="sideBar" [hideSideMenu]="hideSideMenu" (tabClicked)="selectNavTab($event)"></app-navbar>
   <mat-drawer-container class="row p-0 m-0 flex-1" autosize>
-    <mat-drawer #sideBar class="col-2 m-0 p-0 d-flex flex-column shadow-sm" style="min-width: 120px; height: 100%" mode="side">
+    <mat-drawer
+      #sideBar
+      class="col-2 m-0 p-0 d-flex flex-column shadow-sm"
+      style="min-width: 120px; max-width: 240px; height: 100%"
+      mode="side"
+    >
       <div class="list-group">
         <a
           *ngFor="let category of categories; index as i"

@@ -4,6 +4,7 @@ import { ALAIN_I18N_TOKEN, SettingsService } from '@delon/theme';
 import { BooleanInput, InputBoolean } from '@delon/util/decorator';
 
 import { I18NService } from '@core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'header-i18n',
