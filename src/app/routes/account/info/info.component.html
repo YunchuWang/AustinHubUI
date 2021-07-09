@@ -6,15 +6,15 @@
   </mdb-card-body>
   <ul class="list-group list-group-flush">
     <li class="list-group-item" fxLayout="row">
-      <div style="width: 150px">{{ 'account-info.my-account.profile.username' | translate }}</div>
+      <div style="width: 170px">{{ 'account-info.my-account.profile.username' | translate }}</div>
       <div>{{ userName }}</div>
     </li>
     <li class="list-group-item" fxLayout="row">
-      <div style="width: 150px">{{ 'account-info.my-account.profile.email' | translate }}</div>
+      <div style="width: 170px">{{ 'account-info.my-account.profile.email' | translate }}</div>
       <div>{{ email }}</div>
     </li>
     <li class="list-group-item" fxLayout="row" fxLayoutAlign="start center">
-      <div style="width: 150px">{{ 'account-info.my-account.profile.preference.language' | translate }}</div>
+      <div style="width: 170px">{{ 'account-info.my-account.profile.preference.language' | translate }}</div>
       <div class="btn-group col-3 p-0" role="group">
         <mat-button-toggle-group name="autoSubscribe" value="{{ preferredLanguage }}" (change)="onLangChange($event)">
           <mat-button-toggle value="zh-CN">{{ 'lang.mandarin' | translate }}</mat-button-toggle>
@@ -33,11 +33,11 @@
   </mdb-card-body>
   <ul class="list-group list-group-flush">
     <li class="list-group-item" fxLayout="row">
-      <div style="width: 150px">{{ 'account-info.my-account.membership.type' | translate }}</div>
+      <div style="width: 170px">{{ 'account-info.my-account.membership.type' | translate }}</div>
       <div>{{ membership.membershipType.name | titlecase | translate }}</div>
     </li>
     <li class="list-group-item" fxLayout="row">
-      <div style="width: 150px">{{ 'account-info.my-account.membership.activeUntil' | translate }}</div>
+      <div style="width: 170px">{{ 'account-info.my-account.membership.activeUntil' | translate }}</div>
       <div>{{ membership.expirationTimestamp | date: 'shortDate' }}</div>
     </li>
   </ul>

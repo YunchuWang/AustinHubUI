@@ -15,13 +15,15 @@ import { TranslateService } from '@ngx-translate/core';
       <i nz-icon nzType="down" [style.color]="iconColor"></i>
     </div>
     <i
+      style="padding: 0; margin: 0;"
       *ngIf="!showLangText"
       nz-dropdown
       [style.color]="iconColor"
       [nzDropdownMenu]="langMenu"
-      nzPlacement="bottomRight"
       nz-icon
       nzType="global"
+      fxLayout="row"
+      fxFlexAlign="center"
     ></i>
     <nz-dropdown-menu #langMenu="nzDropdownMenu">
       <ul nz-menu>
@@ -40,6 +42,13 @@ export class HeaderI18nComponent {
   @Input() @InputBoolean() showLangText = true;
   @Input() iconColor = 'black';
 
+  constructor(
+    private settings: SettingsService,
+    public translate: TranslateService,
+    @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
+    @Inject(DOCUMENT) private doc: any,
+  ) {}
+
   get langs(): Array<{ code: string; text: string; abbr: string }> {
     return this.i18n.getLangs();
   }
@@ -47,13 +56,6 @@ export class HeaderI18nComponent {
   get curLangCode(): string {
     return this.settings.layout.lang;
   }
-
-  constructor(
-    private settings: SettingsService,
-    public translate: TranslateService,
-    @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
-    @Inject(DOCUMENT) private doc: any,
-  ) {}
 
   change(lang: string): void {
     const spinEl = this.doc.createElement('div');

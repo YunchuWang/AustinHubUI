@@ -327,5 +327,8 @@
 
   "customer.agreement.prompt": "请在这里打勾表示您阅读过并同意",
   "customer.agreement.name": "看看网用户条款",
-  "website.title": "看看网"
+  "website.title": "看看网",
+
+  "footer.copyright": "版权",
+  "footer.website": "奥斯汀看看网"
 }

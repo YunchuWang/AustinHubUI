@@ -284,5 +284,8 @@
 
   "customer.agreement.prompt": "Please check here to indicate that you have read and agree to the terms of ",
   "customer.agreement.name": "AustinHub Customer Agreement",
-  "website.title": "AustinHub"
+  "website.title": "AustinHub",
+
+  "footer.copyright": "Copyright",
+  "footer.website": "AustinHub.com"
 }
