@@ -1,24 +1,77 @@
-<h2>奥斯汀看看网 <span style="font-weight: bold">免责声明</span></h2>
+<ng-template [ngIf]="lang === 'zh-CN'">
+  <h2>奥斯汀看看网 <span style="font-weight: bold">免责声明</span></h2>
 
-<mat-divider></mat-divider>
-<ol style="margin-top: 32px">
-  <li>
-    本站网页所涉及的任何资料仅供参考使用。参阅本网站上所刊信息的人士，应被视为已认同上述立场。浏览者依据本网站提供的信息、资料及图片进行的任何评论及持有的观点与本网站无关。
-  </li>
-  <li>
-    本站刊登信息均由合作商家或浏览者提供，刊登的新闻或文章来自其他媒体，并不代表本网立场。如有侵犯您的权利，请立刻联系我们予以修改或删除。未经本站的明确许可，任何人不得盗链本站资源，不得复制或仿造本网站。
-  </li>
-  <li>
-    本网站已尽力确保所有信息资料的准确、完整及最新性。就该信息资料的针对性、精确性以及特定用途的适合性而言，本网站不能做出最对应的方案。所以因依赖该信息资料所导致的任何损失本网站概不负责，亦不承担任何法律责任。
-  </li>
-  <li>对使用本网站信息和服务所引起的后果，本网站不作任何承诺，也不承担任何责任。</li>
-  <li>
-    对由于使用本网站所产生的任何直接、间接或偶然性的损失或破坏，本网站不承担任何责任，无论该损失或破坏是否源于疏忽、违约、诽谤、侵权甚至电脑病毒。
-  </li>
-  <li>本网站不保证所有信息、文本、图形、链接及其它项目的绝对准确性和完整性，故仅供访问者参照使用。</li>
-  <li>由于与本网站链接的其它网站所造成之个人资料泄露及由此而导致的任何法律争议和后果，本网站均得免责。</li>
-  <li>本网站使用者因为违反本声明的规定而触犯有关法律的，一切后果自己负责，本网站不承担任何责任。</li>
-  <li>凡以任何方式登陆本网站或直接、间接使用本网站信息资料者，视为自愿接受本网站声明的约束。</li>
-  <li>本站保留随时更改广告服务内容和条款的权利而不另行通知。</li>
-  <li>本站之免责声明以及其修改权、更新权及最终解释权属奥斯汀看看网。</li>
-</ol>
+  <mat-divider></mat-divider>
+  <ol style="margin-top: 16px">
+    <li>
+      本站网页所涉及的任何资料仅供参考使用。参阅本网站上所刊信息的人士，应被视为已认同上述立场。浏览者依据本网站提供的信息、资料及图片进行的任何评论及持有的观点与本网站无关。
+    </li>
+    <li>
+      本站刊登信息均由合作商家或浏览者提供，刊登的新闻或文章来自其他媒体，并不代表本网立场。如有侵犯您的权利，请立刻联系我们予以修改或删除。未经本站的明确许可，任何人不得盗链本站资源，不得复制或仿造本网站。
+    </li>
+    <li>
+      本网站已尽力确保所有信息资料的准确、完整及最新性。就该信息资料的针对性、精确性以及特定用途的适合性而言，本网站不能做出最对应的方案。所以因依赖该信息资料所导致的任何损失本网站概不负责，亦不承担任何法律责任。
+    </li>
+    <li>对使用本网站信息和服务所引起的后果，本网站不作任何承诺，也不承担任何责任。</li>
+    <li>
+      对由于使用本网站所产生的任何直接、间接或偶然性的损失或破坏，本网站不承担任何责任，无论该损失或破坏是否源于疏忽、违约、诽谤、侵权甚至电脑病毒。
+    </li>
+    <li>本网站不保证所有信息、文本、图形、链接及其它项目的绝对准确性和完整性，故仅供访问者参照使用。</li>
+    <li>由于与本网站链接的其它网站所造成之个人资料泄露及由此而导致的任何法律争议和后果，本网站均得免责。</li>
+    <li>本网站使用者因为违反本声明的规定而触犯有关法律的，一切后果自己负责，本网站不承担任何责任。</li>
+    <li>凡以任何方式登陆本网站或直接、间接使用本网站信息资料者，视为自愿接受本网站声明的约束。</li>
+    <li>本站保留随时更改广告服务内容和条款的权利而不另行通知。</li>
+    <li>本站之免责声明以及其修改权、更新权及最终解释权属奥斯汀看看网。</li>
+  </ol>
+</ng-template>
+<ng-template [ngIf]="lang === 'en-US'">
+  <h2>AustinHub <span style="font-weight: bold">Term of Service</span></h2>
+
+  <mat-divider></mat-divider>
+  <ol style="margin-top: 16px">
+    <li>
+      Any information on this site is for reference only. Those who refer to the information published on this website should be deemed to
+      have agreed with the above statement. Any comments and opinions held by visitors based on the information, materials and pictures
+      provided on this website have nothing to do with this website and its owners.
+    </li>
+    <li>
+      The information published on this site is provided by cooperative merchants or viewers. News or articles published on this site are
+      from other media and do not represent the position of this site. If there is any violation of your rights, please contact us
+      immediately to modify or delete it. Without the explicit permission from this website, no one may steal the resources of this site, or
+      copy or imitate this site.
+    </li>
+    <li>
+      This website has tried its best to ensure that all information is accurate, complete and up-to-date. In terms of the pertinence,
+      accuracy and suitability of the information materials for a specific purpose, this website cannot make the most corresponding plan.
+      Therefore, this website is not responsible for any loss caused by relying on this information and does not assume any legal
+      responsibility.
+    </li>
+    <li>
+      This website does not make any promises and assumes no responsibility for the consequences arising from the use of the information and
+      services on this website.
+    </li>
+    <li>
+      This website does not assume any responsibility for any direct, indirect or incidental loss or damage caused by the use of this
+      website, regardless of whether the loss or damage is caused by negligence, breach of contract, defamation, infringement or even
+      computer virus.
+    </li>
+    <li>
+      This website does not guarantee the absolute accuracy and completeness of all information, text, graphics, links and other items, so
+      it is only for reference by visitors.
+    </li>
+    <li>
+      This website shall be exempt from liability for the leakage of personal data caused by other websites linked to this website and any
+      legal disputes and consequences arising therefrom.
+    </li>
+    <li>
+      If users of this website violate the relevant laws because they violate the provisions of this statement, they are responsible for all
+      consequences, and this website does not bear any responsibility.
+    </li>
+    <li>
+      Anyone who logs on to this website in any way or directly or indirectly uses the information on this website is deemed to voluntarily
+      accept the constraints of this website statement.
+    </li>
+    <li>This site reserves the right to change the content and terms of advertising services at any time without notice.</li>
+    <li>The disclaimer of this site and its right to modify, update and final interpretation right all belong to AustinHub</li>
+  </ol>
+</ng-template>

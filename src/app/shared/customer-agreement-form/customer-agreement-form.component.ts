@@ -11,6 +11,7 @@ export class CustomerAgreementFormComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.lang = data.lang;
+    console.log(this.lang);
   }
 
   ngOnInit(): void {}
