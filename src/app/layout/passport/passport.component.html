@@ -1,16 +1,21 @@
 <div class="container-full">
-  <header-i18n showLangText="false" class="langs"></header-i18n>
-  <div class="wrap">
-    <div class="top">
-      <div class="head">
-        <img class="logo" src="./assets/logo-color.svg" />
-        <span class="title">{{ 'website.title' | translate }}</span>
-      </div>
+  <div fxLayout="row" fxLayoutAlign="end center" fxFlex="1 1 46px">
+    <header-i18n showLangText="false" class="langs"></header-i18n>
+  </div>
+  <div fxLayout="column" fxLayoutAlign="center" fxFlex="1 1 calc(100% - 46px)">
+    <div
+      style="
+        border-radius: 10px;
+        border: #dadce0 1px solid;
+        padding-top: 64px;
+        padding-bottom: 64px;
+        padding-left: 48px;
+        padding-right: 48px;
+        margin: auto;
+      "
+    >
+      <div class="title text-center" style="line-height: normal; margin-bottom: 36px">{{ 'website.title' | translate }}</div>
+      <router-outlet></router-outlet>
     </div>
-    <router-outlet></router-outlet>
-    <global-footer [links]="links">
-      Copyright
-      <i class="anticon anticon-copyright"></i> 2019 <a href="//github.com/cipchk" target="_blank">卡色</a>出品
-    </global-footer>
   </div>
 </div>

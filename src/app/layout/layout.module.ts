@@ -39,6 +39,7 @@ import { SharedModule } from '@shared';
 import { IconsModule, MDBBootstrapModule, NavbarModule } from 'angular-bootstrap-md';
 import { LayoutMainComponent } from './layout-main/layout-main.component';
 import { LayoutPassportComponent } from './passport/passport.component';
+import { FlexModule } from '@angular/flex-layout';
 const PASSPORT = [LayoutPassportComponent];
 
 @NgModule({
@@ -67,6 +68,7 @@ const PASSPORT = [LayoutPassportComponent];
     MatSidenavModule,
     MatIconModule,
     MatListModule,
+    FlexModule,
   ],
   declarations: [...COMPONENTS, ...HEADERCOMPONENTS, ...PASSPORT, LayoutMainComponent],
   exports: [...COMPONENTS, ...PASSPORT, ...HEADERCOMPONENTS, LayoutMainComponent],

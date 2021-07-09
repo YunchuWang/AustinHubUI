@@ -44,15 +44,17 @@
                 ><span style="margin-left: auto">{{ membershipType.yearlyPrice | currency }}</span>
               </li>
             </ul>
-            <button
-              mat-raised-button
-              type="button"
-              class="shopping-cart-btn"
-              [disabled]="disableMembershipSale"
-              (click)="addToCart(membershipType)"
-            >
-              {{ 'shopping.market.add-cart' | translate }}
-            </button>
+            <div fxLayout="row" fxLayoutAlign="center">
+              <button
+                mat-raised-button
+                type="button"
+                class="shopping-cart-btn"
+                [disabled]="disableMembershipSale"
+                (click)="addToCart(membershipType)"
+              >
+                <i class="fas fa-cart-plus" style="line-height: normal"></i>
+              </button>
+            </div>
           </div>
         </mdb-card-body>
       </mdb-card>
@@ -96,7 +98,7 @@
               {{ 'shopping.market.cost.yearly' | translate }} {{ resourceType.yearlyPrice | currency }}
             </div>
           </div>
-          <button type="button" class="btn btn-danger btn-floating" (click)="addToCart(resourceType)">
+          <button type="button" mat-raised-button class="shopping-cart-btn" (click)="addToCart(resourceType)">
             <i class="fas fa-cart-plus" style="line-height: normal"></i>
           </button>
         </li>

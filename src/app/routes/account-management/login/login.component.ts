@@ -54,8 +54,6 @@ export class AccountManagementLoginComponent implements OnInit {
     );
   }
 
-  forgotPassword(): void {}
-
   isLoading(): boolean {
     return this.http.loading;
   }
