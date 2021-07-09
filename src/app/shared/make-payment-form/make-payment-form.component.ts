@@ -54,15 +54,13 @@ export class MakePaymentFormComponent implements OnInit {
 
   createPaymentBraintreeUI(): void {
     const customerId = this.authService.getCustomerId();
-    console.log(this.i18n.currentLang);
-
     this.paymentService.getClientToken(customerId).subscribe((token) => {
       dropin.create(
         {
           // Insert your tokenization key here
           authorization: token.client_token,
           container: '#dropin-container',
-          locale: this.i18n.currentLang,
+          locale: this.i18n.currentLang.replace('-', '_'),
           card: {
             cardholderName: {
               required: true,
