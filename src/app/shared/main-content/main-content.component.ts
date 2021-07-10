@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-main-content',
@@ -6,7 +6,23 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./main-content.component.less'],
 })
 export class MainContentComponent implements OnInit {
+  @ViewChild('maincontentdiv', { static: false }) public myScrollContainer2: ElementRef;
+  scrolled = false;
+
   constructor() {}
 
   ngOnInit(): void {}
+
+  onScroll(): void {
+    console.log('>>>>> main content:');
+    this.scrolled = this.myScrollContainer2.nativeElement.scrollTop > 20;
+  }
+
+  scrollToTop(): void {
+    this.myScrollContainer2.nativeElement.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }
 }

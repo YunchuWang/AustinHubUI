@@ -1,5 +1,8 @@
-<div class="container-fluid p-0 m-0 d-flex flex-column" style="height: 100%">
-  <div class="container flex-1 mt-3 mb-3" style="overflow: auto">
+<div #maincontentdiv (scroll)="onScroll()" class="container-fluid p-0 m-0 d-flex flex-column" style="overflow-y: scroll; height: 100%">
+  <div class="container flex-1 mt-3 mb-3">
     <router-outlet></router-outlet>
+  </div>
+  <div class="scroll-to-top" [ngClass]="{ 'show-scrollTop': this.scrolled }" (click)="scrollToTop()">
+    <i class="fa fa-chevron-up"></i>
   </div>
 </div>
