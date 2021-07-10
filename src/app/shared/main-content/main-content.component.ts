@@ -14,7 +14,6 @@ export class MainContentComponent implements OnInit {
   ngOnInit(): void {}
 
   onScroll(): void {
-    console.log('>>>>> main content:');
     this.scrolled = this.myScrollContainer2.nativeElement.scrollTop > 20;
   }
 
