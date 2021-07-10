@@ -19,6 +19,7 @@ export class AccountManagementLoginComponent implements OnInit {
   constructor(
     private http: _HttpClient,
     private authService: AuthService,
+    private translate: TranslateService,
     @Inject(ALAIN_I18N_TOKEN) private i18n: I18NService,
     private shoppingService: ShoppingService,
     private notificationService: NzNotificationService,
@@ -68,6 +69,7 @@ export class AccountManagementLoginComponent implements OnInit {
         if (!!accountPreference) {
           if (accountPreference.lang) {
             this.i18n.use(accountPreference.lang);
+            this.translate.setDefaultLang(accountPreference.lang);
           }
         }
 
