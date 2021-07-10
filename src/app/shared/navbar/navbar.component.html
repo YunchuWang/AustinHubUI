@@ -1,20 +1,7 @@
 <!--Navbar-->
 <mdb-navbar SideClass="navbar navbar-expand-sm navbar-dark pl-0 pr-3 m-0" [containerInside]="false">
   <!-- Navbar brand -->
-  <mdb-navbar-brand
-    style="min-width: 140px; height: 25px"
-    fxLayout="row"
-    [ngClass]="{ 'name-margin-left': hideSideMenu }"
-    fxLayoutAlign="center space-between"
-  >
-    <mdb-icon
-      style="color: white; line-height: normal; margin-top: 3px"
-      class="ml-1 mr-2"
-      fas
-      icon="{{ sideBar.opened ? 'angle-double-left' : 'angle-double-right' }}"
-      [ngClass]="{ 'd-none': hideSideMenu }"
-      (click)="sideBar.toggle()"
-    ></mdb-icon>
+  <mdb-navbar-brand style="min-width: 140px; height: 25px" fxLayout="row" class="name-margin-left" fxLayoutAlign="center space-between">
     <a style="font-weight: bold; margin-top: 1px !important" class="navbar-brand p-0 m-0" routerLink="/dashboard">
       {{ 'website.name' | translate }}
     </a>
