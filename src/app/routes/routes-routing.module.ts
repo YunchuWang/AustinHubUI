@@ -9,6 +9,7 @@ import { LayoutMainComponent } from '../layout/layout-main/layout-main.component
 import { LayoutPassportComponent } from '../layout/passport/passport.component';
 // dashboard pages
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ContactUsFormComponent } from '../shared/contact-us-form/contact-us-form.component';
 
 const routes: Routes = [
   {
@@ -42,6 +43,13 @@ const routes: Routes = [
     component: LayoutMainComponent,
     data: { hideSideMenu: true },
     children: [{ path: '', component: DashboardComponent }],
+  },
+  {
+    // pages without sidebar
+    path: 'contact',
+    component: LayoutMainComponent,
+    data: { hideSideMenu: true },
+    children: [{ path: '', component: ContactUsFormComponent }],
   },
   {
     path: 'account',

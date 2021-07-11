@@ -161,8 +161,8 @@
   "validation.password.strength.medium": "Strength: medium",
   "validation.password.strength.short": "Strength: too short",
   "validation.username.required": "Please enter your username!",
-  "validation.username.min-length": "Username must be longer than sds!",
-  "validation.username.max-length": "Username must be shorter than sds!",
+  "validation.username.min-length": "Username must be longer than {{minLen}}!",
+  "validation.username.max-length": "Username must be shorter than {{maxLen}}!",
   "validation.confirm-password.required": "Please confirm your password!",
   "validation.phone-number.required": "Please enter your phone number!",
   "validation.phone-number.wrong-format": "Malformed phone number!",
@@ -197,7 +197,7 @@
 
   "lang.english" : "English",
   "lang.mandarin" : "Simplified Chinese",
-  
+
   "membership.header": "Membership",
 
   "shopping.market.cost.monthly": "Per month",
@@ -255,7 +255,7 @@
   "order.column.price": "Price",
   "order.column.createdAt": "Created At",
   "order.column.status": "Status",
-  
+
   "order-confirmation.greeting" : "Hey  ",
   "order-confirmation.msg.order-placed" : "Your order is placed!",
   "order-confirmation.msg.following-up" : "Thanks for shopping with us! A confirmation has been sent to your email.",
@@ -287,5 +287,14 @@
   "website.title": "AustinHub",
 
   "footer.copyright": "Copyright",
-  "footer.website": "AustinHub.com"
+  "footer.website": "AustinHub.com",
+
+  "contact.us.title": "Contact us",
+  "contact.us.username": "Username",
+  "contact.us.email": "Email",
+  "contact.us.subject": "Subject",
+  "contact.us.message": "Message",
+  "contact.us.copy": "Send a copy to your email",
+  "contact.us.button.submit": "Submit",
+  "contact.us.subject.prompt": "Please select subject"
 }

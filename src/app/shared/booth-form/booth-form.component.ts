@@ -67,11 +67,8 @@ export class BoothFormComponent implements OnInit {
       this.row[key] = this.formData[key];
     });
 
-    console.log(this.row);
     if (this.persist) {
-      this.resourceService.updateResource(MyResourceType.BOOTHS, this.row).subscribe((res) => {
-        console.log('Updated');
-      });
+      this.resourceService.updateResource(MyResourceType.BOOTHS, this.row).subscribe((res) => {});
       return;
     }
 

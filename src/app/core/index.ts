@@ -19,5 +19,6 @@ export * from './services/shopping/shopping.service';
 export * from './services/resource/resource.service';
 export * from './services/payment/payment.service';
 export * from './services/order/order.service';
+export * from './services/connection/connection.service';
 export * from './constants/PaymentConstants';
 export * from './services/auth/auth.service';

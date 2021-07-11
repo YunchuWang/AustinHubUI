@@ -42,6 +42,7 @@ import { ResourceEditFormComponent } from './resource-edit-form/resource-edit-fo
 import { SHARED_DELON_MODULES } from './shared-delon.module';
 import { SHARED_ZORRO_MODULES } from './shared-zorro.module';
 import { CustomerAgreementFormComponent } from './customer-agreement-form/customer-agreement-form.component';
+import { ContactUsFormComponent } from './contact-us-form/contact-us-form.component';
 
 // #region third libs
 
@@ -112,6 +113,7 @@ const DIRECTIVES: Type<any>[] = [];
     FooterComponent,
     HasPermissionDirective,
     CustomerAgreementFormComponent,
+    ContactUsFormComponent,
   ],
   exports: [
     CommonModule,

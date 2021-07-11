@@ -330,5 +330,17 @@
   "website.title": "看看网",
 
   "footer.copyright": "版权",
-  "footer.website": "奥斯汀看看网"
+  "footer.website": "奥斯汀看看网",
+
+  "contact.us.title": "联系我们",
+  "contact.us.username": "用户名",
+  "contact.us.email": "邮箱",
+  "contact.us.subject": "主题",
+  "contact.us.message": "消息",
+  "contact.us.copy": "发送副本到您的邮箱",
+  "contact.us.button.submit": "提交",
+  "contact.us.subject.prompt": "请选择主题",
+  "Feedback": "反馈",
+  "Report a bug": "汇报网站错误",
+  "Feature request": "请求新功能"
 }

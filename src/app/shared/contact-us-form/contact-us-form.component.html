@@ -1,0 +1,81 @@
+<div style="min-height: 500px; height: 80vh" fxLayout="column" fxLayoutAlign="center center">
+  <form
+    nz-form
+    [formGroup]="contactForm"
+    (ngSubmit)="onSubmit()"
+    role="form"
+    style="width: 520px; height: 80%; padding-top: 64px"
+    class="bg-white border border-light pl-3 pr-3"
+  >
+    <p class="h5 mb-4 text-center">{{ 'contact.us.title' | translate }}</p>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="3" [nzSpan]="18" nzHasFeedback>
+        <nz-input-group nzSize="large">
+          <input
+            nz-input
+            formControlName="accountName"
+            [placeholder]="'contact.us.username' | translate"
+            [(ngModel)]="contactFormData.accountName"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="3" [nzSpan]="18" nzErrorTip="Please enter email" nzHasFeedback>
+        <nz-input-group nzSize="large">
+          <input
+            nz-input
+            type="tel"
+            formControlName="email"
+            [placeholder]="'contact.us.email' | translate"
+            [(ngModel)]="contactFormData.email"
+          />
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="3" [nzSpan]="18" nzErrorTip="Please select subject">
+        <nz-select
+          [nzSize]="'large'"
+          formControlName="subject"
+          [nzPlaceHolder]="'contact.us.subject.prompt' | translate"
+          [(ngModel)]="contactFormData.subject"
+          (ngModelChange)="onSubjectChange($event)"
+        >
+          <nz-option
+            *ngFor="let subject of allSubjects"
+            nzValue="{{ subject.name }}"
+            nzLabel="{{ subject.displayName | translate }}"
+          ></nz-option>
+        </nz-select>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+      <nz-form-control [nzOffset]="3" [nzSpan]="18" nzErrorTip="Please enter message" nzHasFeedback>
+        <nz-input-group nzSize="large">
+          <textarea
+            nz-input
+            formControlName="message"
+            rows="3"
+            [placeholder]="'contact.us.message' | translate"
+            [(ngModel)]="contactFormData.message"
+          >
+          </textarea>
+        </nz-input-group>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item [nzJustify]="'center'">
+      <button
+        nz-button
+        type="submit"
+        style="width: 120px"
+        nzType="primary"
+        nzSize="large"
+        [disabled]="contactForm.pristine || !contactForm.valid"
+        nzBlock
+      >
+        {{ 'contact.us.button.submit' | translate }}
+      </button>
+    </nz-form-item>
+  </form>
+</div>
